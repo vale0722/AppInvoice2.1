@@ -14,6 +14,7 @@
     <div class="row">
         <div class="col">
         <form action="/clients" method="POST">
+        @csrf 
             <div class="form-row">
                 <div class="form-group col-md-6">
                 <label for="input_name">Name</label>

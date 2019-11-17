@@ -14,18 +14,18 @@
     <div class="row">
         <div class="col">
         <table class="table">
-        @foreach($client as $client)
-                <thead>
-                    <tr>
+            <thead>
+                <tr>
                     <th scope="col">Name</th>
                     <th scope="col">Last Name</th>
                     <th scope="col">Email</th>
                     <th scope="col">Cellphone</th>
                     <th scope="col">Country</th>
                     <th scope="col">City</th>
-                    <th scope="col">Adress</th>
+                    <th scope="col">Address</th>
                     </tr>
                 </thead>
+        @foreach($client as $client)
                 <tbody>
                     <tr>
                     <td>{{ $client->name }}</td>

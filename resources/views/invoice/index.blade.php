@@ -14,13 +14,13 @@
     <div class="row">
         <div class="col">
         <table class="table">
-            @foreach($invoice as $invoice)
             <thead>
-                    <tr>
+                 <tr>
                     <th scope="col">Title</th>
                     <th scope="col">Creation date</th>
-                    </tr>
+                 </tr>
                 </thead>
+            @foreach($invoice as $invoice)
                 <tbody>
                     <tr>
                     <td>{{ $invoice->title }}</td>

@@ -14,6 +14,7 @@
     <div class="row">
         <div class="col">
             <form action="/invoices" method="POST">
+             @csrf 
                 <div class="form-group">
                     <label for="input_title">Title </label>
                     <input type="text" class="form-control" id="input_title" name="input_title" placeholder="title">
