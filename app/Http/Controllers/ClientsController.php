@@ -46,7 +46,6 @@ class ClientsController extends Controller
         $client->city = $request->get('input_city');
         $client->address = $request->get('input_address');
         $client->save();
-
         return redirect('/clients');
     }
 
@@ -69,9 +68,13 @@ class ClientsController extends Controller
      */
     public function edit($id)
     {
-        //
+        $client = Client::findOrFail($id);
+        return view('client.edit',[
+            'client' => $client
+        ]);
     }
 
+ 
     /**
      * Update the specified resource in storage.
      *
@@ -81,7 +84,16 @@ class ClientsController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $client = Client::findOrFail($id);
+        $client->name = $request->get('input_name');
+        $client->last_name = $request->get('input_last_name');
+        $client->email = $request->get('input_email');
+        $client->cellphone = intval($request->get('input_cellphone'));
+        $client->country = $request->get('input_country');
+        $client->city = $request->get('input_city');
+        $client->address = $request->get('input_address');
+        $client->save();
+        return redirect('/clients');
     }
 
     /**
@@ -92,6 +104,16 @@ class ClientsController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $client = Client::findOrFail($id);
+        $client->delete();
+        return redirect('/clients');
+    }
+
+    public function confirmDelete($id){
+        $client = Client::findOrFail($id);
+        return view('client.confirmDelete',[
+            'client' => $client
+        ]);
     }
 }
+

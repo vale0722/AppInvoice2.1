@@ -64,7 +64,10 @@ class InvoiceController extends Controller
      */
     public function edit($id)
     {
-        //
+        $invoice = Invoice::find($id);
+        return view('invoice.edit',[
+            'invoice' => $invoice
+        ]);
     }
 
     /**
@@ -76,7 +79,11 @@ class InvoiceController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $invoice = Invoice::find($id);
+        $invoice->title = $request->get('input_title');
+        $invoice->save();
+
+        return redirect('/invoices');
     }
 
     /**
@@ -87,6 +94,16 @@ class InvoiceController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $invoice = Invoice::find($id);
+        $invoice->delete();
+
+        return redirect('/invoices');
+    }
+
+    public function confirmDelete($id){
+        $invoice = Invoice::find($id);
+        return view('invoice.confirmDelete',[
+            'invoice' => $invoice
+        ]);
     }
 }
