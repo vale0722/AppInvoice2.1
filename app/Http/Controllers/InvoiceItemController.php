@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-use App\{Invoice, InvoiceItem};
+use App\{InvoiceItem,Invoice};
 
 class InvoiceItemController extends Controller
 {
@@ -15,9 +15,7 @@ class InvoiceItemController extends Controller
      */
     public function index()
     {
-        return view('invoiceItem.view', [
-            'invoiceItem' => InvoiceItem::all()
-        ]);
+        //
     }
 
     /**
@@ -25,9 +23,11 @@ class InvoiceItemController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Invoice $invoice)
     {
-        return view ('invoiceItem.create');
+        return view ('invoiceItem.create',[
+            'invoice' => $invoice
+        ]);
     }
 
     /**
@@ -36,10 +36,23 @@ class InvoiceItemController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request, Invoice $invoice)
     {
-        $invoice = new Invoice();
-        $invoiceItem = new InvoiceIntem();
+        $validData = $request->validate([
+            'input_invoice_id' => 'required',
+            'input_quantity' => 'required',
+            'input_unit_value' => 'required',
+            'input_description' => 'required'
+
+        ]);
+        $invoiceItem = new InvoiceItem();
+        $invoiceItem->invoice_id = $validData['input_invoice_id'];
+        $invoiceItem->quantity = $validData['input_quantity'];
+        $invoiceItem->unit_value = $validData['input_unit_value'];
+        $invoiceItem->description = $validData['input_description'];
+        $invoiceItem->total_value = ($invoiceItem->quantity) * ($invoiceItem->unity_value);
+        $invoiceItem->save();
+        return redirect('/invoices/'. $invoice->id);
     }
 
     /**
@@ -86,5 +99,4 @@ class InvoiceItemController extends Controller
     {
         //
     }
-    
 }

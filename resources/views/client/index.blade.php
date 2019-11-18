@@ -1,7 +1,7 @@
 @extends ('layouts.base')
 @section('title') CLIENTS @endsection
 @section('content')
-    <div class="row col-md-6">
+    <div class="row ">
         <div class="col">
         <a class="btn btn-primary" href="/clients/create">Create a new client</a>
         <a class="btn btn-primary" href="/invoices">View Invoices</a>
@@ -10,8 +10,8 @@
         </div>
     </div>
     <div class="row col-md-12">
-        <div class="col table-responsive-sm">
-        <table class="table">
+        <div class="col">
+        <table class="table table-responsive">
             <thead>
                 <tr>
                     <th scope="col">Name</th>

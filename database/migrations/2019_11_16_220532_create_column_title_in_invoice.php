@@ -15,6 +15,7 @@ class CreateColumnTitleInInvoice extends Migration
     {
         Schema::table('invoices', function (Blueprint $table) {
             $table->text('title');
+
         });
     }
 

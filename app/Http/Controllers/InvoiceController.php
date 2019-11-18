@@ -51,12 +51,14 @@ class InvoiceController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  Invoice $invoice
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Invoice $invoice)
     {
-        //
+        return view('invoice.show',[
+            'invoice' => $invoice
+        ]);
     }
 
     /**
@@ -109,22 +111,6 @@ class InvoiceController extends Controller
         $invoice = Invoice::find($id);
         return view('invoice.confirmDelete',[
             'invoice' => $invoice
-        ]);
-    }
-    public function view($id){
-        $invoice = Invoice::find($id);
-        $invoiceItem = InvoiceItem::find($id);
-        return view('invoiceItem.view',[
-            'invoice' => $invoice,
-            'invoiceItem' => $invoiceItem
-        ]);
-    }
-    public function itemCreate($id){
-        $invoice = Invoice::find($id);
-        $invoiceItem = InvoiceItem::find($id);
-        return view('invoiceItem.create',[
-            'invoice' => $invoice,
-            'invoiceItem' => $invoiceItem
         ]);
     }
 }
