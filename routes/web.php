@@ -17,3 +17,5 @@ Route::resource('/invoices', 'InvoiceController');
 Route::resource('/clients', 'ClientsController');
 Route::get('/invoices/{id}/confirmDelete', 'InvoiceController@confirmDelete');
 Route::get('/clients/{id}/confirmDelete', 'ClientsController@confirmDelete');
+Route::get('/invoicesItems/{id}/view', 'InvoiceController@view');
+Route::get('/invoicesItems/create', 'InvoiceController@create');

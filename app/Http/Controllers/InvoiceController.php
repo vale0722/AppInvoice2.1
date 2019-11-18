@@ -4,7 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-use App\Invoice;
+use App\{Invoice, InvoiceItem};
+
 
 class InvoiceController extends Controller
 {
@@ -36,10 +37,12 @@ class InvoiceController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
-    {
+    public function store(Request $request){
+        $validData = $request->validate([
+            'input_title' => 'required'
+        ]);
         $invoice = new Invoice();
-        $invoice->title = $request->get('input_title');
+        $invoice->title = $validData['input_title'];
         $invoice->save();
 
         return redirect('/invoices');
@@ -78,9 +81,11 @@ class InvoiceController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
-    {
+    {  $validData = $request->validate([
+        'input_title' => 'required'
+        ]);
         $invoice = Invoice::find($id);
-        $invoice->title = $request->get('input_title');
+        $invoice->title = $validData['input_title'];
         $invoice->save();
 
         return redirect('/invoices');
@@ -104,6 +109,22 @@ class InvoiceController extends Controller
         $invoice = Invoice::find($id);
         return view('invoice.confirmDelete',[
             'invoice' => $invoice
+        ]);
+    }
+    public function view($id){
+        $invoice = Invoice::find($id);
+        $invoiceItem = InvoiceItem::find($id);
+        return view('invoiceItem.view',[
+            'invoice' => $invoice,
+            'invoiceItem' => $invoiceItem
+        ]);
+    }
+    public function itemCreate($id){
+        $invoice = Invoice::find($id);
+        $invoiceItem = InvoiceItem::find($id);
+        return view('invoiceItem.create',[
+            'invoice' => $invoice,
+            'invoiceItem' => $invoiceItem
         ]);
     }
 }

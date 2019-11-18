@@ -1,11 +1,6 @@
 @extends ('layouts.base')
-@section('title') DELETE INVOICE @endsection
+@section('title') DELETE INVOICE {{ $invoice->id }} @endsection
 @section('content')
-    <div class="row">
-        <div class="col text-center">
-            <h1>Delete Invoice {{ $invoice->id }}</h1>
-        </div>
-    </div>
     <div class="row">
         <div class="col text-center">
         <a class="btn btn-secondary" href="/invoices">Back</a>

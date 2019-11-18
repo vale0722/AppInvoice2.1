@@ -13,6 +13,16 @@
     </div>
     <div class="row">
         <div class="col">
+        <br>
+        @if($errors->any())
+        <div class="alert alert-danger">
+            <ul>
+                @foreach($errors->all() as $error)
+                <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+        @endif
         <form action="/clients/{{ $client->id }}" method="POST">
         @csrf 
         @method('put')
@@ -22,7 +32,7 @@
                 <input type="text" class="form-control" id="input_name" name="input_name" value="{{ $client->name }}" placeholder="Name">
                 </div>
                 <div class="form-group col-md-6">
-                <label for="input_last_name">Last_name</label>
+                <label for="input_last_name">Last name</label>
                 <input type="text" class="form-control" id="input_last_name" name="input_last_name" value="{{ $client->last_name }}" placeholder="Last Name">
                 </div>
             </div>

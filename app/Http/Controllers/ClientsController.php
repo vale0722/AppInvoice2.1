@@ -37,14 +37,23 @@ class ClientsController extends Controller
      */
     public function store(Request $request)
     {
+        $validData = $request->validate([
+            'input_name' => 'required',
+            'input_last_name' => 'required',
+            'input_email' => 'required',
+            'input_cellphone' => 'required|min:10',
+            'input_country' => 'required',
+            'input_city' => 'required',
+            'input_address' => 'required'
+        ]);
         $client = new Client();
-        $client->name = $request->get('input_name');
-        $client->last_name = $request->get('input_last_name');
-        $client->email = $request->get('input_email');
-        $client->cellphone = intval($request->get('input_cellphone'));
-        $client->country = $request->get('input_country');
-        $client->city = $request->get('input_city');
-        $client->address = $request->get('input_address');
+        $client->name = $validData['input_name'];
+        $client->last_name = $validData['input_last_name'];
+        $client->email = $validData['input_email'];
+        $client->cellphone = intval($validData['input_cellphone']);
+        $client->country = $validData['input_country'];
+        $client->city = $validData['input_city'];
+        $client->address = $validData['input_address'];
         $client->save();
         return redirect('/clients');
     }
@@ -83,15 +92,24 @@ class ClientsController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
-    {
+    { 
+        $validData = $request->validate([
+            'input_name' => 'required',
+            'input_last_name' => 'required',
+            'input_email' => 'required',
+            'input_cellphone' => 'required|min:10',
+            'input_country' => 'required',
+            'input_city' => 'required',
+            'input_address' => 'required'
+        ]);
         $client = Client::findOrFail($id);
-        $client->name = $request->get('input_name');
-        $client->last_name = $request->get('input_last_name');
-        $client->email = $request->get('input_email');
-        $client->cellphone = intval($request->get('input_cellphone'));
-        $client->country = $request->get('input_country');
-        $client->city = $request->get('input_city');
-        $client->address = $request->get('input_address');
+        $client->name = $validData['input_name'];
+        $client->last_name = $validData['input_last_name'];
+        $client->email = $validData['input_email'];
+        $client->cellphone = intval($validData['input_cellphone']);
+        $client->country = $validData['input_country'];
+        $client->city = $validData['input_city'];
+        $client->address = $validData['input_address'];
         $client->save();
         return redirect('/clients');
     }

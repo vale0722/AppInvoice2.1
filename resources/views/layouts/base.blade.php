@@ -10,7 +10,13 @@
     <title>@yield('title')</title>
   </head>
   <body>
+  <header class="navbar navbar-expand-lg navbar-dark bg-primary">
+  <a class="navbar-brand" href="#">
+  @yield('title')
+  </a>
+</header>
     <div class="container">
+    <br>
         @yield('content')
     </div>
 

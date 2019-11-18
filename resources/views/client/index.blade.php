@@ -1,20 +1,16 @@
 @extends ('layouts.base')
 @section('title') CLIENTS @endsection
 @section('content')
-    <div class="row">
-        <div class="col text-center">
-            <h1>Clients</h1>
-        </div>
-    </div>
     <div class="row col-md-6">
         <div class="col">
         <a class="btn btn-primary" href="/clients/create">Create a new client</a>
+        <a class="btn btn-primary" href="/invoices">View Invoices</a>
         <br>
         <br>
         </div>
     </div>
     <div class="row col-md-12">
-        <div class="col">
+        <div class="col table-responsive-sm">
         <table class="table">
             <thead>
                 <tr>

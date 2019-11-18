@@ -1,11 +1,6 @@
 @extends ('layouts.base')
-@section('title') EDIT INVOICE @endsection
+@section('title') EDIT INVOICE {{ $invoice->id }} @endsection
 @section('content')
-    <div class="row">
-        <div class="col text-center">
-            <h1>Edit Invoice {{ $invoice->id }}</h1>
-        </div>
-    </div>
     <div class="row">
         <div class="col">
         <a class="btn btn-secondary" href="/invoices">Back</a>
@@ -13,6 +8,16 @@
     </div>
     <div class="row">
         <div class="col">
+        <br>
+        @if($errors->any())
+        <div class="alert alert-danger">
+            <ul>
+                @foreach($errors->all() as $error)
+                <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+        @endif
             <form action="/invoices/{{ $invoice->id }}" method="POST">
              @csrf 
              @method('put')
