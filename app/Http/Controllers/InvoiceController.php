@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-use App\{Invoice, InvoiceItem};
+use App\{Invoice, Client, Product};
 
 
 class InvoiceController extends Controller
@@ -15,10 +15,12 @@ class InvoiceController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index()
-    {
+    {   
         return view('invoice.index', [
-            'invoice' => invoice::all()
-        ]);
+            'invoice' => Invoice::all(),
+            'clients' => Client::all()
+            
+            ]);
     }
 
     /**
@@ -28,7 +30,10 @@ class InvoiceController extends Controller
      */
     public function create()
     {
-        return view ('invoice.create');
+        return view('invoice.create', [
+            'invoice' => new invoice,
+            'clients' => Client::all()
+            ]);
     }
 
     /**
@@ -39,12 +44,16 @@ class InvoiceController extends Controller
      */
     public function store(Request $request){
         $validData = $request->validate([
-            'input_title' => 'required'
+            'title' => 'required',
+            'code' => 'required',
+            'client_id' => 'required'
         ]);
-        $invoice = new Invoice();
-        $invoice->title = $validData['input_title'];
-        $invoice->save();
 
+        $invoice = new Invoice();
+        $invoice->title = $validData['title'];
+        $invoice->code = $validData['code'];
+        $invoice->client_id = $validData['client_id'];
+        $invoice->save();
         return redirect('/invoices');
     }
 
@@ -84,10 +93,14 @@ class InvoiceController extends Controller
      */
     public function update(Request $request, $id)
     {  $validData = $request->validate([
-        'input_title' => 'required'
+        'title' => 'required',
+        'code' => 'required',
+        'client_id' => 'required'
         ]);
         $invoice = Invoice::find($id);
-        $invoice->title = $validData['input_title'];
+        $invoice->title = $validData['title'];
+        $invoice->code = $validData['code'];
+        $invoice->client_id = $validData['client_id'];
         $invoice->save();
 
         return redirect('/invoices');
@@ -112,5 +125,28 @@ class InvoiceController extends Controller
         return view('invoice.confirmDelete',[
             'invoice' => $invoice
         ]);
+    }
+    public function createInvoice_product($id){
+        $invoice = Invoice::find($id);
+        return view('invoice_product.create',[
+            'invoice' => $invoice,
+            'products' => Product::all(),
+            'clients' => Client::all()
+        ]);
+    }
+    public function invoice_productStore(Request $request, $id){
+        $invoice = Invoice::find($id);
+        $validData = $request->validate([
+            'product_id' => 'required',
+            'quantity' => 'required',
+            'unit_value' => 'required'
+        ]);
+        
+        $invoice->products()->attach($validData['product_id'], [
+        'quantity'=>$validData['quantity'],
+        'unit_value'=>$validData['unit_value'],
+        'total_value'=>$validData['quantity']*$validData['unit_value']
+        ]);
+        return redirect('/invoices/'. $invoice->id);
     }
 }

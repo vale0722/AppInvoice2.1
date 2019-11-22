@@ -16,6 +16,8 @@ class CreateColumnsInClients extends Migration
         Schema::table('clients', function (Blueprint $table) {
             $table->text('name');
             $table->text('last_name');
+            $table->text('id_type');
+            $table->integer('id_card');
             $table->string('email');
             $table->integer('cellphone');
             $table->text('country');
@@ -34,6 +36,8 @@ class CreateColumnsInClients extends Migration
         Schema::table('clients', function (Blueprint $table) {
             $table->dropColumn('name');
             $table->dropColumn('last_name');
+            $table->dropColumn('id_type');
+            $table->dropColumn('id_card');
             $table->dropColumn('email');
             $table->dropColumn('cellphone');
             $table->dropColumn('country');

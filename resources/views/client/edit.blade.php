@@ -28,35 +28,48 @@
         @method('put')
             <div class="form-row">
                 <div class="form-group col-md-6">
-                <label for="input_name">Name</label>
-                <input type="text" class="form-control" id="input_name" name="input_name" value="{{ $client->name }}" placeholder="Name">
+                <label for="name">Name</label>
+                <input type="text" class="form-control" id="name" name="name" value="{{ $client->name }}" placeholder="Name">
                 </div>
                 <div class="form-group col-md-6">
-                <label for="input_last_name">Last name</label>
-                <input type="text" class="form-control" id="input_last_name" name="input_last_name" value="{{ $client->last_name }}" placeholder="Last Name">
+                <label for="last_name">Last name</label>
+                <input type="text" class="form-control" id="last_name" name="last_name" value="{{ $client->last_name }}" placeholder="Last Name">
                 </div>
             </div>
             <div class="form-group">
-                <label for="input_email">Email</label>
-                <input type="email" class="form-control" id="input_email" name="input_email" value="{{ $client->email }}" placeholder="Email">
+                    <label>ID type: </label>
+                        <select class="form-control" name= "id_type">
+                            <option value="CC"> Cedula de ciudadania </option>
+                            <option value="CE"> Cédula de extranjeria </option>
+                            <option value="P"> Pasaporte </option>
+                            
+                         </select>
+                </div>
+            <div class="form-group">
+                <label for="id_card">Identification number</label>
+                <input type="text" value="{{ old('id_card') }}" class="form-control" id="id_card" name="id_card" placeholder="0000000000">
             </div>
             <div class="form-group">
-                <label for="input_cellphone">Cellphone</label>
-                <input type="number" class="form-control" id="input_cellphone" name="input_cellphone" value="{{ $client->cellphone }}" placeholder="Cellphone">
+                <label for="email">Email</label>
+                <input type="email" class="form-control" id="email" name="email" value="{{ $client->email }}" placeholder="Email">
+            </div>
+            <div class="form-group">
+                <label for="cellphone">Cellphone</label>
+                <input type="number" class="form-control" id="cellphone" name="cellphone" value="{{ $client->cellphone }}" placeholder="Cellphone">
             </div>
             <div class="form-row">
                 <div class="form-group col-md-6">
-                <label for="input_country">Country</label>
-                <input type="text" class="form-control" id="input_country" name="input_country" value="{{ $client->country }}">
+                <label for="country">Country</label>
+                <input type="text" class="form-control" id="country" name="country" value="{{ $client->country }}">
                 </div>
                 <div class="form-group col-md-6">
-                <label for="input_city">City</label>
-                <input type="text" class="form-control" id="input_city" name="input_city" value="{{ $client->city }}">
+                <label for="city">City</label>
+                <input type="text" class="form-control" id="city" name="city" value="{{ $client->city }}">
                 </div>
             </div>
             <div class="form-group">
-                <label for="input_address">Address</label>
-                <input type="text" class="form-control" id="input_address" name="input_address" value="{{ $client->address }}" placeholder="cll. 123 # 12-3">
+                <label for="address">Address</label>
+                <input type="text" class="form-control" id="address" name="address" value="{{ $client->address }}" placeholder="cll. 123 # 12-3">
             </div>
             <button type="submit" class="btn btn-primary">Save</button>
             </form>

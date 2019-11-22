@@ -5,6 +5,7 @@
         <div class="col">
         <a class="btn btn-primary" href="/clients/create">Create a new client</a>
         <a class="btn btn-primary" href="/invoices">View Invoices</a>
+        <a class="btn btn-primary" href="/products">View Products</a>
         <br>
         <br>
         </div>
@@ -16,6 +17,8 @@
                 <tr>
                     <th scope="col">Name</th>
                     <th scope="col">Last Name</th>
+                    <th scope="col">ID Type</th>
+                    <th scope="col">ID number</th>
                     <th scope="col">Email</th>
                     <th scope="col">Cellphone</th>
                     <th scope="col">Country</th>
@@ -30,6 +33,8 @@
                     <tr>
                     <td>{{ $client->name }}</td>
                     <td>{{ $client->last_name }}</td>
+                    <td>{{ $client->id_type }}</td>
+                    <td>{{ $client->id_card }}</td>
                     <td>{{ $client->email }}</td>
                     <td>{{ $client->cellphone }}</td>
                     <td>{{ $client->country }}</td>

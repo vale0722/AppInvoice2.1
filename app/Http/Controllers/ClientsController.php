@@ -38,22 +38,26 @@ class ClientsController extends Controller
     public function store(Request $request)
     {
         $validData = $request->validate([
-            'input_name' => 'required',
-            'input_last_name' => 'required',
-            'input_email' => 'required',
-            'input_cellphone' => 'required|min:10',
-            'input_country' => 'required',
-            'input_city' => 'required',
-            'input_address' => 'required'
+            'name' => 'required',
+            'last_name' => 'required',
+            'id_type' => 'required',
+            'id_card' =>'required',
+            'email' => 'required',
+            'cellphone' => 'required',
+            'country' => 'required',
+            'city' => 'required',
+            'address' => 'required'
         ]);
         $client = new Client();
-        $client->name = $validData['input_name'];
-        $client->last_name = $validData['input_last_name'];
-        $client->email = $validData['input_email'];
-        $client->cellphone = intval($validData['input_cellphone']);
-        $client->country = $validData['input_country'];
-        $client->city = $validData['input_city'];
-        $client->address = $validData['input_address'];
+        $client->name = $validData['name'];
+        $client->last_name = $validData['last_name'];
+        $client->id_type = $validData['id_type'];
+        $client->id_card = $validData['id_card'];
+        $client->email = $validData['email'];
+        $client->cellphone = intval($validData['cellphone']);
+        $client->country = $validData['country'];
+        $client->city = $validData['city'];
+        $client->address = $validData['address'];
         $client->save();
         return redirect('/clients');
     }
@@ -94,22 +98,26 @@ class ClientsController extends Controller
     public function update(Request $request, $id)
     { 
         $validData = $request->validate([
-            'input_name' => 'required',
-            'input_last_name' => 'required',
-            'input_email' => 'required',
-            'input_cellphone' => 'required|min:10',
-            'input_country' => 'required',
-            'input_city' => 'required',
-            'input_address' => 'required'
+            'name' => 'required',
+            'last_name' => 'required',
+            'id_type' => 'required',
+            'id_card' =>'required',
+            'email' => 'required',
+            'cellphone' => 'required',
+            'country' => 'required',
+            'city' => 'required',
+            'address' => 'required'
         ]);
         $client = Client::findOrFail($id);
-        $client->name = $validData['input_name'];
-        $client->last_name = $validData['input_last_name'];
-        $client->email = $validData['input_email'];
-        $client->cellphone = intval($validData['input_cellphone']);
-        $client->country = $validData['input_country'];
-        $client->city = $validData['input_city'];
-        $client->address = $validData['input_address'];
+        $client->name = $validData['name'];
+        $client->last_name = $validData['last_name'];
+        $client->id_type = $validData['id_type'];
+        $client->id_card = $validData['id_card'];
+        $client->email = $validData['email'];
+        $client->cellphone = intval($validData['cellphone']);
+        $client->country = $validData['country'];
+        $client->city = $validData['city'];
+        $client->address = $validData['address'];
         $client->save();
         return redirect('/clients');
     }

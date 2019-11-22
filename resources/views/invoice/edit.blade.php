@@ -22,8 +22,12 @@
              @csrf 
              @method('put')
                 <div class="form-group">
-                    <label for="input_title"> Title </label>
-                    <input type="text" class="form-control" id="input_title" name="input_title" value="{{ $invoice->title }}" placeholder="title">
+                    <label for="title"> Title </label>
+                    <input type="text" class="form-control" id="title" name="title" value="{{ $invoice->title }}" placeholder="title">
+                </div>
+                <div class="form-group">
+                    <label for="code"> Code </label>
+                    <input type="text" class="form-control" id="code" name="code" value="{{ $invoice->code }}" placeholder="code">
                 </div>
                 <button type="submit" class="btn btn-primary">Save</button>
             </form>

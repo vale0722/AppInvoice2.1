@@ -5,6 +5,7 @@
         <div class="col ">
         <a class="btn btn-primary" href="/invoices/create">Create a new invoice</a>
         <a class="btn btn-primary" href="/clients">View Clients</a>
+        <a class="btn btn-primary" href="/products">View Products</a>
         <br>
         <br>
         </div>
@@ -16,6 +17,7 @@
                  <tr>
                     <th scope="col">ID</th>
                     <th scope="col">Title</th>
+                    <th scope="col">Total Cost</th>
                     <th scope="col">Creation date</th>
                     <th></th>
                     <th></th>
@@ -26,6 +28,7 @@
                     <tr>
                     <td>{{ $invoice->id }}</td>
                     <td><a href="/invoices/{{ $invoice->id }}">{{ $invoice->title }}</a></td>
+                    <td>{{ $invoice->g}}</td>
                     <td>{{ $invoice->created_at }}</td>
                     <td><a class="btn btn-warning" href="/invoices/{{ $invoice->id }}/edit"> Edit </a></td>
                     <td><a class="btn btn-danger" href="/invoices/{{ $invoice->id }}/confirmDelete">Delete</a></td>
