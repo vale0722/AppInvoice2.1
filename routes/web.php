@@ -23,3 +23,7 @@ Route::get('/invoicesItems/{id}/view', 'InvoiceController@view');
 Route::get('/invoices/{id}/invoice_product/create', 'InvoiceController@createInvoice_product');
 Route::post('/invoices/{id}/invoice_product', 'InvoiceController@Invoice_productStore');
 Route::get('/invoices/create', 'InvoiceController@create');
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');
