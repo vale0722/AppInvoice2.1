@@ -36,7 +36,7 @@
                         <tr>
                             <td>{{ $invoice->id }}</td>
                             <td><a href="/invoices/{{ $invoice->id }}">{{ $invoice->title }}</a></td>
-                            <td>{{ $invoice->g}}</td>
+                            <td>{{ $invoice->total }}</td>
                             <td>{{ $invoice->created_at }}</td>
                             <td><a class="btn btn-warning" href="/invoices/{{ $invoice->id }}/edit"> Edit </a></td>
                             <td><a class="btn btn-danger" href="/invoices/{{ $invoice->id }}/confirmDelete">Delete</a></td>

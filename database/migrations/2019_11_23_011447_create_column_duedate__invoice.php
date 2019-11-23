@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateColumnFKClientInInvoice extends Migration
+class CreateColumnDuedateInvoice extends Migration
 {
     /**
      * Run the migrations.
@@ -14,8 +14,7 @@ class CreateColumnFKClientInInvoice extends Migration
     public function up()
     {
         Schema::table('invoices', function (Blueprint $table) {
-            $table->unsignedBigInteger('client_id');
-            $table->foreign('client_id')->references('id')->on('clients')->onDelete('cascade');
+            $table->timestamp('duedate')->nullable();
         });
     }
 
@@ -27,7 +26,7 @@ class CreateColumnFKClientInInvoice extends Migration
     public function down()
     {
         Schema::table('invoices', function (Blueprint $table) {
-            $table->dropColumn('client_id');
+            $table->dropColumn('duedate');
         });
     }
 }

@@ -51,14 +51,16 @@ class InvoiceController extends Controller
         $validData = $request->validate([
             'title' => 'required',
             'code' => 'required',
-            'client_id' => 'required'
+            'client_id' => 'required',
         ]);
 
         $invoice = new Invoice();
         $invoice->title = $validData['title'];
         $invoice->code = $validData['code'];
         $invoice->client_id = $validData['client_id'];
+        $invoice->duedate = date("Y-m-d H:i:s",strtotime($invoice->created_at."+ 30 days"));
         $invoice->save();
+
         return redirect('/invoices');
     }
 
@@ -85,7 +87,8 @@ class InvoiceController extends Controller
     {
         $invoice = Invoice::find($id);
         return view('invoice.edit',[
-            'invoice' => $invoice
+            'invoice' => $invoice,
+            'clients' => Client::all()
         ]);
     }
 
@@ -106,6 +109,7 @@ class InvoiceController extends Controller
         $invoice->title = $validData['title'];
         $invoice->code = $validData['code'];
         $invoice->client_id = $validData['client_id'];
+        $invoice->duedate = date("Y-m-d H:i:s",strtotime($invoice->created_at."+ 30 days"));
         $invoice->save();
 
         return redirect('/invoices');
