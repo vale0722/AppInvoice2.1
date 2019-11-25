@@ -20,15 +20,19 @@ class Invoice extends Model
 
     public function getVatAttribute(){
         $subtotal = $this->subtotal;
-        return $subtotal * (.16); ;
+        return $subtotal * (.16); 
     }
+    
     public function getTotalAttribute(){
         $subtotal = $this->subtotal;
         $vat = $this->vat;
-        return $subtotal + $vat; ;
+        return $subtotal + $vat; 
     }
 
     public function Client(){
         return $this->belongsTo(Client::class);
+    }
+    public function Company(){
+        return $this->belongsTo(Company::class);
     }
 }

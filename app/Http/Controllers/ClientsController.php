@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Client;
+use App\{Client, Invoice};
 
 class ClientsController extends Controller
 {
@@ -72,9 +72,12 @@ class ClientsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Client $client)
     {
-        //
+        return view('client.show',[
+            'invoice' => Invoice::all(),
+            'client' => $client
+        ]);
     }
 
     /**
@@ -107,7 +110,7 @@ class ClientsController extends Controller
             'id_type' => 'required',
             'id_card' =>'required',
             'email' => 'required',
-            'cellphone' => 'required',
+            'cellphone' => 'required|min:10',
             'country' => 'required',
             'city' => 'required',
             'address' => 'required'

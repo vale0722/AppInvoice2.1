@@ -14,9 +14,9 @@ class CreateInvoiceProductTable extends Migration
     public function up()
     {
         Schema::create('invoice_product', function (Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->unsignedBigInteger('invoice_id');
-            $table->unsignedBigInteger('product_id');
+            $table->Increments('id');
+            $table->unsignedInteger('invoice_id');
+            $table->unsignedInteger('product_id');
             $table->integer('quantity');
             $table->double('unit_value');
             $table->double('total_value');

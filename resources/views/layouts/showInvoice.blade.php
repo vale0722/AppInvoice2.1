@@ -1,9 +1,9 @@
 @extends ('layouts.app')
 @section('content')
+
 <div class="container">
-    <div class="col">
-        <a class="btn btn-secondary" href="{{ route('invoices.index') }}"><i class="fas fa-undo"></i> atrás</a>
-    </div>
+@yield('routeBack')
+   
     <br>
     <div class="card">
         <div class="col">
@@ -96,7 +96,3 @@
         </div>
     </div>
 </div>
-
-      
-
-@endsection

@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-use App\{Invoice, Client, Product};
+use App\{Invoice, Client, Product, Company};
 
 
 class InvoiceController extends Controller
@@ -23,7 +23,8 @@ class InvoiceController extends Controller
     {   
         return view('invoice.index', [
             'invoice' => Invoice::all(),
-            'clients' => Client::all()
+            'clients' => Client::all(),
+            'companies' => Company::all()
             
             ]);
     }
@@ -37,7 +38,8 @@ class InvoiceController extends Controller
     {
         return view('invoice.create', [
             'invoice' => new invoice,
-            'clients' => Client::all()
+            'clients' => Client::all(),
+            'companies' => Company::all()
             ]);
     }
 
@@ -52,16 +54,17 @@ class InvoiceController extends Controller
             'title' => 'required',
             'code' => 'required',
             'client_id' => 'required',
+            'company_id' => 'required',
         ]);
 
         $invoice = new Invoice();
         $invoice->title = $validData['title'];
         $invoice->code = $validData['code'];
         $invoice->client_id = $validData['client_id'];
+        $invoice->company_id = $validData['company_id'];
         $invoice->duedate = date("Y-m-d H:i:s",strtotime($invoice->created_at."+ 30 days"));
         $invoice->save();
-
-        return redirect('/invoices');
+        return redirect()->route('invoices.index');
     }
 
     /**
@@ -88,7 +91,8 @@ class InvoiceController extends Controller
         $invoice = Invoice::find($id);
         return view('invoice.edit',[
             'invoice' => $invoice,
-            'clients' => Client::all()
+            'clients' => Client::all(),
+            'companies' => Company::all()
         ]);
     }
 
@@ -103,16 +107,18 @@ class InvoiceController extends Controller
     {  $validData = $request->validate([
         'title' => 'required',
         'code' => 'required',
-        'client_id' => 'required'
+        'client_id' => 'required',
+        'company_id' => 'required'
         ]);
         $invoice = Invoice::find($id);
         $invoice->title = $validData['title'];
         $invoice->code = $validData['code'];
         $invoice->client_id = $validData['client_id'];
+        $invoice->company_id = $validData['company_id'];
         $invoice->duedate = date("Y-m-d H:i:s",strtotime($invoice->created_at."+ 30 days"));
         $invoice->save();
 
-        return redirect('/invoices');
+        return redirect()->route('invoices.index');
     }
 
     /**
@@ -140,7 +146,8 @@ class InvoiceController extends Controller
         return view('invoice_product.create',[
             'invoice' => $invoice,
             'products' => Product::all(),
-            'clients' => Client::all()
+            'clients' => Client::all(),
+            'companies' => Company::all()
         ]);
     }
     public function invoice_productStore(Request $request, $id){
@@ -156,6 +163,7 @@ class InvoiceController extends Controller
         'unit_value'=>$validData['unit_value'],
         'total_value'=>$validData['quantity']*$validData['unit_value']
         ]);
-        return redirect('/invoices/'. $invoice->id);
+        
+        return redirect()->route('invoices.index', $invoice->id);
     }
 }

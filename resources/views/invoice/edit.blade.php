@@ -1,10 +1,9 @@
 @extends ('layouts.app')
-@section('title') EDIT INVOICE {{ $invoice->id }} @endsection
 @section('content')
 <div class="container">
     <div class="row">
         <div class="col">
-            <a class="btn btn-secondary" href="/invoices">Back</a>
+            <a class="btn btn-secondary" href="{{ route('invoices.index') }}"><i class="fas fa-undo"></i> atrás</a>
         </div>
     </div>
     <div class="row">
@@ -30,24 +29,32 @@
                         @csrf
                         @method('put')
                         <div class="form-group">
-                            <label for="title"> Title </label>
-                            <input type="text" class="form-control" id="title" name="title" value="{{ $invoice->title }}" placeholder="title">
+                        <label for="title">Título: </label>
+                            <input type="text" class="form-control" id="title" name="title" value="{{ $invoice->title }}" placeholder="título">
                         </div>
                         <div class="form-group">
-                            <label for="code"> Code </label>
-                            <input type="text" class="form-control" id="code" name="code" value="{{ $invoice->code }}" placeholder="code">
+                        <label for="code">Código: </label>
+                            <input type="text" class="form-control" id="code" name="code" value="{{ $invoice->code }}" placeholder="código">
                         </div>
                         <div class="form-group">
-                            <label>Client: </label>
-                            <select name="client_id" id="client_id" class="form-control @error('client') is-invalid @enderror">
+                            <label>Cliente: </label>
+                            <select name="client_id" id="client_id" class="form-control @error('client') is-invalid @enderror" >
                                 @foreach($clients as $client)
                                 <option value='{{ $client->id }}'> {{ $client->id_type . ' ' . $client->id_card . ': ' . $client->name . ' ' . $client->last_name  }} </option>
                                 @endforeach
                             </select>
                         </div>
-                        <div class="form-group text-center">
-                            <button type="submit" class="btn btn-primary">Save</button>
-                        </div>
+                        <div class="form-group">
+                    <label>Vendedor: </label>
+                    <select name="company_id" id="company_id" class="form-control @error('company') is-invalid @enderror">
+                        @foreach($companies as $company)
+                        <option value='{{ $company->id }}'> {{ $company->nit . ': ' . $company->name }} </option>
+                        @endforeach
+                    </select>
+                </div>
+                <div class="form-group text-center">
+                    <button type="submit" class="btn btn-primary"><i class="far fa-save"></i> GUARDAR</button>
+                </div>
                     </form>
                 </div>
 

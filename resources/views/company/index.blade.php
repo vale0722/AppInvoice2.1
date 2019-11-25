@@ -1,42 +1,38 @@
 @extends ('layouts.app')
-@section('title') PRODUCT @endsection
 @section('content')
-
 <div class="container">
     <div class="row ">
         <div class="col">
-            <a class="btn btn-primary" href="{{ route('products.create') }}"><i class="fas fa-plus"></i> añadir un nuevo producto</a>
+            <a class="btn btn-primary" href="{{ route('companies.create') }}"><i class="fas fa-plus"></i> añadir una nueva compañia</a>
             <a class="btn btn-primary" href="{{ route('invoices.index') }}"><i class="far fa-file-alt"></i> Facturas</a>
+            <a class="btn btn-primary" href="{{ route('products.index') }}"><i class="fas fa-puzzle-piece"></i> Productos</a>
             <a class="btn btn-primary" href="{{ route('clients.index') }}"><i class="fas fa-users"></i> Clientes</a>
-            <a class="btn btn-primary" href="{{ route('companies.index') }}"><i class="far fa-building"></i> Compañias</a>
             <br>
             <br>
         </div>
     </div>
     <div class="card">
-        <div class="card-header text-center"> <i class="fas fa-puzzle-piece"></i><b> PRODUCTOS</b></div>
+        <div class="card-header text-center"><i class="far fa-building"></i><b> COMPAÑIAS</b></div>
         <div class="col">
             <div class="row col-md-12">
-                <div class="col table-responsive">
-                    <table class="table">
+                <div class="col table-responsive ">
+                    <table class="table table-hover">
                         <thead>
                             <tr>
-                                <th scope="col">Código</th>
+                                <th scope="col">NIT</th>
                                 <th scope="col">Nombre</th>
-                                <th scope="col">Precio ($)</th>
                                 <th></th>
                             </tr>
                         </thead>
-                        @foreach($product as $product)
+                        @foreach($companies as $company)
                         <tbody>
                             <tr>
-                                <td>{{ $product->code }}</td>
-                                <td>{{ $product->name }}</td>
-                                <td>{{ '$'.$product->price }}</td>
+                                <td>{{ $company->nit }}</td>
+                                <td>{{ $company->name }}</td>
                                 <td>
                                     <div class="btn-group" role="group">
-                                        <a class="btn btn-warning" href="{{ route('products.edit', $product->id) }}"><i class="far fa-edit"></i> Editar </a>
-                                        <a class="btn btn-danger" href="/products/{{ $product->id }}/confirmDelete"><i class="far fa-trash-alt"></i> Eliminar</a>
+                                        <a class="btn btn-warning" href="{{ route('companies.edit', $company->id) }}"><i class="far fa-edit"></i> Editar </a>
+                                        <a class="btn btn-danger" href="/companies/{{ $company->id }}/confirmDelete"><i class="far fa-trash-alt"></i> Eliminar</a>
                                     </div>
                                 </td>
                             </tr>
