@@ -52,7 +52,13 @@
                             <td><a href="{{ route('invoices.show', $invoice->id) }}">{{ $invoice->title }}</a></td>
                             <td> {{$invoice->client->name . ' ' .$invoice->client->last_name }}</td>
                             <td> {{ $invoice->company->name }}</td>
-                            <td></td>
+                            <td>
+                                            @if (isset($invoice->state))
+                                            <button type="button" class="btn btn-success btn-sm"> Pago </button>
+                                            @else
+                                            <button type="button" class="btn btn-warning btn-sm"> Sin pagar </button>
+                                            @endif
+                                        </td>
                             <td>{{ '$'. $invoice->total }}</td>
                             <td>
                                 <div class="btn-group" role="group">
