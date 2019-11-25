@@ -15,10 +15,11 @@ class CreateColumnTitleInInvoice extends Migration
     {
         Schema::table('invoices', function (Blueprint $table) {
             $table->text('title');
-            $table->string('code');
+            $table->string('code')->unique;
             $table->double('subtotal')->nullable();
             $table->double('vat')->nullable();
             $table->double('total')->nullable();
+            $table->timestamp('state')->nullable();
         });
     }
 
@@ -35,6 +36,7 @@ class CreateColumnTitleInInvoice extends Migration
             $table->dropColumn('subtotal');
             $table->dropColumn('vat');
             $table->dropColumn('total');
+            $table->dropColumn('state');
         });
     }
 }

@@ -43,7 +43,7 @@ class companyController extends Controller
     {
         $validData = $request->validate([
             'name' => 'required',
-            'nit' => 'required'
+            'nit' => 'required|unique'
         ]);
         $company = new Company();
         $company->name = $validData['name'];
@@ -88,7 +88,7 @@ class companyController extends Controller
     {
         $validData = $request->validate([
             'name' => 'required',
-            'nit' => 'required'
+            'nit' => 'required|unique'
         ]);
 
         $company = Company::findOrFail($id);

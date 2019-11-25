@@ -37,6 +37,7 @@
                         <div class="form-group">
                             <label for="price">Precio:</label>
                             <input type="number" value="{{ old('price') }}" class="form-control" id="price" name="price" placeholder="0">
+                            <label><b>RECUERDA QUE ESTE PRECIO ES EL PRECIO SUGERIDO AL PUBLICO!</b></label>
                         </div>
                         <div class="form-group text-center">
                             <button type="submit" class="btn btn-primary"><i class="far fa-save"></i> GUARDAR</button>

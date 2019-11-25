@@ -4,9 +4,6 @@
     <div class="row ">
         <div class="col">
             <a class="btn btn-primary" href="{{ route('clients.create') }}"><i class="fas fa-plus"></i> añadir un nuevo cliente</a>
-            <a class="btn btn-primary" href="{{ route('invoices.index') }}"><i class="far fa-file-alt"></i> Facturas</a>
-            <a class="btn btn-primary" href="{{ route('products.index') }}"><i class="fas fa-puzzle-piece"></i> Productos</a>
-            <a class="btn btn-primary" href="{{ route('companies.index') }}"><i class="far fa-building"></i> Compañias</a>
             <br>
             <br>
         </div>
@@ -17,8 +14,8 @@
         <div class="card-header text-center"><i class="fas fa-users"></i><b> CLIENTES</b></div>
         <div class="col">
             <div class="row col-md-12">
-                <div class="col">
-                    <table class="table table-responsive">
+                <div class="col table-responsive">
+                    <table class="table table-hover table-striped" >
                         <thead>
                             <tr>
                                 <th scope="col">Nombre</th>

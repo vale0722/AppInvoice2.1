@@ -1,9 +1,7 @@
 @extends ('layouts.app')
 @section('content')
+
 <div class="container">
-    <div class="col">
-        <a class="btn btn-secondary" href="{{ route('invoices.index') }}"><i class="fas fa-undo"></i> atrás</a>
-    </div>
     <br>
     <div class="card">
         <div class="col">
@@ -15,7 +13,12 @@
             <div class="col-xs-6 text-right">
                 <h2><b> FACTURA </b></h2>
                 <h3><small>Factura {{ $invoice->code }}</small></h3>
-                <h5><button type="button" class="btn btn-success btn-sm"> PAGO ****</button></h5>
+                <h5> @if (isset($invoice->state))
+                    <button type="button" class="btn btn-success btn-sm"> Pago </button>
+                    @else
+                    <button type="button" class="btn btn-warning btn-sm"> Sin pagar </button>
+                    @endif
+                </h5>
                 <br>
             </div>
         </div>
@@ -54,7 +57,7 @@
 <div class="container">
     <div class="card">
         <div class="card-header text-right">
-        <a class="btn btn-primary" href="/invoices/{{ $invoice->id }}/invoice_product/create"><i class="fas fa-cart-plus"></i> Añadir una nueva compra</a></div>
+            <a class="btn btn-primary" href="/invoices/{{ $invoice->id }}/invoice_product/create"><i class="fas fa-cart-plus"></i> Añadir una nueva compra</a></div>
         <div class="row">
             <div class="col col-md-12 table-responsive-sm">
                 <table class="table">
@@ -96,7 +99,4 @@
         </div>
     </div>
 </div>
-
-      
-
 @endsection

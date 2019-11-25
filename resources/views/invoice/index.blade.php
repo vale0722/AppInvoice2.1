@@ -11,9 +11,6 @@
             </div>
             @endif
             <a class="btn btn-primary" href="/invoices/create"><i class="fas fa-plus"></i> Crear una nueva factura</a>
-            <a class="btn btn-primary" href="{{ route('clients.index') }}"><i class="fas fa-users"></i> Clientes</a>
-            <a class="btn btn-primary" href="{{ route('products.index') }}"><i class="fas fa-puzzle-piece"></i> Productos</a>
-            <a class="btn btn-primary" href="{{ route('companies.index') }}"><i class="far fa-building"></i> Compañias</a>
             <br>
             <br>
         </div>
@@ -25,7 +22,7 @@
                 <div class="col">
                     <div class="row col-md-12">
                         <div class="col  table-responsive ">
-                            <table class="table col-md-12 table-hover">
+                            <table class="table col-md-12 table-hover table-striped">
                                 <thead>
                                     <tr>
                                         <th scope="col">CÓDIGO</th>
@@ -42,17 +39,24 @@
                                 <tbody>
                                     <tr>
                                         <td>{{ $invoice->code }}</td>
-                                        
+
                                         <td>{{ $invoice->created_at }}</td>
-                                        <td><a href="invoices/{{ $invoice->id }}">{{ $invoice->title }}</a></td>
+                                        <td>{{ $invoice->title }}</td>
                                         <td> {{$invoice->client->name . ' ' .$invoice->client->last_name }}</td>
                                         <td> {{ $invoice->company->name }}</td>
-                                        <td></td>
+                                        <td>
+                                            @if (isset($invoice->state))
+                                            <button type="button" class="btn btn-success btn-sm"> Pago </button>
+                                            @else
+                                            <button type="button" class="btn btn-warning btn-sm"> Sin pagar </button>
+                                            @endif
+                                        </td>
                                         <td>{{ '$'. $invoice->total }}</td>
                                         <td>
                                             <div class="btn-group" role="group">
                                                 <a class="btn btn-warning" href="{{ route('invoices.edit', $invoice->id) }}"><i class="far fa-edit"></i> Editar </a>
                                                 <a class="btn btn-danger" href="/invoices/{{ $invoice->id }}/confirmDelete"><i class="far fa-trash-alt"></i> Eliminar</a>
+                                                <a class="btn btn-success" href="{{ route('invoices.show', $invoice->id) }}"><i class="far fa-eye"></i> Ver detalles </a>
                                             </div>
                                         </td>
                                     </tr>

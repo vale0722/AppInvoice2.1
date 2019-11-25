@@ -4,9 +4,6 @@
     <div class="row ">
         <div class="col">
             <a class="btn btn-primary" href="{{ route('companies.create') }}"><i class="fas fa-plus"></i> añadir una nueva compañia</a>
-            <a class="btn btn-primary" href="{{ route('invoices.index') }}"><i class="far fa-file-alt"></i> Facturas</a>
-            <a class="btn btn-primary" href="{{ route('products.index') }}"><i class="fas fa-puzzle-piece"></i> Productos</a>
-            <a class="btn btn-primary" href="{{ route('clients.index') }}"><i class="fas fa-users"></i> Clientes</a>
             <br>
             <br>
         </div>
@@ -16,7 +13,7 @@
         <div class="col">
             <div class="row col-md-12">
                 <div class="col table-responsive ">
-                    <table class="table table-hover">
+                    <table class="table table-hover table-striped">
                         <thead>
                             <tr>
                                 <th scope="col">NIT</th>

@@ -49,7 +49,7 @@
                             <td>{{ $invoice->code }}</td>
 
                             <td>{{ $invoice->created_at }}</td>
-                            <td><a href="{{route('invoices.show', $invoice->id)}}">{{ $invoice->title }}</a></td>
+                            <td><a href="{{ route('invoices.show', $invoice->id) }}">{{ $invoice->title }}</a></td>
                             <td> {{$invoice->client->name . ' ' .$invoice->client->last_name }}</td>
                             <td> {{ $invoice->company->name }}</td>
                             <td></td>

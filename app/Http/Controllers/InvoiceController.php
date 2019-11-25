@@ -52,7 +52,7 @@ class InvoiceController extends Controller
     public function store(Request $request){
         $validData = $request->validate([
             'title' => 'required',
-            'code' => 'required',
+            'code' => 'required|unique:invoices',
             'client_id' => 'required',
             'company_id' => 'required',
         ]);
@@ -108,7 +108,8 @@ class InvoiceController extends Controller
         'title' => 'required',
         'code' => 'required',
         'client_id' => 'required',
-        'company_id' => 'required'
+        'company_id' => 'required',
+        'state' => 'required'
         ]);
         $invoice = Invoice::find($id);
         $invoice->title = $validData['title'];
@@ -116,6 +117,12 @@ class InvoiceController extends Controller
         $invoice->client_id = $validData['client_id'];
         $invoice->company_id = $validData['company_id'];
         $invoice->duedate = date("Y-m-d H:i:s",strtotime($invoice->created_at."+ 30 days"));
+        if ($validData['state'] == '1'){
+            $now = new \DateTime();
+            $invoice->state = $now->format('Y-m-d H:i:s');
+        }else{
+                $invoice->state = NULL;
+            }
         $invoice->save();
 
         return redirect()->route('invoices.index');

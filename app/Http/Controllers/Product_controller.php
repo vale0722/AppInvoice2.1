@@ -43,7 +43,7 @@ class Product_controller extends Controller
     {
         $validData = $request->validate([
             'name' => 'required',
-            'code' => 'required',
+            'code' => 'required|unique',
             'price' => 'required'
         ]);
         $product = new Product();
@@ -91,7 +91,7 @@ class Product_controller extends Controller
     {
         $validData = $request->validate([
             'name' => 'required',
-            'code' => 'required',
+            'code' => 'required|unique',
             'price' => 'required'
         ]);
         $product = Product::findOrFail($id);

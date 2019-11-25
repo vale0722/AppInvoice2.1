@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\{Client, Invoice};
+use App\{Client, Invoice, Company};
 
 class ClientsController extends Controller
 {
@@ -46,8 +46,8 @@ class ClientsController extends Controller
             'last_name' => 'required',
             'id_type' => 'required',
             'id_card' =>'required',
-            'email' => 'required',
-            'cellphone' => 'required',
+            'email' => 'required|unique',
+            'cellphone' => 'required|min:10',
             'country' => 'required',
             'city' => 'required',
             'address' => 'required'
@@ -109,7 +109,7 @@ class ClientsController extends Controller
             'last_name' => 'required',
             'id_type' => 'required',
             'id_card' =>'required',
-            'email' => 'required',
+            'email' => 'required|unique',
             'cellphone' => 'required|min:10',
             'country' => 'required',
             'city' => 'required',
