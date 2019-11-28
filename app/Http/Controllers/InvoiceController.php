@@ -110,7 +110,7 @@ class InvoiceController extends Controller
         'client_id' => 'required',
         'company_id' => 'required',
         'state' => 'required'
-        ]);
+        ]); 
         $invoice = Invoice::find($id);
         $invoice->title = $validData['title'];
         $invoice->code = $validData['code'];
