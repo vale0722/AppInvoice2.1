@@ -23,8 +23,13 @@
 </head>
 
 <body>
+
     <div id="app">
-        <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
+        @guest
+        @if (Route::has('register'))
+        @endif
+        @else
+        <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm fixed-top">
             <div class="container">
                 <a class="navbar-brand" href="{{ route('home') }}">
                     {{ ('SISTEMA DE FACTURACIÓN') }}
@@ -36,22 +41,13 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <!-- Left Side Of Navbar -->
                     <ul class="navbar-nav mr-auto">
-                   
+
                     </ul>
 
                     <!-- Right Side Of Navbar -->
                     <ul class="navbar-nav ml-auto">
                         <!-- Authentication Links -->
-                        @guest
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ route('login') }}">{{ __('Iniciar Sesión') }}</a>
-                        </li>
-                        @if (Route::has('register'))
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ route('register') }}">{{ __('Registrarse') }}</a>
-                        </li>
-                        @endif
-                        @else
+
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('invoices.index') }}"><i class="far fa-file-alt"></i> Facturas</a>
                         </li>
@@ -80,14 +76,15 @@
                                 </form>
                             </div>
                         </li>
-                        @endguest
+
                     </ul>
                 </div>
             </div>
         </nav>
-
+        @endguest
         <main class="py-4">
             @yield('content')
         </main>
     </div>
+
 </body>
