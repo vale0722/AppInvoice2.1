@@ -171,6 +171,6 @@ class InvoiceController extends Controller
         'total_value'=>$validData['quantity']*$validData['unit_value']
         ]);
         
-        return redirect()->route('invoices.index', $invoice->id);
+        return redirect()->route('invoices.show', $invoice->id);
     }
 }

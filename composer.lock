@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "a5669dbb4e274f449d66914c9d62779a",
+    "content-hash": "7179ffebeb6461463d21cd07e8b989b9",
     "packages": [
         {
             "name": "dnoegel/php-xdg-base-dir",
@@ -760,6 +760,58 @@
                 "storage"
             ],
             "time": "2019-10-16T21:01:05+00:00"
+        },
+        {
+            "name": "maatwebsite/laravel-sidebar",
+            "version": "2.2.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Maatwebsite/Laravel-Sidebar.git",
+                "reference": "38ca10370f7b6b2b079dcedc3b4c84e179a86a08"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Maatwebsite/Laravel-Sidebar/zipball/38ca10370f7b6b2b079dcedc3b4c84e179a86a08",
+                "reference": "38ca10370f7b6b2b079dcedc3b4c84e179a86a08",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/cache": "~5.0|~6.0",
+                "illuminate/container": "~5.0|~6.0",
+                "illuminate/contracts": "~5.0|~6.0",
+                "illuminate/routing": "~5.0|~6.0",
+                "illuminate/support": "~5.0|~6.0",
+                "illuminate/view": "~5.0|~6.0",
+                "php": ">=5.4.0"
+            },
+            "require-dev": {
+                "mockery/mockery": "~0.9",
+                "phpunit/phpunit": "~4.1"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Maatwebsite\\Sidebar\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "LGPL"
+            ],
+            "authors": [
+                {
+                    "name": "Maatwebsite.nl",
+                    "email": "patrick@maatwebsite.nl"
+                }
+            ],
+            "description": "A sidebar builder for Laravel",
+            "keywords": [
+                "acp",
+                "laravel",
+                "menu",
+                "sidebar"
+            ],
+            "time": "2019-10-21T09:15:08+00:00"
         },
         {
             "name": "monolog/monolog",

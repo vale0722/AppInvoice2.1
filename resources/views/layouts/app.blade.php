@@ -23,12 +23,13 @@
 </head>
 
 <body>
+
     <div id="app">
         @guest
         @if (Route::has('register'))
         @endif
         @else
-        <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
+        <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm fixed-top">
             <div class="container">
                 <a class="navbar-brand" href="{{ route('home') }}">
                     {{ ('SISTEMA DE FACTURACIÓN') }}
