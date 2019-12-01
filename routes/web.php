@@ -15,7 +15,7 @@ Route::get('/', 'HomeController@index');
 Route::get('/dashboard', 'DashboardController@index');
 Route::resource('/invoices', 'InvoiceController');
 Route::resource('/clients', 'ClientsController');
-Route::resource('/products', 'Product_Controller');
+Route::resource('/products', 'Product_controller');
 Route::resource('/companies', 'CompanyController');
 Route::get('/invoices/{id}/confirmDelete', 'InvoiceController@confirmDelete');
 Route::get('/clients/{id}/confirmDelete', 'ClientsController@confirmDelete');

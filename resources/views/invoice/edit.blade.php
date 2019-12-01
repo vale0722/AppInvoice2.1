@@ -57,11 +57,11 @@
                                         <select name="state" id="state">
                                             @if (isset($invoice->state))
                                             <option value='1' selected>PAGADA</option>
+                                            <option value='2'> Sin pagar </option>
                                             @else
                                             <option value='2' selected> SIN PAGAR </option>
-                                            @endif
                                             <option value='1'> Pagada </option>
-                                            <option value='2'> Sin pagar </option>
+                                            @endif
                                         </select>
                                     </div>
                                 </div>
