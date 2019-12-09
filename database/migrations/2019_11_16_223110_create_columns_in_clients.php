@@ -19,7 +19,7 @@ class CreateColumnsInClients extends Migration
             $table->text('id_type');
             $table->integer('id_card')->unique;
             $table->string('email')->unique;
-            $table->integer('cellphone')->min('10');
+            $table->bigInteger('cellphone')->min('10');
             $table->text('country');
             $table->text('city');
             $table->string('address');
