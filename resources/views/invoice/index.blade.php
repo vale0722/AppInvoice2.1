@@ -5,43 +5,30 @@ $now = new \DateTime();
 $now= $now->format('Y-m-d H:i:s');
 ?>
 <div class="container">
-    <div class=" row justify-content-center">
-        <div class="col ">
-            @if (session('status'))
-            <div class="alert alert-success" role="alert">
-                {{ session('status') }}
-            </div>
-            @endif
-            <a class="btn btn-primary" href="/invoices/create"><i class="fas fa-plus"></i> Crear una nueva factura</a>
-            <br>
-            <br>
+    <div class="card shadow mb-4 my-5">
+        <div class="card-header py-3">
+            <div class="text-center"><i class="fas fa-users"></i><b> FACTURAS </b></div>
+            <div><a class="btn btn-primary btn-circle btn-lg" href="/invoices/create"><i class="fas fa-plus"></i></a></div>
         </div>
-    </div>
-    <div class="row">
-        <div class="col col-md-12">
-            <div class="card">
-                <div class="card-header text-center"><i class="far fa-file-alt"></i><b> Facturas</b></div>
-                <div class="col">
-                    <div class="row col-md-12">
-                        <div class="col  table-responsive ">
-                            <table class="table col-md-12 table-hover table-striped">
-                                <thead>
-                                    <tr>
-                                        <th scope="col">CÓDIGO</th>
-                                        <th scope="col">Fecha</th>
-                                        <th scope="col">Título</th>
-                                        <th scope="col">Cliente</th>
-                                        <th scope="col">Vendedor</th>
-                                        <th scope="col">Estado</th>
-                                        <th scope="col">Total</th>
-                                        <th scope="col">Acciones</th>
-                                    </tr>
-                                </thead>
-                                @foreach($invoice as $invoice)
-                                <tbody>
-                                    <tr>
-                                        <td>{{ $invoice->code }}</td>
-
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table col-md-12 table-hover table-striped">
+                    <thead>
+                        <tr>
+                            <th scope="col">CÓDIGO</th>
+                            <th scope="col">Creación</th>
+                            <th scope="col">Título</th>
+                            <th scope="col">Cliente</th>
+                            <th scope="col">Vendedor</th>
+                            <th scope="col">Estado</th>
+                            <th scope="col">Total</th>
+                            <th scope="col">Acciones</th>
+                        </tr>
+                    </thead>
+                    @foreach($invoice as $invoice)
+                    <tbody>
+                        <tr>
+                            <td>{{ $invoice->code }}</td>
                                         <td>{{ $invoice->created_at }}</td>
                                         <td>{{ $invoice->title }}</td>
                                         <td> {{$invoice->client->name . ' ' .$invoice->client->last_name }}</td>

@@ -10,12 +10,12 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
-
+Route::get('/index', 'HomeController@index1');
 Route::get('/', 'HomeController@index');
 Route::get('/dashboard', 'DashboardController@index');
 Route::resource('/invoices', 'InvoiceController');
 Route::resource('/clients', 'ClientsController');
-Route::resource('/products', 'Product_Controller');
+Route::resource('/products', 'Product_controller');
 Route::resource('/companies', 'CompanyController');
 Route::get('/invoices/{id}/confirmDelete', 'InvoiceController@confirmDelete');
 Route::get('/clients/{id}/confirmDelete', 'ClientsController@confirmDelete');
@@ -26,5 +26,4 @@ Route::get('/invoices/{id}/invoice_product/create', 'InvoiceController@createInv
 Route::post('/invoices/{id}/invoice_product', 'InvoiceController@Invoice_productStore');
 Route::get('/invoices/create', 'InvoiceController@create');
 Auth::routes();
-
 Route::get('/home', 'HomeController@index')->name('home');
