@@ -1,6 +1,9 @@
 @extends ('layouts.app')
 @section('content')
-
+<?php
+$now = new \DateTime();
+$now= $now->format('Y-m-d H:i:s');
+?>
 <div class="container">
     <br>
     <div class="card">
@@ -15,6 +18,8 @@
                 <h3><small>Factura {{ $invoice->code }}</small></h3>
                 <h5> @if (isset($invoice->state))
                     <button type="button" class="btn btn-success btn-sm"> Pago </button>
+                    @elseif($invoice->duedate <= $now)
+                    <button type="button" class="btn btn-danger btn-sm"> Vencido </button>
                     @else
                     <button type="button" class="btn btn-warning btn-sm"> Sin pagar </button>
                     @endif
