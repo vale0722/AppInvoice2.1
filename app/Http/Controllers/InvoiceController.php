@@ -109,8 +109,11 @@ class InvoiceController extends Controller
         'code' => 'required',
         'client_id' => 'required',
         'company_id' => 'required',
-        'state' => 'required'
-        ]); 
+        'state' => 'required',
+        'subtotal' =>'required',
+        'total' =>'required',
+        'vat' =>'required',
+        ]);
         $invoice = Invoice::find($id);
         $invoice->title = $validData['title'];
         $invoice->code = $validData['code'];
@@ -122,9 +125,11 @@ class InvoiceController extends Controller
             $invoice->state = $now->format('Y-m-d H:i:s');
         }else{
                 $invoice->state = NULL;
-            }
+        }
+        $invoice->subtotal = $validData['subtotal'];
+        $invoice->total = $validData['total'];
+        $invoice->vat = $validData['vat'];
         $invoice->save();
-
         return redirect()->route('invoices.index');
     }
 
@@ -162,7 +167,10 @@ class InvoiceController extends Controller
         $validData = $request->validate([
             'product_id' => 'required',
             'quantity' => 'required',
-            'unit_value' => 'required'
+            'unit_value' => 'required',
+            'subtotal' =>'required',
+            'total' =>'required',
+            'vat' =>'required',
         ]);
         
         $invoice->products()->attach($validData['product_id'], [
@@ -170,7 +178,10 @@ class InvoiceController extends Controller
         'unit_value'=>$validData['unit_value'],
         'total_value'=>$validData['quantity']*$validData['unit_value']
         ]);
-        
+        $invoice->subtotal = $validData['subtotal'];
+        $invoice->total = $validData['total'];
+        $invoice->vat = $validData['vat'];
+        $invoice->save();
         return redirect()->route('invoices.index', $invoice->id);
     }
 }
