@@ -48,6 +48,9 @@
                                 </select>
                             </div>
                         </div>
+                        <input type="hidden" class="form-control" id="subtotal" name="subtotal" value="{{ $invoice->subtotal }}">
+                        <input type="hidden" class="form-control" id="total" name="total" value="{{ $invoice->total }}">
+                        <input type="hidden" class="form-control" id="vat" name="vat" value="{{ $invoice->vat }}">
                         <button type="submit" class="btn btn-primary"><i class="far fa-save"></i> GUARDAR</button>
                     </form>
                 </div>
