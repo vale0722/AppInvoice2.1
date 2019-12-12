@@ -172,7 +172,8 @@ class InvoiceController extends Controller
             'total' =>'required',
             'vat' =>'required',
         ]);
-        
+        $product = Product::find($validData['product_id']);
+        $validData['unit_value'] = $product->price;
         $invoice->products()->attach($validData['product_id'], [
         'quantity'=>$validData['quantity'],
         'unit_value'=>$validData['unit_value'],
