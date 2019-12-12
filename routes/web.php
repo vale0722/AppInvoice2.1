@@ -22,8 +22,10 @@ Route::get('/clients/{id}/confirmDelete', 'ClientsController@confirmDelete');
 Route::get('/products/{id}/confirmDelete', 'Product_Controller@confirmDelete');
 Route::get('/companies/{id}/confirmDelete', 'CompanyController@confirmDelete');
 Route::get('/invoicesItems/{id}/view', 'InvoiceController@view');
-Route::get('/invoices/{id}/invoice_product/create', 'InvoiceController@createInvoice_product');
-Route::post('/invoices/{id}/invoice_product', 'InvoiceController@Invoice_productStore');
+Route::get('/invoices/{id}/invoice_product/create', 'InvoiceController@createInvoiceProduct');
+Route::post('/invoices/{id}/invoice_product', 'InvoiceController@invoiceProductStore');
 Route::get('/invoices/create', 'InvoiceController@create');
 Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
+
+?>

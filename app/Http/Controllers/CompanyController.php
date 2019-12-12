@@ -118,3 +118,4 @@ class companyController extends Controller
         ]);
     }
 }
+?>

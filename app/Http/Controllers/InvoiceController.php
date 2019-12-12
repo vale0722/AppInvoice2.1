@@ -153,7 +153,7 @@ class InvoiceController extends Controller
             'invoice' => $invoice
         ]);
     }
-    public function createInvoice_product($id){
+    public function createInvoiceProduct($id){
         $invoice = Invoice::find($id);
         return view('invoice_product.create',[
             'invoice' => $invoice,
@@ -162,7 +162,7 @@ class InvoiceController extends Controller
             'companies' => Company::all()
         ]);
     }
-    public function invoice_productStore(Request $request, $id){
+    public function invoiceProductStore(Request $request, $id){
         $invoice = Invoice::find($id);
         $validData = $request->validate([
             'product_id' => 'required',
@@ -186,3 +186,4 @@ class InvoiceController extends Controller
         return redirect()->route('invoices.index', $invoice->id);
     }
 }
+?>
