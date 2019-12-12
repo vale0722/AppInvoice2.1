@@ -35,12 +35,6 @@
                                         <input type="number" class="form-control" id="quantity" name="quantity" placeholder="0" value="{{ old('quantity') }}">
                                     </div>
                                     <div class="form-group col-6">
-                                        <label for="unit_value">Precio unitario: </label>
-                                        <input type="number" class="form-control" id="unit_value" name="unit_value" placeholder="0" value="{{ old('unit_value') }}">
-                                    </div>
-                                </div>
-                                <div class="form-row">
-                                    <div class="form-group col-12">
                                         <label for="product">Producto: </label>
                                         <select name="product_id" id="product_id" class="form-control @error('product') is-invalid @enderror">
                                             @foreach($products as $product)
@@ -49,6 +43,7 @@
                                         </select>
                                     </div>
                                 </div>
+                                <input type="hidden" class="form-control" id="unit_value" name="unit_value" value="0">
                                 <input type="hidden" class="form-control" id="subtotal" name="subtotal" value="{{ $invoice->subtotal }}">
                                 <input type="hidden" class="form-control" id="total" name="total" value="{{ $invoice->total }}">
                                 <input type="hidden" class="form-control" id="vat" name="vat" value="{{ $invoice->vat }}">
