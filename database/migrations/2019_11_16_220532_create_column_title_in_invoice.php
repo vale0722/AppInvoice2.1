@@ -40,3 +40,4 @@ class CreateColumnTitleInInvoice extends Migration
         });
     }
 }
+?>

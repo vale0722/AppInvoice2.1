@@ -11,3 +11,4 @@ $factory->define(Company::class, function (Faker $faker) {
         'nit'=>$faker->swiftBicNumber 
     ];
 });
+?>

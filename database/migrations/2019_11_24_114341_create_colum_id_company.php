@@ -31,3 +31,4 @@ class CreateColumIdCompany extends Migration
         });
     }
 }
+?>

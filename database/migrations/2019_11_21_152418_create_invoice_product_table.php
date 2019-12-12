@@ -37,3 +37,4 @@ class CreateInvoiceProductTable extends Migration
         Schema::dropIfExists('invoice_product');
     }
 }
+?>

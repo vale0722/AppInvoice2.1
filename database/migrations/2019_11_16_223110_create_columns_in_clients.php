@@ -46,3 +46,4 @@ class CreateColumnsInClients extends Migration
         });
     }
 }
+?>
