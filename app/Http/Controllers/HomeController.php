@@ -25,6 +25,10 @@ class HomeController extends Controller
     {
         return view('home');
     }
+<<<<<<< Updated upstream
+=======
+
+>>>>>>> Stashed changes
     public function index1()
     {
         return view('auth.login1');

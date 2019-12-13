@@ -30,7 +30,7 @@ class Product_controller extends Controller
      */
     public function create()
     {
-        return view ('product.create');
+        return view('product.create');
     }
 
     /**
@@ -52,7 +52,6 @@ class Product_controller extends Controller
         $product->code = $validData['code'];
         $product->save();
         return redirect('/products');
-      
     }
 
     /**
@@ -109,15 +108,21 @@ class Product_controller extends Controller
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
-    {   
+    {
         $product = Product::findOrFail($id);
         $product->delete();
         return redirect('/products');
     }
+<<<<<<< Updated upstream:app/Http/Controllers/Product_controller.php
     
     public function confirmDelete($id){
+=======
+
+    public function confirmDelete($id)
+    {
+>>>>>>> Stashed changes:app/Http/Controllers/ProductController.php
         $product = Product::findOrFail($id);
-        return view('Product.confirmDelete',[
+        return view('Product.confirmDelete', [
             'product' => $product
         ]);
     }
