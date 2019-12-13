@@ -10,5 +10,3 @@ class Product extends Model
         return $this->belongsToMany(Invoice::class);
     }
 }
-
-?>

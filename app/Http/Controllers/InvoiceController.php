@@ -191,4 +191,3 @@ class InvoiceController extends Controller
         return redirect()->route('invoices.index', $invoice->id);
     }
 }
-?>
