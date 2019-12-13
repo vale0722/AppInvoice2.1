@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\{Client, Invoice, Company};
+use App\{Client, Invoice};
 
 class ClientsController extends Controller
 {
@@ -74,7 +74,7 @@ class ClientsController extends Controller
      */
     public function show(Client $client)
     {
-        return view('client.show',[
+        return view('client.show', [
             'invoice' => Invoice::all(),
             'client' => $client
         ]);
@@ -89,7 +89,7 @@ class ClientsController extends Controller
     public function edit($id)
     {
         $client = Client::findOrFail($id);
-        return view('client.edit',[
+        return view('client.edit', [
             'client' => $client
         ]);
     }
@@ -142,7 +142,8 @@ class ClientsController extends Controller
         return redirect('/clients');
     }
 
-    public function confirmDelete($id){
+    public function confirmDelete($id)
+    {
         $client = Client::findOrFail($id);
         return view('client.confirmDelete',[
             'client' => $client

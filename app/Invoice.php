@@ -7,12 +7,12 @@ use Illuminate\Database\Eloquent\Model;
 class Invoice extends Model
 {
     public function products(){
-        return $this->belongsToMany(Product::class)->withPivot(['quantity','unit_value','total_value']);
+        return $this->belongsToMany(Product::class)->withPivot(['quantity', 'unit_value', 'total_value']);
     }
     public function getSubtotalAttribute(){
         if(isset($this->products[0])){
             return $this->products[0]->pivot->where('invoice_id', $this->id)->sum('total_value');
-        }else{
+        } else {
             return 0;
         };
     }
