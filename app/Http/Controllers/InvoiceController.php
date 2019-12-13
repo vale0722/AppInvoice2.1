@@ -105,16 +105,16 @@ class InvoiceController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
-    {
+    {  
         $validData = $request->validate([
-            'title' => 'required',
-            'code' => 'required',
-            'client_id' => 'required',
-            'company_id' => 'required',
-            'state' => 'required',
-            'subtotal' => 'required',
-            'total' => 'required',
-            'vat' => 'required',
+        'title' => 'required',
+        'code' => 'required',
+        'client_id' => 'required',
+        'company_id' => 'required',
+        'state' => 'required',
+        'subtotal' =>'required',
+        'total' =>'required',
+        'vat' =>'required',
         ]);
         $invoice = Invoice::find($id);
         $invoice->title = $validData['title'];
@@ -158,17 +158,17 @@ class InvoiceController extends Controller
             'invoice' => $invoice
         ]);
     }
-    public function createInvoice_product($id)
+    public function createInvoiceProduct($id)
     {
         $invoice = Invoice::find($id);
-        return view('invoice_product.create', [
+        return view('invoiceProduct.create', [
             'invoice' => $invoice,
             'products' => Product::all(),
             'clients' => Client::all(),
             'companies' => Company::all()
         ]);
     }
-    public function invoice_productStore(Request $request, $id)
+    public function invoiceProductStore(Request $request, $id)
     {
         $invoice = Invoice::find($id);
         $validData = $request->validate([
@@ -179,7 +179,8 @@ class InvoiceController extends Controller
             'total' => 'required',
             'vat' => 'required',
         ]);
-
+        $product = Product::find($validData['product_id']);
+        $validData['unit_value'] = $product->price;
         $invoice->products()->attach($validData['product_id'], [
             'quantity' => $validData['quantity'],
             'unit_value' => $validData['unit_value'],

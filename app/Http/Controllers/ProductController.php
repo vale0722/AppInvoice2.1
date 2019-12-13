@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Product;
 
-class Product_controller extends Controller
+class ProductController extends Controller
 {
     public function __construct()
     {
@@ -75,7 +75,7 @@ class Product_controller extends Controller
     public function edit($id)
     {
         $product = Product::findOrFail($id);
-        return view('product.edit',[
+        return view('product.edit', [
             'product' => $product
         ]);
     }
@@ -115,7 +115,8 @@ class Product_controller extends Controller
         return redirect('/products');
     }
     
-    public function confirmDelete($id){
+    public function confirmDelete($id)
+    {
         $product = Product::findOrFail($id);
         return view('Product.confirmDelete',[
             'product' => $product

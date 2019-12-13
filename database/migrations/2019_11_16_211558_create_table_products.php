@@ -32,3 +32,4 @@ class CreateTableProducts extends Migration
         Schema::dropIfExists('products');
     }
 }
+?>

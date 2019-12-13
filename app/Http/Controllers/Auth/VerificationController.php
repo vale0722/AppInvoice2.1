@@ -22,7 +22,7 @@ class VerificationController extends Controller
 
     /**
      * Where to redirect users after verification.
-     *
+     *1
      * @var string
      */
     protected $redirectTo = '/home';
@@ -39,3 +39,4 @@ class VerificationController extends Controller
         $this->middleware('throttle:6,1')->only('verify', 'resend');
     }
 }
+?>

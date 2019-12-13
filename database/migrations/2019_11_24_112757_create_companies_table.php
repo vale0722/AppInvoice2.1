@@ -31,3 +31,4 @@ class CreateCompaniesTable extends Migration
         Schema::dropIfExists('companies');
     }
 }
+?>

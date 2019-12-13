@@ -19,3 +19,4 @@ $factory->define(Client::class, function (Faker $faker) {
 
     ];
 });
+?>

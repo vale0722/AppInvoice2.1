@@ -30,3 +30,4 @@ class CreateColumnDuedateInvoice extends Migration
         });
     }
 }
+?>

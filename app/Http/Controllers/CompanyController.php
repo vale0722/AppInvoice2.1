@@ -111,9 +111,10 @@ class companyController extends Controller
         return redirect()->route('companies.index');
     }
 
-    public function confirmDelete($id){
+    public function confirmDelete($id)
+    {
         $company = Company::findOrFail($id);
-        return view('company.confirmDelete',[
+        return view('company.confirmDelete', [
             'company' => $company
         ]);
     }

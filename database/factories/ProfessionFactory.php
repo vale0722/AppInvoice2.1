@@ -10,3 +10,4 @@ $factory->define(Model::class, function (Faker $faker) {
         //
     ];
 });
+?>
