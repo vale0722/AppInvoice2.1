@@ -58,7 +58,7 @@
                             <a class="nav-link" href="{{ route('products.index') }}"><i class="fas fa-puzzle-piece"></i> Productos</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('companies.index') }}"><i class="far fa-building"></i> Compañias</a>
+                            <a class="nav-link" href="{{ route('companies.index') }}"><i class="far fa-building"></i> Vendedores </a>
                         </li>
                         <li class="nav-item dropdown">
                             <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>

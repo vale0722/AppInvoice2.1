@@ -62,23 +62,21 @@
                                             <option value='2' selected> SIN PAGAR </option>
                                             <option value='1'> Pagada </option>
                                             @endif
-                                    <option value='1'> Pagada </option>
-                                    <option value='2'> Sin pagar </option>
-                                </select>
-                            </div>
+                                        </select>
+                                    </div>
+                                </div>
+                                <input type="hidden" class="form-control" id="subtotal" name="subtotal" value="{{ $invoice->subtotal }}">
+                                <input type="hidden" class="form-control" id="total" name="total" value="{{ $invoice->total }}">
+                                <input type="hidden" class="form-control" id="vat" name="vat" value="{{ $invoice->vat }}">
+                                <div class="form-group text-center">
+                                    <button type="submit" class="btn btn-primary"><i class="far fa-save"></i> GUARDAR</button>
+                                </div>
+                                <br>
                         </div>
-                        <input type="hidden" class="form-control" id="subtotal" name="subtotal" value="{{ $invoice->subtotal }}">
-                        <input type="hidden" class="form-control" id="total" name="total" value="{{ $invoice->total }}">
-                        <input type="hidden" class="form-control" id="vat" name="vat" value="{{ $invoice->vat }}">
-                        <div class="form-group text-center">
-                            <button type="submit" class="btn btn-primary"><i class="far fa-save"></i> GUARDAR</button>
-                        </div>
-                        <br>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
 
-@endsection
+    @endsection
