@@ -105,16 +105,16 @@ class InvoiceController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
-    {  
+    {
         $validData = $request->validate([
-        'title' => 'required',
-        'code' => 'required',
-        'client_id' => 'required',
-        'company_id' => 'required',
-        'state' => 'required',
-        'subtotal' =>'required',
-        'total' =>'required',
-        'vat' =>'required',
+            'title' => 'required',
+            'code' => 'required',
+            'client_id' => 'required',
+            'company_id' => 'required',
+            'state' => 'required',
+            'subtotal' => 'required',
+            'total' => 'required',
+            'vat' => 'required',
         ]);
         $invoice = Invoice::find($id);
         $invoice->title = $validData['title'];
