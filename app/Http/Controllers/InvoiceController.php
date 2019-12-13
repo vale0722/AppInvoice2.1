@@ -75,7 +75,7 @@ class InvoiceController extends Controller
      */
     public function show(Invoice $invoice)
     {
-        return view('invoice.show',[
+        return view('invoice.show', [
             'invoice' => $invoice
         ]);
     }
@@ -89,7 +89,7 @@ class InvoiceController extends Controller
     public function edit($id)
     {
         $invoice = Invoice::find($id);
-        return view('invoice.edit',[
+        return view('invoice.edit', [
             'invoice' => $invoice,
             'clients' => Client::all(),
             'companies' => Company::all()
@@ -104,7 +104,8 @@ class InvoiceController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
-    {  $validData = $request->validate([
+    {  
+        $validData = $request->validate([
         'title' => 'required',
         'code' => 'required',
         'client_id' => 'required',
@@ -147,22 +148,26 @@ class InvoiceController extends Controller
         return redirect('/invoices');
     }
 
-    public function confirmDelete($id){
+    public function confirmDelete($id)
+    {
         $invoice = Invoice::find($id);
-        return view('invoice.confirmDelete',[
+        return view('invoice.confirmDelete', [
             'invoice' => $invoice
         ]);
     }
-    public function createInvoiceProduct($id){
+    public function createInvoiceProduct($id)
+    {
         $invoice = Invoice::find($id);
-        return view('invoice_product.create',[
+        return view('invoiceProduct.create', [
             'invoice' => $invoice,
             'products' => Product::all(),
             'clients' => Client::all(),
             'companies' => Company::all()
         ]);
     }
-    public function invoiceProductStore(Request $request, $id){
+
+    public function invoiceProductStore(Request $request, $id)
+    {
         $invoice = Invoice::find($id);
         $validData = $request->validate([
             'product_id' => 'required',

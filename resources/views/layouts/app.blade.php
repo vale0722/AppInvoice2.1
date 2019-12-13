@@ -1,3 +1,14 @@
+<?php
+
+/**
+ * Invoice control system that incorporates all the requirements contained in the trade code (Art 774)
+ *
+ * @author Valeria Granada Rodas <vale_0722@live.com>
+ * @copyright 2019 Valeria Granada Rodas
+ * @version 2019-11-25
+ */
+?>
+
 <!doctype html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 
