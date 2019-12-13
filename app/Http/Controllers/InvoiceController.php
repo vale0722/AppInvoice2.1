@@ -13,20 +13,20 @@ class InvoiceController extends Controller
     {
         $this->middleware('auth');
     }
-
+    
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
     public function index()
-    {
+    {   
         return view('invoice.index', [
             'invoice' => Invoice::all(),
             'clients' => Client::all(),
             'companies' => Company::all()
-
-        ]);
+            
+            ]);
     }
 
     /**
@@ -40,7 +40,7 @@ class InvoiceController extends Controller
             'invoice' => new invoice,
             'clients' => Client::all(),
             'companies' => Company::all()
-        ]);
+            ]);
     }
 
     /**
@@ -49,8 +49,7 @@ class InvoiceController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
-    {
+    public function store(Request $request){
         $validData = $request->validate([
             'title' => 'required',
             'code' => 'required|unique:invoices',
@@ -63,7 +62,7 @@ class InvoiceController extends Controller
         $invoice->code = $validData['code'];
         $invoice->client_id = $validData['client_id'];
         $invoice->company_id = $validData['company_id'];
-        $invoice->duedate = date("Y-m-d H:i:s", strtotime($invoice->created_at . "+ 30 days"));
+        $invoice->duedate = date("Y-m-d H:i:s",strtotime($invoice->created_at."+ 30 days"));
         $invoice->save();
         return redirect()->route('invoices.index');
     }
@@ -105,7 +104,6 @@ class InvoiceController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
-<<<<<<< Updated upstream
     {  $validData = $request->validate([
         'title' => 'required',
         'code' => 'required',
@@ -115,30 +113,18 @@ class InvoiceController extends Controller
         'subtotal' =>'required',
         'total' =>'required',
         'vat' =>'required',
-=======
-    {
-        $validData = $request->validate([
-            'title' => 'required',
-            'code' => 'required',
-            'client_id' => 'required',
-            'company_id' => 'required',
-            'state' => 'required',
-            'subtotal' => 'required',
-            'total' => 'required',
-            'vat' => 'required',
->>>>>>> Stashed changes
         ]);
         $invoice = Invoice::find($id);
         $invoice->title = $validData['title'];
         $invoice->code = $validData['code'];
         $invoice->client_id = $validData['client_id'];
         $invoice->company_id = $validData['company_id'];
-        $invoice->duedate = date("Y-m-d H:i:s", strtotime($invoice->created_at . "+ 30 days"));
-        if ($validData['state'] == '1') {
+        $invoice->duedate = date("Y-m-d H:i:s",strtotime($invoice->created_at."+ 30 days"));
+        if ($validData['state'] == '1'){
             $now = new \DateTime();
             $invoice->state = $now->format('Y-m-d H:i:s');
-        } else {
-            $invoice->state = NULL;
+        }else{
+                $invoice->state = NULL;
         }
         $invoice->subtotal = $validData['subtotal'];
         $invoice->total = $validData['total'];
@@ -182,15 +168,15 @@ class InvoiceController extends Controller
             'product_id' => 'required',
             'quantity' => 'required',
             'unit_value' => 'required',
-            'subtotal' => 'required',
-            'total' => 'required',
-            'vat' => 'required',
+            'subtotal' =>'required',
+            'total' =>'required',
+            'vat' =>'required',
         ]);
         
         $invoice->products()->attach($validData['product_id'], [
-            'quantity' => $validData['quantity'],
-            'unit_value' => $validData['unit_value'],
-            'total_value' => $validData['quantity'] * $validData['unit_value']
+        'quantity'=>$validData['quantity'],
+        'unit_value'=>$validData['unit_value'],
+        'total_value'=>$validData['quantity']*$validData['unit_value']
         ]);
         $invoice->subtotal = $validData['subtotal'];
         $invoice->total = $validData['total'];

@@ -30,7 +30,7 @@ class companyController extends Controller
      */
     public function create()
     {
-        return view('company.create');
+        return view ('company.create');
     }
 
     /**
@@ -72,7 +72,7 @@ class companyController extends Controller
     public function edit($id)
     {
         $company = Company::findOrFail($id);
-        return view('company.edit', [
+        return view('company.edit',[
             'company' => $company
         ]);
     }
