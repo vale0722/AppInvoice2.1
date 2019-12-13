@@ -150,5 +150,3 @@ class ClientsController extends Controller
         ]);
     }
 }
-
-?>
