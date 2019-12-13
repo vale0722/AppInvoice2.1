@@ -1,3 +1,14 @@
+<?php
+
+/**
+ * Invoice control system that incorporates all the requirements contained in the trade code (Art 774)
+ *
+ * @author Valeria Granada Rodas <vale_0722@live.com>
+ * @copyright 2019 Valeria Granada Rodas
+ * @version 2019-11-25
+ */
+?>
+
 <!doctype html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 
@@ -58,7 +69,7 @@
                             <a class="nav-link" href="{{ route('products.index') }}"><i class="fas fa-puzzle-piece"></i> Productos</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('companies.index') }}"><i class="far fa-building"></i> Compañias</a>
+                            <a class="nav-link" href="{{ route('companies.index') }}"><i class="far fa-building"></i> Vendedores </a>
                         </li>
                         <li class="nav-item dropdown">
                             <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>

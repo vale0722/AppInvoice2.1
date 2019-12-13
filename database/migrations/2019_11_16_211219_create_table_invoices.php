@@ -29,3 +29,4 @@ class CreateTableInvoices extends Migration
         Schema::dropIfExists('invoices');
     }
 }
+?>

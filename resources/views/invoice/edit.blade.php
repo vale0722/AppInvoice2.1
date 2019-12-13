@@ -34,6 +34,16 @@
                                     <label for="code">Código: </label>
                                     <input type="text" class="form-control" id="code" name="code" value="{{ $invoice->code }}" placeholder="código">
                                 </div>
+
+                                <div class="form-group">
+                                    <label>Vendedor: </label>
+                                    <select name="company_id" id="company_id" class="form-control @error('company') is-invalid @enderror">
+                                        <option value='{{ $invoice->company->id }}' selected>{{$invoice->company->nit . ': ' . $invoice->company->name }}</option>
+                                        @foreach($companies as $company)
+                                        <option value=' {{ $company->id }}'> {{ $company->nit . ': ' . $company->name }} </option>
+                                        @endforeach
+                                    </select>
+                                </div>
                                 <div class="form-group">
                                     <label>Cliente: </label>
                                     <select name="client_id" id="client_id" class="form-control @error('client') is-invalid @enderror">
@@ -44,41 +54,29 @@
                                     </select>
                                 </div>
                                 <div class="form-group">
-                                    <label>Vendedor: </label>
-                                    <select name="company_id" id="company_id" class="form-control @error('company') is-invalid @enderror">
-                                        <option value='{{ $invoice->company->id }}' selected>{{$invoice->company->nit . ': ' . $invoice->company->name }}</option>
-                                        @foreach($companies as $company)
-                                        <option value=' {{ $company->id }}'> {{ $company->nit . ': ' . $company->name }} </option>
-                                        @endforeach
+                                    <label>Estado: </label>
+                                    <select name="state" id="state">
+                                        @if (isset($invoice->state))
+                                        <option value='1' selected>PAGADA</option>
+                                        <option value='2'> Sin pagar </option>
+                                        @else
+                                        <option value='2' selected> SIN PAGAR </option>
+                                        <option value='1'> Pagada </option>
+                                        @endif
                                     </select>
-                                    <br>
-                                    <div class="form-group">
-                                        <label>Estado: </label>
-                                        <select name="state" id="state">
-                                            @if (isset($invoice->state))
-                                            <option value='1' selected>PAGADA</option>
-                                            <option value='2'> Sin pagar </option>
-                                            @else
-                                            <option value='2' selected> SIN PAGAR </option>
-                                            <option value='1'> Pagada </option>
-                                            @endif
-                                    <option value='1'> Pagada </option>
-                                    <option value='2'> Sin pagar </option>
-                                </select>
-                            </div>
+                                </div>
+                                <input type="hidden" class="form-control" id="subtotal" name="subtotal" value="{{ $invoice->subtotal }}">
+                                <input type="hidden" class="form-control" id="total" name="total" value="{{ $invoice->total }}">
+                                <input type="hidden" class="form-control" id="vat" name="vat" value="{{ $invoice->vat }}">
+                                <div class="form-group text-center">
+                                    <button type="submit" class="btn btn-primary"><i class="far fa-save"></i> GUARDAR</button>
+                                </div>
+                                <br>
                         </div>
-                        <input type="hidden" class="form-control" id="subtotal" name="subtotal" value="{{ $invoice->subtotal }}">
-                        <input type="hidden" class="form-control" id="total" name="total" value="{{ $invoice->total }}">
-                        <input type="hidden" class="form-control" id="vat" name="vat" value="{{ $invoice->vat }}">
-                        <div class="form-group text-center">
-                            <button type="submit" class="btn btn-primary"><i class="far fa-save"></i> GUARDAR</button>
-                        </div>
-                        <br>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
 
-@endsection
+    @endsection

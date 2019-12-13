@@ -33,19 +33,20 @@
                                     <label for="code">Código: </label>
                                     <input type="text" class="form-control" id="code" name="code" placeholder="código" value="{{ old('code') }}">
                                 </div>
-                                <div class="form-group">
-                                    <label>Cliente: </label>
-                                    <select name="client_id" id="client_id" class="form-control @error('client') is-invalid @enderror">
-                                        @foreach($clients as $client)
-                                        <option value='{{ $client->id }}'> {{ $client->id_type . ' ' . $client->id_card . ': ' . $client->name . ' ' . $client->last_name  }} </option>
-                                        @endforeach
-                                    </select>
-                                </div>
+                                
                                 <div class="form-group">
                                     <label>Vendedor: </label>
                                     <select name="company_id" id="company_id" class="form-control @error('company') is-invalid @enderror">
                                         @foreach($companies as $company)
                                         <option value='{{ $company->id }}'> {{ $company->nit . ': ' . $company->name }} </option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label>Cliente: </label>
+                                    <select name="client_id" id="client_id" class="form-control @error('client') is-invalid @enderror">
+                                        @foreach($clients as $client)
+                                        <option value='{{ $client->id }}'> {{ $client->id_type . ' ' . $client->id_card . ': ' . $client->name . ' ' . $client->last_name  }} </option>
                                         @endforeach
                                     </select>
                                 </div>
