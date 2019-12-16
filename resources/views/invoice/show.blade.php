@@ -75,9 +75,6 @@ $now = $now->format('Y-m-d H:i:s');
     <div class="row justify-content-center">
         <div class="col-xl-12 col-lg-12 col-md-9">
             <div class="card o-hidden border-1 my-3">
-                <div class="card-header text-right">
-                    <a class="btn btn-primary" href="/invoices/{{ $invoice->id }}/invoice_product/create"><i class="fas fa-cart-plus"></i> Añadir una nueva compra</a>
-                </div>
                 <div class="card-body p-0">
                     <div class="col col-md-12 table-responsive-sm">
 
