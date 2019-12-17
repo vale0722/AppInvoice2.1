@@ -6,7 +6,11 @@ use Illuminate\Database\Eloquent\Model;
 
 class Invoice extends Model
 {
-    public function products(){
+    protected $fillable = ['title', 'code', 'client_id', 'company_id', 'duedate'];
+
+
+    public function products()
+    {
         return $this->belongsToMany(Product::class)->withPivot(['quantity', 'unit_value', 'total_value']);
     }
     public function getSubtotalAttribute()
