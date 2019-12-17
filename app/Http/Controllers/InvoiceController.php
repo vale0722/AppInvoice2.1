@@ -191,7 +191,7 @@ class InvoiceController extends Controller
         $invoice->total = $validData['total'];
         $invoice->vat = $validData['vat'];
         $invoice->save();
-        return back()->with('message', 'Registro de compra completado');
+        return redirect()->route('invoices.edit', $invoice->id)->with('message', 'Registro de compra completado');
     }
 
     public function indexImport()
