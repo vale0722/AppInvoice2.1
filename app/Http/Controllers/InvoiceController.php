@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use App\{Invoice, Client, Product, Company};
+use App\Exports\InvoiceExport;
 use App\Imports\InvoiceImport;
 use Maatwebsite\Excel\Facades\Excel;
 
@@ -208,5 +209,10 @@ class InvoiceController extends Controller
         } else {
             return back()->withErrors("ERROR, importación fallída");
         }
+    }
+
+    public function exportExcel()
+    {
+        return Excel::download(new InvoiceExport, "invoice-list.xlsx");
     }
 }
