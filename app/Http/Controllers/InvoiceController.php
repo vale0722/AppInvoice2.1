@@ -21,9 +21,17 @@ class InvoiceController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $invoices = Invoice::orderBy('id', 'DESC')->paginate(5);
+        $code = $request->get('code');
+        $title = $request->get('title');
+        $client = $request->get('client');
+        $company = $request->get('company');
+
+        $invoices = Invoice::orderBy('id', 'DESC')
+            ->code($code)
+            ->title($title)
+            ->paginate(4);
         return view('invoice.index', [
             'clients' => Client::all(),
             'companies' => Company::all()

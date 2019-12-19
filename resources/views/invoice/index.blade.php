@@ -6,12 +6,27 @@ $now = $now->format('Y-m-d H:i:s');
 ?>
 <div class="container">
     <div class="card shadow mb-4 my-5">
-        <div class="card-header py-3">
+        <div class="card-header py-3 ">
             <div class="text-center"><i class="fas fa-users"></i><b> FACTURAS </b></div>
-            <div>
-                <a class="btn btn-primary btn-circle btn-lg" href="/invoices/create"><i class="fas fa-plus"></i></a>
-                <a class="btn btn-success btn-circle btn-lg" href="{{ route('invoices.import.view') }}"><i class="fas fa-file-import"></i></a>
-                <a class="btn btn-warning btn-circle btn-lg" href="{{ route('export') }}"><i class="fas fa-file-export"></i></a>
+            <div class="">
+                <div>
+                    <a class="btn btn-primary btn-circle btn-lg" href="/invoices/create"><i class="fas fa-plus"></i></a>
+                    <a class="btn btn-success btn-circle btn-lg" href="{{ route('invoices.import.view') }}"><i class="fas fa-file-import"></i></a>
+                    <a class="btn btn-warning btn-circle btn-lg" href="{{ route('export') }}"><i class="fas fa-file-export"></i></a>
+                </div>
+                <div class="justify-content-end">
+                    <form action="{{ route('invoices.index') }}" method="GET" class="form-inline justify-content-end">
+                        <div class="form-group">
+                            <div class="input-group mb-2">
+                                <input type="text" class="form-control" name="code" placeholder="Código">
+                                <input type="text" class="form-control" name="title" placeholder="Título">
+                                <div class="input-group-prepend">
+                                    <button type="submit" class="btn btn-default"> <i class="fas fa-search"></i> </button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
         <div class="card-body">

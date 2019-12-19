@@ -43,4 +43,17 @@ class Invoice extends Model
     {
         return $this->belongsTo(Company::class);
     }
+
+    //Query Scope
+
+    public function scopeCode($query, $code)
+    {
+        if ($code)
+            return $query->where('code', 'LIKE', "%$code%");
+    }
+    public function scopeTitle($query, $title)
+    {
+        if ($title)
+            return $query->where('title', 'LIKE', "%$title%");
+    }
 }
