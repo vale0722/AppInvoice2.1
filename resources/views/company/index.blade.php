@@ -17,21 +17,22 @@
                             <th scope="col"> Acciones</th>
                         </tr>
                     </thead>
-                    @foreach($companies as $company)
                     <tbody>
+                        @foreach($companies as $company)
                         <tr>
                             <td>{{ $company->nit }}</td>
                             <td>{{ $company->name }}</td>
                             <td>
                                 <div class="btn-group" role="group">
                                     <a class="btn btn-warning" href="{{ route('companies.edit', $company->id) }}"><i class="far fa-edit"></i> Editar </a>
-                                    <a class="btn btn-danger" href="/companies/{{ $company->id }}/confirmDelete"><i class="far fa-trash-alt"></i> Eliminar</a>
+                                    <a class="btn btn-danger" href="{{ route('companies.confirm.delete', $company->id) }}"><i class="far fa-trash-alt"></i> Eliminar</a>
                                 </div>
                             </td>
                         </tr>
+                        @endforeach
                     </tbody>
-                    @endforeach
                 </table>
+                {{ $companies->render()}}
             </div>
         </div>
     </div>

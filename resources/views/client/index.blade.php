@@ -17,22 +17,23 @@
                             <th scope="col"> Acciones</th>
                         </tr>
                     </thead>
-                    @foreach($client as $client)
                     <tbody>
+                        @foreach($clients as $client)
                         <tr>
                             <td>{{ $client->name . ' ' . $client->last_name }}</td>
                             <td>{{ $client->id_type . ': ' . $client->id_card}}</td>
                             <td>
                                 <div class="btn-group" role="group">
                                     <a class="btn btn-warning" href="{{ route('clients.edit', $client->id) }}"><i class="far fa-edit"></i> Editar </a>
-                                    <a class="btn btn-danger" href="/clients/{{ $client->id }}/confirmDelete"><i class="far fa-trash-alt"></i> Eliminar</a>
+                                    <a class="btn btn-danger" href="{{ route('clients.confirm.delete', $client->id) }}"><i class="far fa-trash-alt"></i> Eliminar</a>
                                     <a class="btn btn-success" href="{{ route('clients.show', $client->id) }}"><i class="far fa-eye"></i> Ver detalles </a>
                                 </div>
                             </td>
                         </tr>
+                        @endforeach
                     </tbody>
-                    @endforeach
                 </table>
+                {{ $clients->render() }}
             </div>
         </div>
     </div>

@@ -4,11 +4,6 @@
 <div class="container">
     <br>
     <br>
-    <div class="col my-2">
-        <a class="btn btn-circle btn-lg btn-secondary" href="{{ route('clients.index') }}"><i class="fas fa-undo"></i></a>
-    </div>
-</div>
-<div class="container">
     <div class="row justify-content-center">
         <div class="col-xl-12 col-lg-12 col-md-9">
             <div class="card o-hidden border-0 shadow my-3">
@@ -86,6 +81,7 @@
                                     </td>
                                 </tr>
                                 @endforeach
+                            </tbody>
                         </table>
                     </div>
                 </div>

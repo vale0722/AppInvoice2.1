@@ -18,9 +18,8 @@ class companyController extends Controller
      */
     public function index()
     {
-        return view('company.index', [
-            'companies' => Company::all()
-        ]);
+        $companies = Company::orderBy('id', 'DESC')->paginate(5);
+        return view('company.index', compact('companies'));
     }
 
     /**
@@ -30,7 +29,7 @@ class companyController extends Controller
      */
     public function create()
     {
-        return view ('company.create');
+        return view('company.create');
     }
 
     /**
@@ -72,7 +71,7 @@ class companyController extends Controller
     public function edit($id)
     {
         $company = Company::findOrFail($id);
-        return view('company.edit',[
+        return view('company.edit', [
             'company' => $company
         ]);
     }

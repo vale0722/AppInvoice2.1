@@ -23,12 +23,11 @@ class InvoiceController extends Controller
      */
     public function index()
     {
+        $invoices = Invoice::orderBy('id', 'DESC')->paginate(5);
         return view('invoice.index', [
-            'invoice' => Invoice::all(),
             'clients' => Client::all(),
             'companies' => Company::all()
-
-        ]);
+        ], compact('invoices'));
     }
 
     /**

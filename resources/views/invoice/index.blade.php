@@ -29,8 +29,8 @@ $now = $now->format('Y-m-d H:i:s');
                             <th scope="col">Acciones</th>
                         </tr>
                     </thead>
-                    @foreach($invoice as $invoice)
                     <tbody>
+                        @foreach($invoices as $invoice)
                         <tr>
                             <td>{{ $invoice->code }}</td>
                             <td>{{ $invoice->created_at }}</td>
@@ -49,14 +49,15 @@ $now = $now->format('Y-m-d H:i:s');
                             <td>
                                 <div class="btn-group" role="group">
                                     <a class="btn btn-warning" href="{{ route('invoices.edit', $invoice->id) }}"><i class="far fa-edit"></i> Editar </a>
-                                    <a class="btn btn-danger" href="/invoices/{{ $invoice->id }}/confirmDelete"><i class="far fa-trash-alt"></i> Eliminar</a>
+                                    <a class="btn btn-danger" href="{{ route('invoices.confirm.delete', $invoice->id) }}"><i class="far fa-trash-alt"></i> Eliminar</a>
                                     <a class="btn btn-success" href="{{ route('invoices.show', $invoice->id) }}"><i class="far fa-eye"></i> Ver detalles </a>
                                 </div>
                             </td>
                         </tr>
+                        @endforeach
                     </tbody>
-                    @endforeach
                 </table>
+                {{ $invoices->render() }}
             </div>
         </div>
     </div>

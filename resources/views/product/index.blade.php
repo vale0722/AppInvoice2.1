@@ -18,8 +18,8 @@
                             <th scope="col">Acciones</th>
                         </tr>
                     </thead>
-                    @foreach($product as $product)
                     <tbody>
+                        @foreach($products as $product)
                         <tr>
                             <td>{{ $product->code }}</td>
                             <td>{{ $product->name }}</td>
@@ -27,13 +27,14 @@
                             <td>
                                 <div class="btn-group" role="group">
                                     <a class="btn btn-warning" href="{{ route('products.edit', $product->id) }}"><i class="far fa-edit"></i> Editar </a>
-                                    <a class="btn btn-danger" href="/products/{{ $product->id }}/confirmDelete"><i class="far fa-trash-alt"></i> Eliminar</a>
+                                    <a class="btn btn-danger" href="{{ route('products.confirm.delete', $product->id) }}"><i class="far fa-trash-alt"></i> Eliminar</a>
                                 </div>
                             </td>
                         </tr>
+                        @endforeach
                     </tbody>
-                    @endforeach
                 </table>
+                {{ $products->render() }}
             </div>
         </div>
     </div>
