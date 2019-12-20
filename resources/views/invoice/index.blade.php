@@ -16,6 +16,7 @@ $now = $now->format('Y-m-d H:i:s');
                 </div>
                 <div class="justify-content-end">
                     <form action="{{ route('invoices.index') }}" method="GET" class="form-inline justify-content-end">
+                        @if (empty($_GET))
                         <div class="form-group">
                             <div class="input-group mb-2">
                                 <div>
@@ -33,6 +34,9 @@ $now = $now->format('Y-m-d H:i:s');
                                 </div>
                             </div>
                         </div>
+                        @else
+                        <a href="{{ route('invoices.index') }}" class="btn btn-circle btn-danger"><i class="fas fa-undo"></i> </button></a>
+                        @endif
                     </form>
                 </div>
             </div>

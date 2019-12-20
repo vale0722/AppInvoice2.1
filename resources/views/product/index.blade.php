@@ -8,6 +8,7 @@
             <div><a class="btn btn-primary btn-circle btn-lg" href="{{ route('products.create') }}"><i class="fas fa-plus"></i></a></div>
             <div class="justify-content-end">
                 <form action="{{ route('products.index') }}" method="GET" class="form-inline justify-content-end">
+                    @if (empty($_GET))
                     <div class="form-group">
                         <div class="input-group mb-2">
                             <div>
@@ -25,6 +26,9 @@
                             </div>
                         </div>
                     </div>
+                    @else
+                    <a href="{{ route('products.index') }}" class="btn btn-circle btn-danger"><i class="fas fa-undo"></i> </button></a>
+                    @endif
                 </form>
             </div>
         </div>
