@@ -8,7 +8,7 @@ $now = $now->format('Y-m-d H:i:s');
     <div class="card shadow mb-4 my-5">
         <div class="card-header py-3 ">
             <div class="text-center"><i class="fas fa-users"></i><b> FACTURAS </b></div>
-            <div class="">
+            <div>
                 <div>
                     <a class="btn btn-primary btn-circle btn-lg" href="/invoices/create"><i class="fas fa-plus"></i></a>
                     <a class="btn btn-success btn-circle btn-lg" href="{{ route('invoices.import.view') }}"><i class="fas fa-file-import"></i></a>
@@ -20,14 +20,14 @@ $now = $now->format('Y-m-d H:i:s');
                             <div class="input-group mb-2">
                                 <div>
                                     <select name="type" class="form-control mr-sm-2" id="type">
-                                        <option>Buscar por:</option>
+                                        <option disabled selected>Buscar por:</option>
                                         <option value="code">Código</option>
                                         <option value="title">Títuto</option>
                                         <option value="client">Cliente</option>
                                         <option value="company">Vendedor</option>
                                     </select>
                                 </div>
-                                <input type="text" class="form-control input-group-prepend" name="search" placeholder="Buscar">
+                                <input type="text" class="form-control input-group-prepend" name="search" placeholder="Ingresa tu búsqueda" required>
                                 <div>
                                     <button type="submit" class="btn btn-primary"> <i class="fas fa-search"></i> </button>
                                 </div>

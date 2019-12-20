@@ -16,9 +16,13 @@ class companyController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $companies = Company::orderBy('id', 'DESC')->paginate(4);
+        $search = $request->get('search');
+        $type = $request->get('type');
+        $companies = Company::orderBy('id', 'DESC')
+            ->search($search, $type)
+            ->paginate(4);
         return view('company.index', compact('companies'));
     }
 

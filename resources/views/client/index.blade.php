@@ -1,11 +1,32 @@
 @extends ('layouts.app')
 @section('content')
-
 <div class="container">
     <div class="card shadow mb-4 my-5">
         <div class="card-header py-3">
             <div class="text-center"><i class="fas fa-users"></i><b> CLIENTES</b></div>
-            <div><a class="btn btn-primary btn-circle btn-lg" href="{{ route('clients.create') }}"><i class="fas fa-plus"></i></a></div>
+            <div>
+                <div><a class="btn btn-primary btn-circle btn-lg" href="{{ route('clients.create') }}"><i class="fas fa-plus"></i></a></div>
+                <div class="justify-content-end">
+                    <form action="{{ route('clients.index') }}" method="GET" class="form-inline justify-content-end">
+                        <div class="form-group">
+                            <div class="input-group mb-2">
+                                <div>
+                                    <select name="type" class="form-control mr-sm-2" id="type">
+                                        <option disabled selected>Buscar por:</option>
+                                        <option value="name">Nombre</option>
+                                        <option value="id_card">Documento de Identidad</option>
+                                    </select>
+                                </div>
+                                <input type="text" class="form-control input-group-prepend" name="search" placeholder="Ingresa tu búsqueda" required>
+                                <div>
+                                    <button type="submit" class="btn btn-primary">
+                                        <i class="fas fa-search"></i> </button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
         </div>
         <div class="card-body">
             <div class="table-responsive">

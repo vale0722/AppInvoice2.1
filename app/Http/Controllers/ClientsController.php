@@ -16,9 +16,13 @@ class ClientsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $clients = Client::orderBy('id', 'DESC')->paginate(4);
+        $search = $request->get('search');
+        $type = $request->get('type');
+        $clients = Client::orderBy('id', 'DESC')
+            ->search($search, $type)
+            ->paginate(4);
         return view('client.index', compact('clients'));
     }
 
