@@ -23,14 +23,10 @@ class InvoiceController extends Controller
      */
     public function index(Request $request)
     {
-        $code = $request->get('code');
-        $title = $request->get('title');
-        $client = $request->get('client');
-        $company = $request->get('company');
-
+        $search = $request->get('search');
+        $type = $request->get('type');
         $invoices = Invoice::orderBy('id', 'DESC')
-            ->code($code)
-            ->title($title)
+            ->search($search, $type)
             ->paginate(4);
         return view('invoice.index', [
             'clients' => Client::all(),

@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Client;
 
 class Invoice extends Model
 {
@@ -45,15 +46,35 @@ class Invoice extends Model
     }
 
     //Query Scope
-
-    public function scopeCode($query, $code)
+    public function scopeClient($query, $client)
     {
-        if ($code)
-            return $query->where('code', 'LIKE', "%$code%");
+        if ($client)
+            return Invoice::whereHas(
+                'Client',
+                function ($query) use ($client) {
+                    $query->where('name', 'LIKE', "%$client%");
+                }
+            );
     }
-    public function scopeTitle($query, $title)
+    public function scopeCompany($query, $company)
     {
-        if ($title)
-            return $query->where('title', 'LIKE', "%$title%");
+        if ($company)
+            return Invoice::whereHas(
+                'Company',
+                function ($query) use ($company) {
+                    $query->where('name', 'LIKE', "%$company%");
+                }
+            );
+    }
+    public function scopeSearch($query, $search, $type)
+    {
+        if ($type)
+            if ($search)
+                if ($type == 'client')
+                    return Invoice::scopeClient($query, $search);
+                elseif ($type == 'company')
+                    return Invoice::scopeCompany($query, $search);
+                else
+                    return $query->where("$type", 'LIKE', "%$search%");
     }
 }

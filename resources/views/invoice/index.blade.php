@@ -18,10 +18,18 @@ $now = $now->format('Y-m-d H:i:s');
                     <form action="{{ route('invoices.index') }}" method="GET" class="form-inline justify-content-end">
                         <div class="form-group">
                             <div class="input-group mb-2">
-                                <input type="text" class="form-control" name="code" placeholder="Código">
-                                <input type="text" class="form-control" name="title" placeholder="Título">
-                                <div class="input-group-prepend">
-                                    <button type="submit" class="btn btn-default"> <i class="fas fa-search"></i> </button>
+                                <div>
+                                    <select name="type" class="form-control mr-sm-2" id="type">
+                                        <option>Buscar por:</option>
+                                        <option value="code">Código</option>
+                                        <option value="title">Títuto</option>
+                                        <option value="client">Cliente</option>
+                                        <option value="company">Vendedor</option>
+                                    </select>
+                                </div>
+                                <input type="text" class="form-control input-group-prepend" name="search" placeholder="Buscar">
+                                <div>
+                                    <button type="submit" class="btn btn-primary"> <i class="fas fa-search"></i> </button>
                                 </div>
                             </div>
                         </div>
