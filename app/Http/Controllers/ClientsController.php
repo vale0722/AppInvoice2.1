@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\{Client, Invoice};
+use App\Exports\ClientExport;
+use App\Imports\ClientImport;
+use Maatwebsite\Excel\Facades\Excel;
 
 class ClientsController extends Controller
 {
@@ -152,4 +155,24 @@ class ClientsController extends Controller
             'client' => $client
         ]);
     }
+    public function indexImport()
+    {
+        return view('client.importCLient');
+    }
+    public function importExcel(Request $request)
+    {
+        if ($request->file('file')) {
+            $path = $request->file('file')->getRealPath();
+            Excel::import(new ClientImport, $path);
+            return redirect()->route('clients.index')->with('message', 'Importanción de facturas exítosa');
+        } else {
+            return back()->withErrors("ERROR, importación fallída");
+        }
+    }
+
+    public function exportExcel()
+    {
+        return Excel::download(new ClientExport, "client-list.xlsx");
+    }
+
 }

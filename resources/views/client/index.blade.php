@@ -5,7 +5,11 @@
         <div class="card-header py-3">
             <div class="text-center"><i class="fas fa-users"></i><b> CLIENTES</b></div>
             <div>
-                <div><a class="btn btn-primary btn-circle btn-lg" href="{{ route('clients.create') }}"><i class="fas fa-plus"></i></a></div>
+                <div>
+                    <a class="btn btn-primary btn-circle btn-lg" href="{{ route('clients.create') }}"><i class="fas fa-plus"></i></a>
+                    <a class="btn btn-success btn-circle btn-lg" href="{{ route('clients.import.view') }}"><i class="fas fa-file-import"></i></a>
+                    <a class="btn btn-warning btn-circle btn-lg" href="{{ route('clients.export') }}"><i class="fas fa-file-export"></i></a>
+                </div>
                 <div class="justify-content-end">
                     <form action="{{ route('clients.index') }}" method="GET" class="form-inline justify-content-end">
                         @if (empty($_GET))

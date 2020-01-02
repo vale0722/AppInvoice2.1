@@ -12,7 +12,7 @@ $now = $now->format('Y-m-d H:i:s');
                 <div>
                     <a class="btn btn-primary btn-circle btn-lg" href="/invoices/create"><i class="fas fa-plus"></i></a>
                     <a class="btn btn-success btn-circle btn-lg" href="{{ route('invoices.import.view') }}"><i class="fas fa-file-import"></i></a>
-                    <a class="btn btn-warning btn-circle btn-lg" href="{{ route('export') }}"><i class="fas fa-file-export"></i></a>
+                    <a class="btn btn-warning btn-circle btn-lg" href="{{ route('invoices.export') }}"><i class="fas fa-file-export"></i></a>
                 </div>
                 <div class="justify-content-end">
                     <form action="{{ route('invoices.index') }}" method="GET" class="form-inline justify-content-end">
@@ -88,8 +88,5 @@ $now = $now->format('Y-m-d H:i:s');
             </div>
         </div>
     </div>
-</div>
-</div>
-</div>
 </div>
 @endsection

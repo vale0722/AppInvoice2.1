@@ -27,6 +27,9 @@ Route::post('/invoices/{id}/invoice_product', 'InvoiceController@invoiceProductS
 Route::get('/invoices/create', 'InvoiceController@create');
 Route::get('/invoices/import/view', 'InvoiceController@indexImport')->name('invoices.import.view');
 Route::post('/invoices/import', 'InvoiceController@importExcel')->name('invoices.import');
-Route::get('/export', 'InvoiceController@exportExcel')->name('export');
+Route::get('/exportInvoices', 'InvoiceController@exportExcel')->name('invoices.export');
+Route::get('/clients/import/view', 'ClientsController@indexImport')->name('clients.import.view');
+Route::post('/clients/import', 'ClientsController@importExcel')->name('clients.import');
+Route::get('/exportClient', 'ClientsController@exportExcel')->name('clients.export');
 Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');

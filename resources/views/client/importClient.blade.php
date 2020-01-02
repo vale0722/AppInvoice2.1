@@ -7,9 +7,9 @@
                 <div class="card-body p-0">
                     <div class="col-lg">
                         <div class="p-5">
-                            <a class="btn btn-circle btn-lg btn-secondary" href="{{ route('invoices.index') }}"><i class="fas fa-undo"></i></a>
+                            <a class="btn btn-circle btn-lg btn-secondary" href="{{ route('clients.index') }}"><i class="fas fa-undo"></i></a>
                             <div class="text-center">
-                                <h1 class="h4 text-gray-900 mb-4">{{ __('IMPORTA UN ARCHIVO EXCEL') }}</h1>
+                                <h1 class="h4 text-gray-900 mb-4">{{ __('IMPORTA CLIENTES DESDE UN ARCHIVO EXCEL') }}</h1>
                                 <div class="col">
                                     <br>
                                     @if($errors->any())
@@ -24,9 +24,8 @@
                                 </div>
                             </div>
                             <div class="col text-center my-3">
-                                <form action="{{ route('invoices.import') }}" method="post" enctype="multipart/form-data">
+                                <form action="{{ route('clients.import') }}" method="post" enctype="multipart/form-data">
                                     @csrf
-                                    
                                     <div class="custom-file">
                                         <input type="file" class="custom-file-input" id="file" name="file" title="Selecciona un archivo">
                                         <label class="custom-file-label" for="file"  data-browse="Elegir">Selecciona un archivo .xls</label>
@@ -42,3 +41,4 @@
     </div>
 </div>
 @endsection
+
