@@ -27,5 +27,6 @@ Route::post('/invoices/{id}/invoice_product', 'InvoiceController@invoiceProductS
 Route::get('/invoices/create', 'InvoiceController@create');
 Route::get('/invoices/import/view', 'InvoiceController@indexImport')->name('invoices.import.view');
 Route::post('/invoices/import', 'InvoiceController@importExcel')->name('invoices.import');
+Route::get('/export', 'InvoiceController@exportExcel')->name('export');
 Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
