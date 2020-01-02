@@ -167,7 +167,6 @@ class InvoiceController extends Controller
             'companies' => Company::all()
         ]);
     }
-
     public function invoiceProductStore(Request $request, $id)
     {
         $invoice = Invoice::find($id);
