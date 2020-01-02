@@ -27,5 +27,3 @@ Route::post('/invoices/{id}/invoice_product', 'InvoiceController@invoiceProductS
 Route::get('/invoices/create', 'InvoiceController@create');
 Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
-
-?>

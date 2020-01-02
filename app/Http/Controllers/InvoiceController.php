@@ -65,8 +65,9 @@ class InvoiceController extends Controller
         $invoice->company_id = $validData['company_id'];
         $invoice->duedate = date("Y-m-d H:i:s", strtotime($invoice->created_at . "+ 30 days"));
         $invoice->save();
-        return redirect()->route('invoices.index');
+        return redirect()->route('invoices.edit', $invoice->id);
     }
+
 
     /**
      * Display the specified resource.
@@ -105,16 +106,16 @@ class InvoiceController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
-    {  
+    {
         $validData = $request->validate([
-        'title' => 'required',
-        'code' => 'required',
-        'client_id' => 'required',
-        'company_id' => 'required',
-        'state' => 'required',
-        'subtotal' =>'required',
-        'total' =>'required',
-        'vat' =>'required',
+            'title' => 'required',
+            'code' => 'required',
+            'client_id' => 'required',
+            'company_id' => 'required',
+            'state' => 'required',
+            'subtotal' => 'required',
+            'total' => 'required',
+            'vat' => 'required',
         ]);
         $invoice = Invoice::find($id);
         $invoice->title = $validData['title'];
@@ -125,10 +126,8 @@ class InvoiceController extends Controller
         if ($validData['state'] == '1') {
             $now = new \DateTime();
             $invoice->state = $now->format('Y-m-d H:i:s');
-            $invoice->receipt_date = $invoice->state;
         } else {
             $invoice->state = NULL;
-            $invoice->receipt_date = $invoice->state;
         }
         $invoice->subtotal = $validData['subtotal'];
         $invoice->total = $validData['total'];
@@ -190,6 +189,6 @@ class InvoiceController extends Controller
         $invoice->total = $validData['total'];
         $invoice->vat = $validData['vat'];
         $invoice->save();
-        return redirect()->route('invoices.index', $invoice->id);
+        return redirect()->route('invoices.edit', $invoice->id);
     }
 }
