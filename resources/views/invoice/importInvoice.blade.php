@@ -26,11 +26,6 @@
                             <div class="col text-center my-3">
                                 <form action="{{ route('invoices.import') }}" method="post" enctype="multipart/form-data">
                                     @csrf
-
-                                    @if(Session::has('message'))
-                                    <p>{{ Session::get('message') }}</p>
-                                    @endif
-
                                     <input type="file" name="file" id="file">
                                     <button type="submit" class="btn btn-primary">Importar Facturas</button>
                                 </form>

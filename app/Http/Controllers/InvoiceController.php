@@ -21,14 +21,17 @@ class InvoiceController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
+        $search = $request->get('search');
+        $type = $request->get('type');
+        $invoices = Invoice::orderBy('id', 'DESC')
+            ->search($search, $type)
+            ->paginate(4);
         return view('invoice.index', [
-            'invoice' => Invoice::all(),
             'clients' => Client::all(),
             'companies' => Company::all()
-
-        ]);
+        ], compact('invoices'));
     }
 
     /**

@@ -16,11 +16,14 @@ class ProductController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        return view('product.index', [
-            'product' => Product::all()
-        ]);
+        $search = $request->get('search');
+        $type = $request->get('type');
+        $products = Product::orderBy('id', 'DESC')
+            ->search($search, $type)
+            ->paginate(4);
+        return view('product.index', compact('products'));
     }
 
     /**
@@ -30,7 +33,7 @@ class ProductController extends Controller
      */
     public function create()
     {
-        return view ('product.create');
+        return view('product.create');
     }
 
     /**
@@ -52,7 +55,6 @@ class ProductController extends Controller
         $product->code = $validData['code'];
         $product->save();
         return redirect('/products');
-      
     }
 
     /**
@@ -109,16 +111,16 @@ class ProductController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
-    {   
+    {
         $product = Product::findOrFail($id);
         $product->delete();
         return redirect('/products');
     }
-    
+
     public function confirmDelete($id)
     {
         $product = Product::findOrFail($id);
-        return view('Product.confirmDelete',[
+        return view('Product.confirmDelete', [
             'product' => $product
         ]);
     }
