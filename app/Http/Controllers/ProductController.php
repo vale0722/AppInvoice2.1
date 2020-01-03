@@ -23,7 +23,7 @@ class ProductController extends Controller
         $products = Product::orderBy('id', 'DESC')
             ->search($search, $type)
             ->paginate(4);
-        return view('product.index', compact('products'));
+        return view('product.index', compact('products', 'search'));
     }
 
     /**

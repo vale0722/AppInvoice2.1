@@ -12,7 +12,7 @@
                 </div>
                 <div class="justify-content-end">
                     <form action="{{ route('clients.index') }}" method="GET" class="form-inline justify-content-end">
-                        @if (empty($_GET))
+                        @if (!isset($search))
                         <div class="form-group">
                             <div class="input-group mb-2">
                                 <div>
@@ -62,7 +62,7 @@
                         @endforeach
                     </tbody>
                 </table>
-                {{ $clients->render() }}
+                {{ $clients->appends($_GET)->links() }}
             </div>
         </div>
     </div>
