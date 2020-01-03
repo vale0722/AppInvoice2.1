@@ -54,7 +54,7 @@
                                     </div>
                                 </div>
                                 <div class="form-group text-center">
-                                    <button type="submit" name="btnGuardar" class="btn btn-primary" onClick="guardar()"><i class="far fa-save"></i> GUARDAR</button>
+                                    <button type="submit" name="btnGuardar" class="btn btn-primary"><i class="far fa-save"></i> GUARDAR</button>
                                 </div>
                             </form>
                         </div>
