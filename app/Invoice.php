@@ -4,6 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use App\Client;
+use PHP_Token_ELSEIF;
 
 class Invoice extends Model
 {
@@ -76,5 +77,25 @@ class Invoice extends Model
                     return Invoice::scopeCompany($query, $search);
                 else
                     return $query->where("$type", 'LIKE', "%$search%");
+    }
+    public function scopeFiltrateState($query, $state)
+    {
+        $now = new \DateTime();
+        $now = $now->format('Y-m-d H:i:s');
+        if ($state)
+            if($state == "paid")
+                return $query->where("state", "!=", "NULL");
+            elseif($state == "overdue")
+                return $query->where("duedate", "<=", "$now");
+            else
+               return $query->where("state");
+                
+    }
+    public function scopeFiltrate($query, $typeDate, $firstCreationDate, $finalCreationDate)
+    {
+        $now = new \DateTime();
+        $now = $now->format('Y-m-d H:i:s');
+        if ($typeDate)
+            return $query->whereDate("$typeDate", ">=", "$firstCreationDate" )->whereDate("$typeDate", '<=', "$finalCreationDate");
     }
 }
