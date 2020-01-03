@@ -124,6 +124,7 @@ class InvoiceController extends Controller
             'client_id' => 'required',
             'company_id' => 'required',
             'state' => 'required',
+            'stateReceipt' => 'required',
             'subtotal' => 'required',
             'total' => 'required',
             'vat' => 'required',
@@ -134,9 +135,18 @@ class InvoiceController extends Controller
         $invoice->client_id = $validData['client_id'];
         $invoice->company_id = $validData['company_id'];
         $invoice->duedate = date("Y-m-d H:i:s", strtotime($invoice->created_at . "+ 30 days"));
+        if ($validData['stateReceipt'] == '1') {
+            $now = new \DateTime();
+            $invoice->receipt_date = $now->format('Y-m-d H:i:s');
+        } else {
+            $invoice->receipt_date = NULL;
+        }
         if ($validData['state'] == '1') {
             $now = new \DateTime();
             $invoice->state = $now->format('Y-m-d H:i:s');
+            if ($validData['stateReceipt'] == '2') {
+                $invoice->receipt_date = $now->format('Y-m-d H:i:s');
+            }
         } else {
             $invoice->state = NULL;
         }
