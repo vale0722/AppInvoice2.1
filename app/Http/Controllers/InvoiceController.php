@@ -37,7 +37,7 @@ class InvoiceController extends Controller
         return view('invoice.index', [
             'clients' => Client::all(),
             'companies' => Company::all()
-        ], compact('invoices'));
+        ], compact('invoices', 'request'));
     }
 
     /**

@@ -134,7 +134,7 @@ $now = $now->format('Y-m-d H:i:s');
                         @endforeach
                     </tbody>
                 </table>
-                {{ $invoices->render() }}
+                {{ $invoices->appends($_GET)->links() }}
             </div>
         </div>
     </div>
