@@ -26,7 +26,7 @@ class ClientsController extends Controller
         $clients = Client::orderBy('id', 'DESC')
             ->search($search, $type)
             ->paginate(4);
-        return view('client.index', compact('clients'));
+        return view('client.index', compact('clients', 'search'));
     }
 
     /**

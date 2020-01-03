@@ -23,7 +23,7 @@ class companyController extends Controller
         $companies = Company::orderBy('id', 'DESC')
             ->search($search, $type)
             ->paginate(4);
-        return view('company.index', compact('companies'));
+        return view('company.index', compact('companies', 'search'));
     }
 
     /**
