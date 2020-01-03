@@ -8,6 +8,9 @@ $now = $now->format('Y-m-d H:i:s');
 <div class="container">
     <div class="card mb-4 my-5">
         <div class="card-header py-3 ">
+            @if(isset($type)||isset($typeDate)||isset($state))
+            <a href="{{ route('invoices.index') }}" class="btn btn-circle btn-danger"><i class="fas fa-undo"></i> </button></a>
+            @endif
             <div class="text-center"><i class="fas fa-search"></i><b> FILTRACIÓN </b></div>
         </div>
         <div class="card-body">
@@ -177,7 +180,6 @@ $now = $now->format('Y-m-d H:i:s');
                     <button type="submit" class="btn btn-primary col-sm-12"> <i class="fas fa-search"></i> </button>
                 </div>
             </form>
-            <a class="btn btn-warning col-sm-12" href="{{ route('invoices.index') }}">VER TODO </a>
         </div>
     </div>
 </div>
