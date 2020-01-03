@@ -138,19 +138,19 @@ $now = $now->format('Y-m-d H:i:s');
                     <h5> Filtración por estado de factura:</h5>
                     <div class="input-group">
                         <div class="col-sm-12">
-                            @if($_GET['state'] == 'paid')
+                            @if($state == 'paid')
                             <select name="state" class="form-control mr-sm-2" id="state">
                                 <option value="paid" selected>Pago</option>
                                 <option value="unpaid">No pago</option>
                                 <option value="overdue">Vencido</option>
                             </select>
-                            @elseif($_GET['state'] == 'unpaid')
+                            @elseif($state == 'unpaid')
                             <select name="state" class="form-control mr-sm-2" id="state">
                                 <option value="paid">Pago</option>
                                 <option value="unpaid" selected>No pago</option>
                                 <option value="overdue">Vencido</option>
                             </select>
-                            @elseif($_GET['state'] == 'overdue')
+                            @elseif($state == 'overdue')
                             <select name="state" class="form-control mr-sm-2" id="state">
                                 <option value="paid">Pago</option>
                                 <option value="unpaid">No pago</option>
