@@ -68,18 +68,6 @@
                                         @endif
                                     </select>
                                 </div>
-                                <div class="form-group">
-                                    <label>Estado de recibo: </label>
-                                    <select name="stateReceipt" id="state">
-                                        @if (isset($invoice->receipt_date))
-                                        <option value='1' selected>Recibida</option>
-                                        <option value='2'> No recibida </option>
-                                        @else
-                                        <option value='2' selected> No recibida </option>
-                                        <option value='1'> Recibida </option>
-                                        @endif
-                                    </select>
-                                </div>
                                 <input type="hidden" class="form-control" id="subtotal" name="subtotal" value="{{ $invoice->subtotal }}">
                                 <input type="hidden" class="form-control" id="total" name="total" value="{{ $invoice->total }}">
                                 <input type="hidden" class="form-control" id="vat" name="vat" value="{{ $invoice->vat }}">
