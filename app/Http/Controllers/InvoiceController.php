@@ -23,10 +23,16 @@ class InvoiceController extends Controller
      */
     public function index(Request $request)
     {
+        $typeDate = $request->get('typeDate');
+        $firstCreationDate = $request->get('firstCreationDate');
+        $finalCreationDate = $request->get('finalCreationDate');
+        $state = $request->get('state');
         $search = $request->get('search');
         $type = $request->get('type');
         $invoices = Invoice::orderBy('id', 'DESC')
             ->search($search, $type)
+            ->filtrate($typeDate, $firstCreationDate, $finalCreationDate)
+            ->filtrateState($state)
             ->paginate(4);
         return view('invoice.index', [
             'clients' => Client::all(),

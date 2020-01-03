@@ -14,7 +14,7 @@ $now = $now->format('Y-m-d H:i:s');
                     <a class="btn btn-success btn-circle btn-lg" href="{{ route('invoices.import.view') }}"><i class="fas fa-file-import"></i></a>
                     <a class="btn btn-warning btn-circle btn-lg" href="{{ route('export') }}"><i class="fas fa-file-export"></i></a>
                 </div>
-                <div class="justify-content-end">
+                <div>
                     <form action="{{ route('invoices.index') }}" method="GET" class="form-inline justify-content-end">
                         @if (empty($_GET))
                         <div class="form-group">
@@ -38,6 +38,56 @@ $now = $now->format('Y-m-d H:i:s');
                         <a href="{{ route('invoices.index') }}" class="btn btn-circle btn-danger"><i class="fas fa-undo"></i> </button></a>
                         @endif
                     </form>
+                </div>
+                <div class="dropdown">
+                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    FILTRAR POR:
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenu">
+                        <div class="dropdown-item">
+                            <h5> Por rango de fechas:</h5>
+                            <form class="px-4 py-3" action="{{ route('invoices.index') }}" method="GET">
+                                <div class="form-group"> 
+                                    <div class="input-group">
+                                        <div>
+                                            <label>Fecha de: </label>
+                                            <select name="typeDate" class="form-control mr-sm-2" id="typeDate">
+                                                <option disabled selected>Seleccione una opción:</option>
+                                                <option value="created_at">Creación</option>
+                                                <option value="duedate">Vencimiento</option>
+                                                <option value="state">Pago</option>
+                                            </select>
+                                        </div>
+                                        <div>
+                                            <label> Primera Fecha</label>
+                                            <input type="date" class="form-control input-group-prepend" name="firstCreationDate" data-date-format="YYYY-MM-DD" required>
+                                        </div>
+                                        <div>
+                                            <label> Última Fecha</label>
+                                            <input type="date" class="form-control input-group-prepend" name="finalCreationDate" data-date-format="YYYY-MM-DD" required>
+                                        </div>
+                                    </div>
+                                </div>
+                                <button type="submit" class="btn btn-primary">FILTRAR</button>
+                            </form>
+                        </div>
+                        <div class="dropdown-item">
+                        <h5> Por estado de Factura:</h5>
+                            <form class="px-4 py-3" action="{{ route('invoices.index') }}" method="GET">
+                                <div class="form-group">
+                                    <div>
+                                        <select name="state" class="form-control mr-sm-2" id="state">
+                                            <option disabled selected>Seleccione una opción:</option>
+                                            <option value="paid">Pago</option>
+                                            <option value="unpaid">No pago</option>
+                                            <option value="overdue">Vencido</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <button type="submit" class="btn btn-primary">FILTRAR</button>
+                            </form>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -88,8 +138,5 @@ $now = $now->format('Y-m-d H:i:s');
             </div>
         </div>
     </div>
-</div>
-</div>
-</div>
 </div>
 @endsection
