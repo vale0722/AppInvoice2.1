@@ -16,11 +16,14 @@ class companyController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        return view('company.index', [
-            'companies' => Company::all()
-        ]);
+        $search = $request->get('search');
+        $type = $request->get('type');
+        $companies = Company::orderBy('id', 'DESC')
+            ->search($search, $type)
+            ->paginate(4);
+        return view('company.index', compact('companies'));
     }
 
     /**
@@ -30,7 +33,7 @@ class companyController extends Controller
      */
     public function create()
     {
-        return view ('company.create');
+        return view('company.create');
     }
 
     /**
@@ -72,7 +75,7 @@ class companyController extends Controller
     public function edit($id)
     {
         $company = Company::findOrFail($id);
-        return view('company.edit',[
+        return view('company.edit', [
             'company' => $company
         ]);
     }

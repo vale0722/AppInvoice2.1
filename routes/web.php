@@ -17,15 +17,16 @@ Route::resource('/invoices', 'InvoiceController');
 Route::resource('/clients', 'ClientsController');
 Route::resource('/products', 'ProductController');
 Route::resource('/companies', 'CompanyController');
-Route::get('/invoices/{id}/confirmDelete', 'InvoiceController@confirmDelete');
-Route::get('/clients/{id}/confirmDelete', 'ClientsController@confirmDelete');
-Route::get('/products/{id}/confirmDelete', 'ProductController@confirmDelete');
-Route::get('/companies/{id}/confirmDelete', 'CompanyController@confirmDelete');
+Route::get('/invoices/{id}/confirmDelete', 'InvoiceController@confirmDelete')->name('invoices.confirm.delete');
+Route::get('/clients/{id}/confirmDelete', 'ClientsController@confirmDelete')->name('clients.confirm.delete');
+Route::get('/products/{id}/confirmDelete', 'ProductController@confirmDelete')->name('products.confirm.delete');
+Route::get('/companies/{id}/confirmDelete', 'CompanyController@confirmDelete')->name('companies.confirm.delete');
 Route::get('/invoicesItems/{id}/view', 'InvoiceController@view');
 Route::get('/invoices/{id}/invoice_product/create', 'InvoiceController@createInvoiceProduct');
 Route::post('/invoices/{id}/invoice_product', 'InvoiceController@invoiceProductStore');
 Route::get('/invoices/create', 'InvoiceController@create');
+Route::get('/invoices/import/view', 'InvoiceController@indexImport')->name('invoices.import.view');
+Route::post('/invoices/import', 'InvoiceController@importExcel')->name('invoices.import');
+Route::get('/export', 'InvoiceController@exportExcel')->name('export');
 Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
-
-?>

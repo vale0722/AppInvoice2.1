@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use App\{Invoice, Client, Product, Company};
-
+use App\Exports\InvoiceExport;
+use App\Imports\InvoiceImport;
+use Maatwebsite\Excel\Facades\Excel;
 
 class InvoiceController extends Controller
 {
@@ -19,14 +21,23 @@ class InvoiceController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
+        $typeDate = $request->get('typeDate');
+        $firstCreationDate = $request->get('firstCreationDate');
+        $finalCreationDate = $request->get('finalCreationDate');
+        $state = $request->get('state');
+        $search = $request->get('search');
+        $type = $request->get('type');
+        $invoices = Invoice::orderBy('id', 'DESC')
+            ->search($search, $type)
+            ->filtrate($typeDate, $firstCreationDate, $finalCreationDate)
+            ->filtrateState($state)
+            ->paginate(4);
         return view('invoice.index', [
-            'invoice' => Invoice::all(),
             'clients' => Client::all(),
             'companies' => Company::all()
-
-        ]);
+        ], compact('invoices'));
     }
 
     /**
@@ -65,8 +76,9 @@ class InvoiceController extends Controller
         $invoice->company_id = $validData['company_id'];
         $invoice->duedate = date("Y-m-d H:i:s", strtotime($invoice->created_at . "+ 30 days"));
         $invoice->save();
-        return redirect()->route('invoices.index');
+        return redirect()->route('invoices.edit', $invoice->id);
     }
+
 
     /**
      * Display the specified resource.
@@ -125,10 +137,8 @@ class InvoiceController extends Controller
         if ($validData['state'] == '1') {
             $now = new \DateTime();
             $invoice->state = $now->format('Y-m-d H:i:s');
-            $invoice->receipt_date = $invoice->state;
         } else {
             $invoice->state = NULL;
-            $invoice->receipt_date = $invoice->state;
         }
         $invoice->subtotal = $validData['subtotal'];
         $invoice->total = $validData['total'];
@@ -190,6 +200,27 @@ class InvoiceController extends Controller
         $invoice->total = $validData['total'];
         $invoice->vat = $validData['vat'];
         $invoice->save();
-        return redirect()->route('invoices.index', $invoice->id);
+        return redirect()->route('invoices.edit', $invoice->id)->with('message', 'Registro de compra completado');
+    }
+
+    public function indexImport()
+    {
+        return view('invoice.importInvoice');
+    }
+
+    public function importExcel(Request $request)
+    {
+        if ($request->file('file')) {
+            $path = $request->file('file')->getRealPath();
+            Excel::import(new InvoiceImport, $path);
+            return redirect()->route('invoices.index')->with('message', 'Importanción de facturas exítosa');
+        } else {
+            return back()->withErrors("ERROR, importación fallída");
+        }
+    }
+
+    public function exportExcel()
+    {
+        return Excel::download(new InvoiceExport, "invoice-list.xlsx");
     }
 }

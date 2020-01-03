@@ -16,11 +16,14 @@ class ClientsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        return view('client.index', [
-            'client' => client::all()
-        ]);
+        $search = $request->get('search');
+        $type = $request->get('type');
+        $clients = Client::orderBy('id', 'DESC')
+            ->search($search, $type)
+            ->paginate(4);
+        return view('client.index', compact('clients'));
     }
 
     /**
@@ -30,7 +33,7 @@ class ClientsController extends Controller
      */
     public function create()
     {
-        return view ('client.create');
+        return view('client.create');
     }
 
     /**
@@ -45,7 +48,7 @@ class ClientsController extends Controller
             'name' => 'required',
             'last_name' => 'required',
             'id_type' => 'required',
-            'id_card' =>'required|unique:clients',
+            'id_card' => 'required|unique:clients',
             'email' => 'required|unique:clients',
             'cellphone' => 'required|min:10',
             'country' => 'required',
@@ -94,7 +97,7 @@ class ClientsController extends Controller
         ]);
     }
 
- 
+
     /**
      * Update the specified resource in storage.
      *
@@ -103,12 +106,12 @@ class ClientsController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
-    { 
+    {
         $validData = $request->validate([
             'name' => 'required',
             'last_name' => 'required',
             'id_type' => 'required',
-            'id_card' =>'required',
+            'id_card' => 'required',
             'email' => 'required',
             'cellphone' => 'required|min:10',
             'country' => 'required',
@@ -145,7 +148,7 @@ class ClientsController extends Controller
     public function confirmDelete($id)
     {
         $client = Client::findOrFail($id);
-        return view('client.confirmDelete',[
+        return view('client.confirmDelete', [
             'client' => $client
         ]);
     }
