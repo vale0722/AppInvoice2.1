@@ -27,14 +27,9 @@ $now = $now->format('Y-m-d H:i:s');
                             @if (isset($invoice->state))
                             <button type="button" class="btn btn-success btn-sm"> Pago </button>
                             @elseif($invoice->duedate <= $now) <button type="button" class="btn btn-danger btn-sm"> Vencido </button>
-                            @else
-                             <button type="button" class="btn btn-warning btn-sm"> Sin pagar </button>
-                            @endif
-                            @if (isset($invoice->receipt_date))
-                            <button type="button" class="btn btn-primary btn-sm"> Recibido </button>
-                            @else
-                             <button type="button" class="btn btn-secondary btn-sm"> Sin recibir </button>
-                            @endif
+                                @else
+                                <button type="button" class="btn btn-warning btn-sm"> Sin pagar </button>
+                                @endif
                         </h5>
                         <br>
                     </div>
@@ -58,12 +53,7 @@ $now = $now->format('Y-m-d H:i:s');
                             <h5><b>Correo Electrónico:</b> {{ $invoice->client->email }} </h5>
                             <h5><b>Ubicación:</b> {{ $invoice->client->address }} </h5>
                             <h5><b>{{ $invoice->client->country .'-'.  $invoice->client->city}}</b></h5>
-                            @if (isset($invoice->state))
                             <h5><br></h5>
-                            @endif
-                            @if (isset($invoice->receipt_date))
-                            <h5><br></h5>
-                            @endif
                         </div>
                     </div>
                 </div>
@@ -74,10 +64,7 @@ $now = $now->format('Y-m-d H:i:s');
                             <h5><b>Fecha de creación: </b>{{ $invoice->created_at }} </h5>
                             <h5><b>Fecha de expiración:</b> {{ $invoice->duedate }} </h5>
                             @if (isset($invoice->state))
-                            <h5><b>Fecha de pago:</b> {{ $invoice->state}} </h5>
-                            @endif
-                            @if (isset($invoice->receipt_date))
-                            <h5><b>Fecha de recibo:</b> {{ $invoice->receipt_date}} </h5>
+                            <h5><b>Fecha de recibo:</b> {{ $invoice->receipt_date }} </h5>
                             @endif
                             <h5><b>Subtotal: </b>{{ '$'. $invoice->subtotal }}</h5>
                             <h5><b>iva (16%): </b> {{'$'. $invoice->vat}} </h5>
