@@ -4,8 +4,10 @@ namespace App\Imports;
 
 use App\Invoice;
 use Maatwebsite\Excel\Concerns\ToModel;
+use Maatwebsite\Excel\Concerns\WithHeadingRow;
 
-class InvoiceImport implements ToModel
+
+class InvoiceImport implements ToModel, WithHeadingRow
 {
      /**
      * @param array $row
@@ -16,10 +18,10 @@ class InvoiceImport implements ToModel
     public function model(array $row)
     {
         $invoice = new Invoice([
-            'title'     => $row[0],
-            'code'    => $row[1],
-            'client_id' => $row[2],
-            'company_id' => $row[3],
+            'title'     => $row['title'],
+            'code'    => $row['code'],
+            'client_id' => $row['client_id'],
+            'company_id' => $row['company_id'],
         ]);
         $invoice->duedate = date("Y-m-d H:i:s", strtotime($invoice->created_at . "+ 30 days"));
         return $invoice;
