@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 
 use App\{Invoice, Client, Product, Company};
 use App\Exports\InvoiceExport;
-use App\Imports\InvoiceImport;
+use App\Imports\{InvoiceImport, SheetImport};
 use Maatwebsite\Excel\Facades\Excel;
 
 class InvoiceController extends Controller
@@ -222,8 +222,13 @@ class InvoiceController extends Controller
     {
         if ($request->file('file')) {
             $path = $request->file('file')->getRealPath();
-            Excel::import(new InvoiceImport, $path);
-            return redirect()->route('invoices.index')->with('message', 'Importanción de facturas exítosa');
+            /* $invoiceImport = new SheetImport();
+            $invoiceImport->onlySheets(0);
+            Excel::import($invoiceImport, $path); */
+            $secondSheetImport = new SheetImport();
+            $secondSheetImport->onlySheets(1);
+            Excel::import($secondSheetImport, $path);
+            return redirect()->route('invoices.index')->with('message', 'Importación de facturas exítosa');
         } else {
             return back()->withErrors("ERROR, importación fallída");
         }

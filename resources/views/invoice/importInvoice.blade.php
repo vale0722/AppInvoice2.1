@@ -26,11 +26,11 @@
                             <div class="col text-center my-3">
                                 <form action="{{ route('invoices.import') }}" method="post" enctype="multipart/form-data">
                                     @csrf
-                                    
                                     <div class="custom-file">
-                                        <input type="file" class="custom-file-input" id="file" name="file" title="Selecciona un archivo">
-                                        <label class="custom-file-label" for="file"  data-browse="Elegir">Selecciona un archivo .xls</label>
+                                        <input type="file" name="file" id="file">
+                                        <button type="submit" class="btn btn-primary">Importar Facturas</button>
                                     </div>
+
                                 </form>
                             </div>
                             <br>

@@ -201,6 +201,7 @@ $now = $now->format('Y-m-d H:i:s');
                 <table class="table col-md-12 table-hover table-striped">
                     <thead>
                         <tr>
+                            <th scope="col">ID</th>
                             <th scope="col">CÓDIGO</th>
                             <th scope="col">Creación</th>
                             <th scope="col">Título</th>
@@ -214,6 +215,7 @@ $now = $now->format('Y-m-d H:i:s');
                     <tbody>
                         @foreach($invoices as $invoice)
                         <tr>
+                            <td>{{ $invoice->id }}</td>
                             <td>{{ $invoice->code }}</td>
                             <td>{{ $invoice->created_at }}</td>
                             <td>{{ $invoice->title }}</td>
