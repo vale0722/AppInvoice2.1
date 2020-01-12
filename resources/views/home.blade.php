@@ -36,7 +36,6 @@
                                         <div class="text-center">
                                             <p class="h3"> <i class="fas fa-users"></i><br>CLIENTES</p>
                                             <p>Aquí podrás crear, ver, actualizar y eliminar clientes.</p>
-                                            <br>
                                             <a class="btn btn-primary" href="{{ route('clients.index') }}"> ENTRAR </a>
                                         </div>
                                     </div>

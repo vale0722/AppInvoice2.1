@@ -45,13 +45,9 @@ class InvoiceController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Invoice $invoice)
     {
-        return view('invoice.create', [
-            'invoice' => new invoice,
-            'clients' => Client::all(),
-            'companies' => Company::all()
-        ]);
+        return response()->view('invoice.create', compact('invoice'));
     }
 
     /**
@@ -181,12 +177,7 @@ class InvoiceController extends Controller
     public function createInvoiceProduct($id)
     {
         $invoice = Invoice::find($id);
-        return view('invoiceProduct.create', [
-            'invoice' => $invoice,
-            'products' => Product::all(),
-            'clients' => Client::all(),
-            'companies' => Company::all()
-        ]);
+        return response()->view('invoiceProduct.create', compact('invoice'));
     }
     public function invoiceProductStore(Request $request, $id)
     {
@@ -222,12 +213,12 @@ class InvoiceController extends Controller
     {
         if ($request->file('file')) {
             $path = $request->file('file')->getRealPath();
-            /* $invoiceImport = new SheetImport();
+            $invoiceImport = new SheetImport();
             $invoiceImport->onlySheets(0);
-            Excel::import($invoiceImport, $path); */
-            $secondSheetImport = new SheetImport();
+            Excel::import($invoiceImport, $path);
+            /* $secondSheetImport = new SheetImport();
             $secondSheetImport->onlySheets(1);
-            Excel::import($secondSheetImport, $path);
+            Excel::import($secondSheetImport, $path); */
             return redirect()->route('invoices.index')->with('message', 'Importación de facturas exítosa');
         } else {
             return back()->withErrors("ERROR, importación fallída");

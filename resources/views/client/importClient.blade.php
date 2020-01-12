@@ -27,8 +27,8 @@
                                 <form action="{{ route('clients.import') }}" method="post" enctype="multipart/form-data">
                                     @csrf
                                     <div class="custom-file">
-                                        <input type="file" class="custom-file-input" id="file" name="file" title="Selecciona un archivo">
-                                        <label class="custom-file-label" for="file"  data-browse="Elegir">Selecciona un archivo .xls</label>
+                                        <input type="file" id="file" name="file" title="Selecciona un archivo .xlsx" accept=".xlsx">
+                                        <button type="submit" class="btn btn-primary">{{ __('Importar Clientes') }}</button>
                                     </div>
                                 </form>
                             </div>
@@ -41,4 +41,3 @@
     </div>
 </div>
 @endsection
-

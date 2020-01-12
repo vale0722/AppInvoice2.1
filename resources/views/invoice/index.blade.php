@@ -9,7 +9,7 @@ $now = $now->format('Y-m-d H:i:s');
     <div class="card mb-4 my-5">
         <div class="card-header py-3 ">
             @if(isset($type)||isset($typeDate)||isset($state))
-            <a href="{{ route('invoices.index') }}" class="btn btn-circle btn-danger"><i class="fas fa-undo"></i> </button></a>
+            <a href="{{ route('invoices.index') }}" class="btn btn-sm btn-danger"><i class="fas fa-undo"></i> </button></a>
             @endif
             <div class="text-center"><i class="fas fa-search"></i><b> FILTRACIÓN </b></div>
         </div>

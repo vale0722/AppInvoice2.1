@@ -23,36 +23,9 @@
                                 </div>
                                 @endif
                             </div>
-                            <form action="{{ route('invoices.index') }}" method="POST">
+                            <form action="{{ route('invoices.store') }}" method="POST">
                                 @csrf
-                                <div class="form-row">
-                                    <div class="form-group col-md-6">
-                                        <label for="title">Título: </label>
-                                        <input type="text" class="form-control" id="title" name="title" placeholder="título" value="{{ old('title') }}">
-                                    </div>
-                                    <div class="form-group col-md-6">
-                                        <label for="code">Código: </label>
-                                        <input type="text" class="form-control" id="code" name="code" placeholder="código" value="{{ old('code') }}">
-                                    </div>
-                                </div>
-                                <div class="form-row">
-                                    <div class="form-group col-md-6">
-                                        <label>Vendedor: </label>
-                                        <select name="company_id" id="company_id" class="form-control @error('company') is-invalid @enderror">
-                                            @foreach($companies as $company)
-                                            <option value='{{ $company->id }}'> {{ $company->nit . ': ' . $company->name }} </option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-                                    <div class="form-group col-md-6">
-                                        <label>Cliente: </label>
-                                        <select name="client_id" id="client_id" class="form-control @error('client') is-invalid @enderror">
-                                            @foreach($clients as $client)
-                                            <option value='{{ $client->id }}'> {{ $client->id_type . ' ' . $client->id_card . ': ' . $client->name . ' ' . $client->last_name  }} </option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-                                </div>
+                                @include('invoice.__form')
                                 <div class="form-group text-center">
                                     <button type="submit" name="btnGuardar" class="btn btn-primary"><i class="far fa-save"></i> GUARDAR</button>
                                 </div>

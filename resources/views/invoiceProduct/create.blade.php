@@ -7,7 +7,6 @@
                 <div class="card-body p-0">
                     <div class="col-lg">
                         <div class="p-5">
-                            <a class="btn btn-circle btn-lg btn-secondary" href="/invoices/{{ $invoice->id }}"><i class="fas fa-undo"></i></a>
                             <div class="text-center">
                                 <h1 class="h4 text-gray-900 mb-4"> Agrega una nueva compra a la factura!</h1>
                             </div>
