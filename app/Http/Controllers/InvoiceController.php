@@ -212,13 +212,8 @@ class InvoiceController extends Controller
     public function importExcel(Request $request)
     {
         if ($request->file('file')) {
-            $path = $request->file('file')->getRealPath();
-            /* $invoiceImport = new SheetImport();
-            $invoiceImport->onlySheets(0);
-            Excel::import($invoiceImport, $path); */
-            $secondSheetImport = new SheetImport();
-            $secondSheetImport->onlySheets(1);
-            Excel::import($secondSheetImport, $path);
+            $file = $request->file('file')->getRealPath();
+            Excel::import(new SheetImport, $file);
             return redirect()->route('invoices.index')->with('message', 'Importación de facturas exítosa');
         } else {
             return back()->withErrors("ERROR, importación fallída");

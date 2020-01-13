@@ -2,13 +2,11 @@
 namespace App\Imports;
 
 use Maatwebsite\Excel\Concerns\WithMultipleSheets;
-use Maatwebsite\Excel\Concerns\WithConditionalSheets;
 
 class SheetImport implements WithMultipleSheets 
 {
-    use WithConditionalSheets;
 
-    public function conditionalSheets(): array
+    public function Sheets(): array
     {
         return [
             0 => new InvoiceImport(),
