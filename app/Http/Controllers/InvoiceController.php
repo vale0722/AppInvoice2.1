@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-
-use App\{Invoice, Client, Product, Company};
-use App\Exports\InvoiceExport;
 use App\Imports\SheetImport;
+
+use Illuminate\Http\Request;
+use App\Exports\InvoiceExport;
+use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Facades\Excel;
+use App\{Invoice, Client, Product, Company};
 
 class InvoiceController extends Controller
 {
@@ -121,9 +122,6 @@ class InvoiceController extends Controller
             'company_id' => 'required',
             'state' => 'required',
             'stateReceipt' => 'required',
-            'subtotal' => 'required',
-            'total' => 'required',
-            'vat' => 'required',
         ]);
         $invoice = Invoice::find($id);
         $invoice->title = $validData['title'];
@@ -146,9 +144,7 @@ class InvoiceController extends Controller
         } else {
             $invoice->state = NULL;
         }
-        $invoice->subtotal = $validData['subtotal'];
-        $invoice->total = $validData['total'];
-        $invoice->vat = $validData['vat'];
+        $this->updateOrder($invoice);
         $invoice->save();
         return redirect()->route('invoices.index');
     }
@@ -186,9 +182,6 @@ class InvoiceController extends Controller
             'product_id' => 'required',
             'quantity' => 'required',
             'unit_value' => 'required',
-            'subtotal' => 'required',
-            'total' => 'required',
-            'vat' => 'required',
         ]);
         $product = Product::find($validData['product_id']);
         $validData['unit_value'] = $product->price;
@@ -197,9 +190,7 @@ class InvoiceController extends Controller
             'unit_value' => $validData['unit_value'],
             'total_value' => $validData['quantity'] * $validData['unit_value']
         ]);
-        $invoice->subtotal = $validData['subtotal'];
-        $invoice->total = $validData['total'];
-        $invoice->vat = $validData['vat'];
+        $this->updateOrder($invoice);
         $invoice->save();
         return redirect()->route('invoices.edit', $invoice->id)->with('message', 'Registro de compra completado');
     }
@@ -223,5 +214,19 @@ class InvoiceController extends Controller
     public function exportExcel()
     {
         return Excel::download(new InvoiceExport, "invoice-list.xlsx");
+    }
+
+    public function updateOrder(Invoice $invoice)
+    {
+        DB::table('invoices')->where('id', $invoice->id)->update(['subTotal' => $invoice->subTotal , 'vat' => $invoice->vat, 'total' => $invoice->total ] );
+    }
+
+    public function updateInvoices()
+    {
+        $invoices = Invoice::all();
+        foreach ($invoices as $invoice){
+            $this->updateOrder($invoice);
+        }
+        return back();
     }
 }

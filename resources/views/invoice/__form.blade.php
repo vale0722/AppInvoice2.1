@@ -1,11 +1,11 @@
 <div class="form-row">
     <div class="form-group col-md-6">
         <label for="title">Título: </label>
-        <input type="text" class="form-control @error('title')is-invalid @enderror" id="title" name="title" placeholder="título" value="{{ $invoice->title }}"  required>
+        <input type="text" class="form-control @error('title')is-invalid @enderror" id="title" name="title" placeholder="título" value="{{ $invoice->title }}" required>
     </div>
     <div class="form-group col-md-6">
         <label for="code">Código: </label>
-        <input type="text" class="form-control" id="code" name="code" placeholder="código" value="{{ $invoice->code }}">
+        <input type="text" class="form-control @error('code')is-invalid @enderror" id="code" name="code" placeholder="código" value="{{ $invoice->code }}" required>
     </div>
 </div>
 <div class="form-row">

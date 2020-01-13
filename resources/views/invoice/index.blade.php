@@ -193,6 +193,7 @@ $now = $now->format('Y-m-d H:i:s');
                     <a class="btn btn-primary btn-circle btn-lg" href="/invoices/create"><i class="fas fa-plus"></i></a>
                     <a class="btn btn-success btn-circle btn-lg" href="{{ route('invoices.import.view') }}"><i class="fas fa-file-import"></i></a>
                     <a class="btn btn-warning btn-circle btn-lg" href="{{ route('invoices.export') }}"><i class="fas fa-file-export"></i></a>
+                    <a class="btn btn-danger btn-circle btn-lg" href="{{ route('invoices.updates') }}"><i class="far fa-hand-point-up"></i></a>
                 </div>
             </div>
         </div>
