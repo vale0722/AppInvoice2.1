@@ -5,17 +5,21 @@ namespace App\Imports;
 use App\{Invoice, Product};
 use Illuminate\Support\Collection;
 use Maatwebsite\Excel\Concerns\ToCollection;
-use Maatwebsite\Excel\Concerns\Importable;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
-use Maatwebsite\Excel\Concerns\WithValidation;
+use Illuminate\Support\Facades\Validator;
 
-class SecondSheetImport implements ToCollection, WithHeadingRow, WithValidation
+class SecondSheetImport implements ToCollection, WithHeadingRow
 {
-    use Importable;
     public function collection(Collection $rows)
     {
+        /* Validator::make($rows->toArray(), [
+            'product_id' => 'required|exists:product, id',
+            'invoice_id' => 'required|exists:invoice, id',
+            'quantity' => 'required',
+        ])->validate();
+         */
         foreach ($rows as $row) {
-            if ($row['invoice_id']==null) {
+            if ($row['invoice_id'] == null) {
                 continue;
             }
             $idInvoice = $row['invoice_id'];
@@ -32,21 +36,4 @@ class SecondSheetImport implements ToCollection, WithHeadingRow, WithValidation
             ]);
         }
     }
-    public function rules(): array
-    {
-        return [
-            'quantity' => 'required|numeric',
-            'idInvoice' => 'required|numeric|exists:invoice,id',
-            'idProduct' => 'required|numeric|exists:product,id',
-        ];
-    }
-    public function customValidationMessages()
-    {
-        return [
-            'required' => "El :attribute de la factura es requerido",
-            'idInvoice.exists' => 'El id de la factura no exíste',
-            'idProduct.exists' => 'El id del producto no exíste'
-        ];
-    }
-
 }

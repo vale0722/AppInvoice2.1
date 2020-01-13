@@ -7,8 +7,9 @@ use Maatwebsite\Excel\Concerns\ToModel;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
 use Maatwebsite\Excel\Concerns\Importable;
 use Maatwebsite\Excel\Concerns\WithValidation;
+use Maatwebsite\Excel\Concerns\WithBatchInserts;
 
-class InvoiceImport implements ToModel, WithHeadingRow, WithValidation
+class InvoiceImport implements ToModel, WithHeadingRow, WithValidation, WithBatchInserts
 {
     use Importable;
     /**
@@ -27,6 +28,10 @@ class InvoiceImport implements ToModel, WithHeadingRow, WithValidation
         ]);
         $invoice->duedate = date("Y-m-d H:i:s", strtotime($invoice->created_at . "+ 30 days"));
         return $invoice;
+    }
+    public function batchSize(): int
+    {
+        return 100;
     }
     public function rules(): array
     {
