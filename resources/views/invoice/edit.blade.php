@@ -41,7 +41,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label>Estado de recibo: </label>
-                                    <select name="stateReceipt" id="state">
+                                    <select name="stateReceipt" id="stateReceipt">
                                         @if (isset($invoice->receipt_date))
                                         <option value='1' selected>Recibida</option>
                                         <option value='2'> No recibida </option>
