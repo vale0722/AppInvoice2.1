@@ -4,10 +4,11 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Exports\InvoiceExport;
+use App\Imports\InvoiceImport;
+use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Facades\Excel;
 use App\{Invoice, Client, Product, Company};
-use App\Imports\InvoiceImport;
 
 class InvoiceController extends Controller
 {
@@ -116,7 +117,11 @@ class InvoiceController extends Controller
     {
         $validData = $request->validate([
             'title' => 'required',
-            'code' => 'required',
+
+            'code' => [
+                'required',
+                Rule::unique('invoices')->ignore($id)
+            ],
             'client_id' => 'required',
             'company_id' => 'required',
             'state' => 'required',
