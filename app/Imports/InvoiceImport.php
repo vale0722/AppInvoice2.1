@@ -1,26 +1,27 @@
 <?php
 
 namespace App\Imports;
+use App\Imports\Sheets\SecondSheetImport;
+use App\Imports\Sheets\SheetImport;
+use Maatwebsite\Excel\Concerns\Importable;
+use Maatwebsite\Excel\Concerns\SkipsUnknownSheets;
+use Maatwebsite\Excel\Concerns\WithMultipleSheets;
 
-use App\Invoice;
-use Maatwebsite\Excel\Concerns\ToModel;
-
-class InvoiceImport implements ToModel
+class InvoiceImport implements WithMultipleSheets, SkipsUnknownSheets
 {
-    /**
-     * @param array $row
-     *
-     * @return \Illuminate\Database\Eloquent\Model|null
-     */
-    public function model(array $row)
+    use Importable;
+
+    public function Sheets(): array
     {
-        $invoice = new Invoice([
-            'title'     => $row[0],
-            'code'    => $row[1],
-            'client_id' => $row[2],
-            'company_id' => $row[3],
-        ]);
-        $invoice->duedate = date("Y-m-d H:i:s", strtotime($invoice->created_at . "+ 30 days"));
-        return $invoice;
+        return [
+            0 => new SheetImport(),
+            1 => new SecondSheetImport()
+        ];
+    }
+    
+    public function onUnknownSheet($sheetName)
+    {
+        
+        info("Se omitió la hoja {$sheetName}");
     }
 }

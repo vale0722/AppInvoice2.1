@@ -11,7 +11,7 @@ $factory->define(Client::class, function (Faker $faker) {
         'last_name'=> $faker->lastname,
         'id_type'=> $faker->randomLetter,
         'id_card'=> $faker->ean8,
-        'email'=> $faker->email,
+        'email'=> $faker->unique()->email,
         'cellphone'=> $faker->ean8,
         'country'=> $faker->country, 
         'city'=> $faker->city,

@@ -3,11 +3,12 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-
-use App\{Invoice, Client, Product, Company};
 use App\Exports\InvoiceExport;
 use App\Imports\InvoiceImport;
+use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Facades\Excel;
+use App\{Invoice, Client, Product, Company};
 
 class InvoiceController extends Controller
 {
@@ -45,13 +46,9 @@ class InvoiceController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Invoice $invoice)
     {
-        return view('invoice.create', [
-            'invoice' => new invoice,
-            'clients' => Client::all(),
-            'companies' => Company::all()
-        ]);
+        return response()->view('invoice.create', compact('invoice'));
     }
 
     /**
@@ -120,14 +117,15 @@ class InvoiceController extends Controller
     {
         $validData = $request->validate([
             'title' => 'required',
-            'code' => 'required',
+
+            'code' => [
+                'required',
+                Rule::unique('invoices')->ignore($id)
+            ],
             'client_id' => 'required',
             'company_id' => 'required',
             'state' => 'required',
             'stateReceipt' => 'required',
-            'subtotal' => 'required',
-            'total' => 'required',
-            'vat' => 'required',
         ]);
         $invoice = Invoice::find($id);
         $invoice->title = $validData['title'];
@@ -150,9 +148,7 @@ class InvoiceController extends Controller
         } else {
             $invoice->state = NULL;
         }
-        $invoice->subtotal = $validData['subtotal'];
-        $invoice->total = $validData['total'];
-        $invoice->vat = $validData['vat'];
+        $this->updateOrder($invoice);
         $invoice->save();
         return redirect()->route('invoices.index');
     }
@@ -178,16 +174,13 @@ class InvoiceController extends Controller
             'invoice' => $invoice
         ]);
     }
+
     public function createInvoiceProduct($id)
     {
         $invoice = Invoice::find($id);
-        return view('invoiceProduct.create', [
-            'invoice' => $invoice,
-            'products' => Product::all(),
-            'clients' => Client::all(),
-            'companies' => Company::all()
-        ]);
+        return response()->view('invoiceProduct.create', compact('invoice'));
     }
+
     public function invoiceProductStore(Request $request, $id)
     {
         $invoice = Invoice::find($id);
@@ -195,9 +188,6 @@ class InvoiceController extends Controller
             'product_id' => 'required',
             'quantity' => 'required',
             'unit_value' => 'required',
-            'subtotal' => 'required',
-            'total' => 'required',
-            'vat' => 'required',
         ]);
         $product = Product::find($validData['product_id']);
         $validData['unit_value'] = $product->price;
@@ -206,9 +196,7 @@ class InvoiceController extends Controller
             'unit_value' => $validData['unit_value'],
             'total_value' => $validData['quantity'] * $validData['unit_value']
         ]);
-        $invoice->subtotal = $validData['subtotal'];
-        $invoice->total = $validData['total'];
-        $invoice->vat = $validData['vat'];
+        $this->updateOrder($invoice);
         $invoice->save();
         return redirect()->route('invoices.edit', $invoice->id)->with('message', 'Registro de compra completado');
     }
@@ -221,16 +209,31 @@ class InvoiceController extends Controller
     public function importExcel(Request $request)
     {
         if ($request->file('file')) {
-            $path = $request->file('file')->getRealPath();
-            Excel::import(new InvoiceImport, $path);
-            return redirect()->route('invoices.index')->with('message', 'Importanción de facturas exítosa');
+            $file = $request->file('file')->getRealPath();
+            $import = new InvoiceImport;
+            $import->import($file);
+            return redirect()->route('invoices.index')->with('message', 'Importación de facturas exítosa');
         } else {
-            return back()->withErrors("ERROR, importación fallída");
+            return back()->withErrors("Ingresa el archivo");
         }
     }
 
     public function exportExcel()
     {
         return Excel::download(new InvoiceExport, "invoice-list.xlsx");
+    }
+
+    public function updateOrder(Invoice $invoice)
+    {
+        DB::table('invoices')->where('id', $invoice->id)->update(['subTotal' => $invoice->subTotal, 'vat' => $invoice->vat, 'total' => $invoice->total]);
+    }
+
+    public function updateInvoices()
+    {
+        $invoices = Invoice::all();
+        foreach ($invoices as $invoice) {
+            $this->updateOrder($invoice);
+        }
+        return back();
     }
 }

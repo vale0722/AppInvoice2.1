@@ -15,6 +15,7 @@ class Invoice extends Model
     {
         return $this->belongsToMany(Product::class)->withPivot(['quantity', 'unit_value', 'total_value']);
     }
+    
     public function getSubtotalAttribute()
     {
         if (isset($this->products[0])) {
@@ -83,19 +84,18 @@ class Invoice extends Model
         $now = new \DateTime();
         $now = $now->format('Y-m-d H:i:s');
         if ($state)
-            if($state == "paid")
+            if ($state == "paid")
                 return $query->where("state", "!=", "NULL");
-            elseif($state == "overdue")
+            elseif ($state == "overdue")
                 return $query->where("duedate", "<=", "$now");
             else
-               return $query->where("state");
-                
+                return $query->where("state");
     }
     public function scopeFiltrate($query, $typeDate, $firstCreationDate, $finalCreationDate)
     {
         $now = new \DateTime();
         $now = $now->format('Y-m-d H:i:s');
         if ($typeDate)
-            return $query->whereDate("$typeDate", ">=", "$firstCreationDate" )->whereDate("$typeDate", '<=', "$finalCreationDate");
+            return $query->whereDate("$typeDate", ">=", "$firstCreationDate")->whereDate("$typeDate", '<=', "$finalCreationDate");
     }
 }

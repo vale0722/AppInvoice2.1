@@ -4,8 +4,10 @@ namespace App\Imports;
 
 use App\Client;
 use Maatwebsite\Excel\Concerns\ToModel;
+use Maatwebsite\Excel\Concerns\WithValidation;
+use Maatwebsite\Excel\Concerns\WithBatchInserts;
 
-class ClientImport implements ToModel
+class ClientImport implements ToModel, WithValidation, WithBatchInserts
 {
     /**
      * @param array $row
@@ -27,5 +29,57 @@ class ClientImport implements ToModel
         ]);
         return $client;
     }
-}
 
+    public function batchSize(): int
+    {
+        return 100;
+    }
+
+    public function rules(): array
+    {
+        return [
+            'name' => 'required|min:3|max:100',
+            'last_name' => 'required|min:3|max:100',
+            'id_type' => 'required',
+            'id_card' => 'required|unique:clients',
+            'email' => 'required|unique:clients|email',
+            'cellphone' => 'required|min:10',
+            'country' => 'required',
+            'city' => 'required',
+            'address' => 'required'
+        ];
+    }
+
+    /**
+     * Get custom messages for validator errors.
+     *
+     * @return array
+     */
+    public function customValidationMessages()
+    {
+        return [
+            'required' => "El :attribute del Cliente es requerido",
+            'unique' => 'El :attribute ya está registrado'
+        ];
+    }
+
+    /**
+     * Get custom attributes for validator errors.
+     *
+     * @return array
+     */
+    public function customValidationAttributes()
+    {
+        return [
+            'name' => 'Nombre',
+            'last_name' => 'Apellído',
+            'id_type' => 'Tipo de identificación',
+            'id_card' => 'Número de identificación',
+            'email' => 'Correo Electrónico',
+            'cellphone' => 'Número de Celular',
+            'country' => 'País',
+            'city' => 'Ciudad',
+            'address' => 'Dirección'
+        ];
+    }
+}

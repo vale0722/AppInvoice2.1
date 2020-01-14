@@ -27,14 +27,14 @@ $now = $now->format('Y-m-d H:i:s');
                             @if (isset($invoice->state))
                             <button type="button" class="btn btn-success btn-sm"> Pago </button>
                             @elseif($invoice->duedate <= $now) <button type="button" class="btn btn-danger btn-sm"> Vencido </button>
-                            @else
-                             <button type="button" class="btn btn-warning btn-sm"> Sin pagar </button>
-                            @endif
-                            @if (isset($invoice->receipt_date))
-                            <button type="button" class="btn btn-primary btn-sm"> Recibido </button>
-                            @else
-                             <button type="button" class="btn btn-secondary btn-sm"> Sin recibir </button>
-                            @endif
+                                @else
+                                <button type="button" class="btn btn-warning btn-sm"> Sin pagar </button>
+                                @endif
+                                @if (isset($invoice->receipt_date))
+                                <button type="button" class="btn btn-primary btn-sm"> Recibido </button>
+                                @else
+                                <button type="button" class="btn btn-secondary btn-sm"> Sin recibir </button>
+                                @endif
                         </h5>
                         <br>
                     </div>
@@ -79,9 +79,9 @@ $now = $now->format('Y-m-d H:i:s');
                             @if (isset($invoice->receipt_date))
                             <h5><b>Fecha de recibo:</b> {{ $invoice->receipt_date}} </h5>
                             @endif
-                            <h5><b>Subtotal: </b>{{ '$'. $invoice->subtotal }}</h5>
-                            <h5><b>iva (16%): </b> {{'$'. $invoice->vat}} </h5>
-                            <h5><b>Total: </b>{{ '$'.$invoice->total}}</h5>
+                            <h5><b>Subtotal: </b>{{ '$'. number_format($invoice->subtotal, 2)  }}</h5>
+                            <h5><b>iva (16%): </b> {{'$'. number_format($invoice->vat) }} </h5>
+                            <h5><b>Total: </b>{{ '$'. number_format($invoice->total) }}</h5>
                         </div>
                     </div>
                 </div>
@@ -113,8 +113,8 @@ $now = $now->format('Y-m-d H:i:s');
                                     <td>{{ $product->code }}</td>
                                     <td>{{ $product->name }}</td>
                                     <td>{{ $product->pivot->quantity }}</td>
-                                    <td>{{ '$'.$product->pivot->unit_value }}</td>
-                                    <td>{{ '$'.$product->pivot->total_value }}</td>
+                                    <td>{{ '$'. number_format($product->pivot->unit_value) }}</td>
+                                    <td>{{ '$'. number_format($product->pivot->total_value) }}</td>
                                 </tr>
                                 @endforeach
                         </table>
@@ -127,9 +127,9 @@ $now = $now->format('Y-m-d H:i:s');
                                 <p> <b>Total:</b></p>
                             </div>
                             <div class="col-sm-2 col-sm-offset-9">
-                                <p> {{ '$'.$invoice->subtotal }}</p>
-                                <p> {{'$'.$invoice->vat }}</p>
-                                <p> {{'$'.$invoice->total }}</p>
+                                <p> {{ '$'. number_format($invoice->subtotal) }}</p>
+                                <p> {{'$'. number_format($invoice->vat) }}</p>
+                                <p> {{'$'. number_format($invoice->total) }}</p>
                             </div>
                         </div>
                     </div>

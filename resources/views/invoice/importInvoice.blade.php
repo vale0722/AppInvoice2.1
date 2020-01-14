@@ -13,23 +13,23 @@
                                 <div class="col">
                                     <br>
                                     @if($errors->any())
+                                    @foreach($errors->all() as $error)
                                     <div class="alert alert-danger">
                                         <ul>
-                                            @foreach($errors->all() as $error)
                                             <li>{{ $error }}</li>
-                                            @endforeach
+
                                         </ul>
                                     </div>
+                                    @endforeach
                                     @endif
                                 </div>
                             </div>
                             <div class="col text-center my-3">
                                 <form action="{{ route('invoices.import') }}" method="post" enctype="multipart/form-data">
                                     @csrf
-                                    
                                     <div class="custom-file">
-                                        <input type="file" class="custom-file-input" id="file" name="file" title="Selecciona un archivo">
-                                        <label class="custom-file-label" for="file"  data-browse="Elegir">Selecciona un archivo .xls</label>
+                                        <input type="file" name="file" id="file" title="Selecciona un archivo .xlsx" accept=".xlsx">
+                                        <button type="submit" class="btn btn-primary">{{ __('Importar Facturas') }}</button>
                                     </div>
                                 </form>
                             </div>

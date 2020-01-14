@@ -9,7 +9,7 @@ $now = $now->format('Y-m-d H:i:s');
     <div class="card mb-4 my-5">
         <div class="card-header py-3 ">
             @if(isset($type)||isset($typeDate)||isset($state))
-            <a href="{{ route('invoices.index') }}" class="btn btn-circle btn-danger"><i class="fas fa-undo"></i> </button></a>
+            <a href="{{ route('invoices.index') }}" class="btn btn-sm btn-danger"><i class="fas fa-undo"></i> </button></a>
             @endif
             <div class="text-center"><i class="fas fa-search"></i><b> FILTRACIÓN </b></div>
         </div>
@@ -193,6 +193,7 @@ $now = $now->format('Y-m-d H:i:s');
                     <a class="btn btn-primary btn-circle btn-lg" href="/invoices/create"><i class="fas fa-plus"></i></a>
                     <a class="btn btn-success btn-circle btn-lg" href="{{ route('invoices.import.view') }}"><i class="fas fa-file-import"></i></a>
                     <a class="btn btn-warning btn-circle btn-lg" href="{{ route('invoices.export') }}"><i class="fas fa-file-export"></i></a>
+                    <a class="btn btn-danger btn-circle btn-lg" href="{{ route('invoices.updates') }}"><i class="far fa-hand-point-up"></i></a>
                 </div>
             </div>
         </div>
@@ -215,7 +216,7 @@ $now = $now->format('Y-m-d H:i:s');
                         @foreach($invoices as $invoice)
                         <tr>
                             <td>{{ $invoice->code }}</td>
-                            <td>{{ $invoice->created_at }}</td>
+                            <td nowrap>{{ $invoice->created_at }}</td>
                             <td>{{ $invoice->title }}</td>
                             <td> {{$invoice->client->name . ' ' .$invoice->client->last_name }}</td>
                             <td> {{ $invoice->company->name }}</td>
@@ -227,7 +228,7 @@ $now = $now->format('Y-m-d H:i:s');
                                     <button type="button" class="btn btn-warning btn-sm"> Sin pagar </button>
                                     @endif
                             </td>
-                            <td>{{ '$'. $invoice->total }}</td>
+                            <td>{{ '$'. number_format($invoice->total, 2) }}</td>
                             <td>
                                 <div class="btn-group" role="group">
                                     <a class="btn btn-warning" href="{{ route('invoices.edit', $invoice->id) }}"><i class="far fa-edit"></i> Editar </a>

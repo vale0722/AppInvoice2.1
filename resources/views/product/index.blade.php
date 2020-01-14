@@ -48,7 +48,7 @@
                         <tr>
                             <td>{{ $product->code }}</td>
                             <td>{{ $product->name }}</td>
-                            <td>{{ '$'.$product->price }}</td>
+                            <td>{{ '$'. number_format($product->price) }}</td>
                             <td>
                                 <div class="btn-group" role="group">
                                     <a class="btn btn-warning" href="{{ route('products.edit', $product->id) }}"><i class="far fa-edit"></i> Editar </a>
