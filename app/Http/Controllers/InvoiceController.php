@@ -2,13 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Imports\SheetImport;
-
 use Illuminate\Http\Request;
 use App\Exports\InvoiceExport;
 use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Facades\Excel;
 use App\{Invoice, Client, Product, Company};
+use App\Imports\InvoiceImport;
 
 class InvoiceController extends Controller
 {
@@ -204,10 +203,11 @@ class InvoiceController extends Controller
     {
         if ($request->file('file')) {
             $file = $request->file('file')->getRealPath();
-            Excel::import(new SheetImport, $file);
+            $import = new InvoiceImport;
+            $import->import($file);
             return redirect()->route('invoices.index')->with('message', 'Importación de facturas exítosa');
         } else {
-            return back()->withErrors("ERROR, importación fallída");
+            return back()->withErrors("Ingresa el archivo");
         }
     }
 
@@ -218,13 +218,13 @@ class InvoiceController extends Controller
 
     public function updateOrder(Invoice $invoice)
     {
-        DB::table('invoices')->where('id', $invoice->id)->update(['subTotal' => $invoice->subTotal , 'vat' => $invoice->vat, 'total' => $invoice->total ] );
+        DB::table('invoices')->where('id', $invoice->id)->update(['subTotal' => $invoice->subTotal, 'vat' => $invoice->vat, 'total' => $invoice->total]);
     }
 
     public function updateInvoices()
     {
         $invoices = Invoice::all();
-        foreach ($invoices as $invoice){
+        foreach ($invoices as $invoice) {
             $this->updateOrder($invoice);
         }
         return back();

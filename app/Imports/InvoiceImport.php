@@ -1,54 +1,27 @@
 <?php
 
 namespace App\Imports;
-
-use App\Invoice;
-use Maatwebsite\Excel\Concerns\ToModel;
-use Maatwebsite\Excel\Concerns\WithHeadingRow;
+use App\Imports\Sheets\SecondSheetImport;
+use App\Imports\Sheets\SheetImport;
 use Maatwebsite\Excel\Concerns\Importable;
-use Maatwebsite\Excel\Concerns\WithValidation;
-use Maatwebsite\Excel\Concerns\WithBatchInserts;
+use Maatwebsite\Excel\Concerns\SkipsUnknownSheets;
+use Maatwebsite\Excel\Concerns\WithMultipleSheets;
 
-class InvoiceImport implements ToModel, WithHeadingRow, WithValidation, WithBatchInserts
+class InvoiceImport implements WithMultipleSheets, SkipsUnknownSheets
 {
     use Importable;
-    /**
-     * @param array $row
-     *
-     * @return \Illuminate\Database\Eloquent\Model|null
-     */
 
-    public function model(array $row)
-    {
-        $invoice = new Invoice([
-            'title'     => $row['title'],
-            'code'    => $row['code'],
-            'client_id' => $row['client_id'],
-            'company_id' => $row['company_id'],
-        ]);
-        $invoice->duedate = date("Y-m-d H:i:s", strtotime($invoice->created_at . "+ 30 days"));
-        return $invoice;
-    }
-    public function batchSize(): int
-    {
-        return 100;
-    }
-    public function rules(): array
+    public function Sheets(): array
     {
         return [
-            'title' => 'required|min:3|max:100',
-            'code' => 'required|unique:invoices',
-            'client_id' => 'required|numeric|exists:clients,id',
-            'company_id' => 'required|numeric|exists:companies,id',
+            0 => new SheetImport(),
+            1 => new SecondSheetImport()
         ];
     }
-    public function customValidationMessages()
+    
+    public function onUnknownSheet($sheetName)
     {
-        return [
-            'required' => "El :attribute de la factura es requerido",
-            'code.unique' => 'El código de factura ya exíste',
-            'client_id.exists' => 'El id del cliente no exíste',
-            'company_id.exists' => 'El id de la compañia no exíste'
-        ];
+        
+        info("Se omitió la hoja {$sheetName}");
     }
 }
