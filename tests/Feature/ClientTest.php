@@ -48,7 +48,7 @@ class ClientTest extends TestCase
             'city' => 'test city',
             'address' => 'test address'
         ])
-            ->assertRedirect()
+            ->assertRedirect(route('clients.index'))
             ->assertSessionHasNoErrors();
         $this->assertDatabaseHas('clients', [
             'name' => 'test name',
@@ -60,6 +60,69 @@ class ClientTest extends TestCase
             'country' => 'test country',
             'city' => 'test city',
             'address' => 'test address'
+        ]);
+    }
+
+    /**
+     * @test
+     */
+    public function AuthenticatedUserCanSeeDetailsOfAClient()
+    {
+        $user = factory(User::class)->create();
+        $client = factory(Client::class)->create();
+        $response = $this->actingAs($user)->get(route('clients.show', $client));
+        $response->assertSuccessful();
+        $response->assertSeeText($client->name);
+        $response->assertSeeText($client->email);
+    }
+
+    /**
+     * @test
+     */
+    public function AuthenticatedUserCanUpdateAClient()
+    {
+        $user = factory(User::class)->create();
+        $client = factory(Client::class)->create();
+        $this->actingAs($user)->put(route('clients.update', $client), [
+            'name' => 'test name',
+            'last_name' => 'test lastname',
+            'id_type' => 'cc',
+            'id_card' => '12345678',
+            'email' => 'correo@correo.com',
+            'cellphone' => '1234567810',
+            'country' => 'test country',
+            'city' => 'test city',
+            'address' => 'test address'
+        ])
+            ->assertRedirect(route('clients.index'))
+            ->assertSessionHasNoErrors();
+        $this->assertDatabaseHas('clients', [
+            'name' => 'test name',
+            'last_name' => 'test lastname',
+            'id_type' => 'cc',
+            'id_card' => '12345678',
+            'email' => 'correo@correo.com',
+            'cellphone' => '1234567810',
+            'country' => 'test country',
+            'city' => 'test city',
+            'address' => 'test address'
+        ]);
+    }
+
+    /** 
+     * @test
+     */
+    public function AuthenticatedUserCanDeleteAClient()
+    {
+        $user = factory(User::class)->create();
+        $client = factory(Client::class)->create();
+        $this->actingAs($user)->delete(route('clients.destroy', $client))
+            ->assertRedirect(route('clients.index'))
+            ->assertSessionHasNoErrors();
+        $this->assertDatabaseMissing('clients', [
+            'name' => $client->name,
+            'id_card' => $client->id_card,
+            'email' => $client->email,
         ]);
     }
 }

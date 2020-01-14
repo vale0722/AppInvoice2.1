@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Product;
+use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 
 class ProductController extends Controller
 {
@@ -93,7 +94,10 @@ class ProductController extends Controller
     {
         $validData = $request->validate([
             'name' => 'required',
-            'code' => 'required',
+            'code' => [
+                'required',
+                Rule::unique('products')->ignore($id),
+            ],
             'price' => 'required'
         ]);
         $product = Product::findOrFail($id);
