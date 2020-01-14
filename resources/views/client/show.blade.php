@@ -71,7 +71,7 @@
                                         <button type="button" class="btn btn-warning btn-sm"> Sin pagar </button>
                                         @endif
                                     </td>
-                                    <td>{{ '$'. $invoice->total }}</td>
+                                    <td>{{ '$'. number_format($invoice->total, 2) }}</td>
                                     <td>
                                         <div class="btn-group" role="group">
                                             <a class="btn btn-warning" href="{{ route('invoices.edit', $invoice->id) }}"><i class="far fa-edit"></i> Editar </a>
