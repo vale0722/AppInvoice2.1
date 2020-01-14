@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Company;
+use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 
 class companyController extends Controller
 {
@@ -92,7 +93,10 @@ class companyController extends Controller
     {
         $validData = $request->validate([
             'name' => 'required',
-            'nit' => 'required'
+            'nit' => [
+                'required',
+                Rule::unique('companies')->ignore($id)
+            ],
         ]);
 
         $company = Company::findOrFail($id);

@@ -3,6 +3,7 @@
 namespace Tests\Feature;
 
 use App\User;
+use App\Company;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -33,18 +34,53 @@ class CompanyTest extends TestCase
     /**
      * @test
      */
-    public function AuthenticatedUserCanCreateAnCompany()
+    public function AuthenticatedUserCanCreateACompany()
     {
         $user = factory(User::class)->create();
         $this->actingAs($user)->post(route('companies.store'), [
             'name' => 'test name company',
             'nit' => 'i1234565486'
         ])
-            ->assertRedirect()
+            ->assertRedirect(route('companies.index'))
             ->assertSessionHasNoErrors();
         $this->assertDatabaseHas('companies', [
             'name' => 'test name company',
             'nit' => 'i1234565486'
+        ]);
+    }
+
+     /**
+     * @test
+     */
+    public function AuthenticatedUserCanUpdateACompany()
+    {
+        $user = factory(User::class)->create();
+        $company = factory(Company::class)->create();
+        $this->actingAs($user)->put(route('companies.update', $company), [
+            'name' => 'test name company',
+            'nit' => 'i1234565486'
+        ])
+            ->assertRedirect(route('companies.index'))
+            ->assertSessionHasNoErrors();
+        $this->assertDatabaseHas('companies', [
+            'name' => 'test name company',
+            'nit' => 'i1234565486'
+        ]);
+    }
+
+    /** 
+     * @test
+     */
+    public function AuthenticatedUserCanDeleteACompany()
+    {
+        $user = factory(User::class)->create();
+        $company = factory(Company::class)->create();
+        $this->actingAs($user)->delete(route('companies.destroy', $company))
+            ->assertRedirect(route('companies.index'))
+            ->assertSessionHasNoErrors();
+        $this->assertDatabaseMissing('companies', [
+            'name' => $company->name,
+            'nit' => $company->nit,
         ]);
     }
 }
