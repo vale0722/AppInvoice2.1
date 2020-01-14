@@ -174,11 +174,13 @@ class InvoiceController extends Controller
             'invoice' => $invoice
         ]);
     }
+
     public function createInvoiceProduct($id)
     {
         $invoice = Invoice::find($id);
         return response()->view('invoiceProduct.create', compact('invoice'));
     }
+
     public function invoiceProductStore(Request $request, $id)
     {
         $invoice = Invoice::find($id);

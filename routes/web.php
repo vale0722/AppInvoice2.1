@@ -23,7 +23,7 @@ Route::get('/products/{id}/confirmDelete', 'ProductController@confirmDelete')->n
 Route::get('/companies/{id}/confirmDelete', 'CompanyController@confirmDelete')->name('companies.confirm.delete');
 Route::get('/invoicesItems/{id}/view', 'InvoiceController@view');
 Route::get('/invoices/{id}/invoice_product/create', 'InvoiceController@createInvoiceProduct');
-Route::post('/invoices/{id}/invoice_product', 'InvoiceController@invoiceProductStore');
+Route::post('/invoices/{id}/invoice_product', 'InvoiceController@invoiceProductStore')->name('invoices.product.store');
 Route::get('/invoices/create', 'InvoiceController@create');
 Route::get('/update', 'InvoiceController@updateInvoices')->name('invoices.updates');
 Route::get('/invoices/import/view', 'InvoiceController@indexImport')->name('invoices.import.view');

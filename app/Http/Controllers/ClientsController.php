@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\{Client, Invoice};
+use Illuminate\Http\Request;
 use App\Exports\ClientExport;
 use App\Imports\ClientImport;
+use Illuminate\Validation\Rule;
 use Maatwebsite\Excel\Facades\Excel;
 
 class ClientsController extends Controller
@@ -47,17 +48,35 @@ class ClientsController extends Controller
      */
     public function store(Request $request)
     {
-        $validData = $request->validate([
-            'name' => 'required',
-            'last_name' => 'required',
-            'id_type' => 'required',
-            'id_card' => 'required|unique:clients',
-            'email' => 'required|unique:clients',
-            'cellphone' => 'required|min:10',
-            'country' => 'required',
-            'city' => 'required',
-            'address' => 'required'
-        ]);
+        $validData = $request->validate(
+            [
+                'name' => 'required|min:3|max:100',
+                'last_name' => 'required|min:3|max:100',
+                'id_type' => 'required',
+                'id_card' => 'required|unique:clients',
+                'email' => 'required|unique:clients|email',
+                'cellphone' => 'required|min:10',
+                'country' => 'required',
+                'city' => 'required',
+                'address' => 'required'
+            ],
+            [
+                'required' => "El :attribute del Cliente es un campo obligatorio",
+                'unique' => 'El :attribute ya está registrado',
+                'min' => 'El :attribute de tener minimo :min letras'
+            ],
+            [
+                'name' => 'Nombre',
+                'last_name' => 'Apellído',
+                'id_type' => 'Tipo de identificación',
+                'id_card' => 'Número de identificación',
+                'email' => 'Correo Electrónico',
+                'cellphone' => 'Número de Celular',
+                'country' => 'País',
+                'city' => 'Ciudad',
+                'address' => 'Dirección'
+            ]
+        );
         $client = new Client();
         $client->name = $validData['name'];
         $client->last_name = $validData['last_name'];
@@ -110,17 +129,42 @@ class ClientsController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $validData = $request->validate([
-            'name' => 'required',
-            'last_name' => 'required',
-            'id_type' => 'required',
-            'id_card' => 'required',
-            'email' => 'required',
-            'cellphone' => 'required|min:10',
-            'country' => 'required',
-            'city' => 'required',
-            'address' => 'required'
-        ]);
+        $validData = $request->validate(
+            [
+                'name' => 'required|min:3|max:100',
+                'last_name' => 'required|min:3|max:100',
+                'id_type' => 'required',
+                'id_card' => [
+                    'required',
+                    Rule::unique('clients')->ignore($id)
+                ],
+                'email' => [
+                    'required',
+                    Rule::unique('clients')->ignore($id),
+                    'email'
+                ],
+                'cellphone' => 'required|min:10',
+                'country' => 'required',
+                'city' => 'required',
+                'address' => 'required'
+            ],
+            [
+                'required' => "El :attribute del Cliente es requerido",
+                'unique' => 'El :atribute ya está registrado',
+                'min' => 'El :attribute de tener minimo :min letras'
+            ],
+            [
+                'name' => 'Nombre',
+                'last_name' => 'Apellído',
+                'id_type' => 'Tipo de identificación',
+                'id_card' => 'Número de identificación',
+                'email' => 'Correo Electrónico',
+                'cellphone' => 'Número de Celular',
+                'country' => 'País',
+                'city' => 'Ciudad',
+                'address' => 'Dirección'
+            ]
+        );
         $client = Client::findOrFail($id);
         $client->name = $validData['name'];
         $client->last_name = $validData['last_name'];
@@ -155,10 +199,12 @@ class ClientsController extends Controller
             'client' => $client
         ]);
     }
+
     public function indexImport()
     {
         return view('client.importCLient');
     }
+
     public function importExcel(Request $request)
     {
         if ($request->file('file')) {
@@ -174,5 +220,4 @@ class ClientsController extends Controller
     {
         return Excel::download(new ClientExport, "client-list.xlsx");
     }
-
 }
