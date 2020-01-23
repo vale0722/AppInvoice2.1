@@ -34,3 +34,6 @@ Route::post('/clients/import', 'ClientsController@importExcel')->name('clients.i
 Route::get('/exportClient', 'ClientsController@exportExcel')->name('clients.export');
 Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/redirection/{invoice}', 'RedirectionController@create')->name('redirection.create');
+Route::post('/redirection/{invoice}', 'RedirectionController@store')->name('redirection.store');
+Route::get('/redirection/show', 'RedirectionController@show')->name('redirection.show');

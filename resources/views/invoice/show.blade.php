@@ -82,11 +82,14 @@ $now = $now->format('Y-m-d H:i:s');
                             <h5><b>Subtotal: </b>{{ '$'. number_format($invoice->subtotal, 2)  }}</h5>
                             <h5><b>iva (16%): </b> {{'$'. number_format($invoice->vat) }} </h5>
                             <h5><b>Total: </b>{{ '$'. number_format($invoice->total) }}</h5>
+                            <a href="{{ route('redirection.create', $invoice)}}">Pagar</a>
                         </div>
                     </div>
                 </div>
+
             </div>
         </div>
+
     </div>
 </div>
 <div class="container">
