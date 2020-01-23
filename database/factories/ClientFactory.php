@@ -4,8 +4,10 @@
 
 use App\Client;
 use Faker\Generator as Faker;
+use Faker\Provider\es_ES\Person;
 
 $factory->define(Client::class, function (Faker $faker) {
+    $faker->addProvider(new Person($faker));
     return [
         'name' => $faker->firstName,
         'last_name'=> $faker->lastname,

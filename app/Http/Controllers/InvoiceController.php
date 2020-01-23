@@ -48,7 +48,11 @@ class InvoiceController extends Controller
      */
     public function create(Invoice $invoice)
     {
-        return response()->view('invoice.create', compact('invoice'));
+        return response()->view('invoice.create', [
+            'invoice' => $invoice,
+            'clients' => Client::all(),
+            'companies' => Company::all()
+        ]);
     }
 
     /**

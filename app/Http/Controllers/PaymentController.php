@@ -37,15 +37,15 @@ class PaymentController extends Controller
 
         $payment = new Payment();
         $request2 = [
-            "buyer" => [
-                "name" => $invoice->client->name,
-                "surname" => $invoice->client->last_name,
-                "email" => $invoice->client->email,
-                "documentType" => $invoice->client->id_type,
-                "document" => $invoice->client->id_card,
-                "mobile" => $invoice->client->cellphone,
-                "address" => [
-                    "street" => $invoice->client->address,
+            'buyer' => [
+                'name' => $invoice->client->name,
+                'surname' => $invoice->client->last_name,
+                'email' => $invoice->client->email,
+                'documentType' => $invoice->client->id_type,
+                'document' => $invoice->client->id_card,
+                'mobile' => $invoice->client->cellphone,
+                'address' => [
+                    'street' => $invoice->client->address,
                 ]
             ],
             'payment' => [
@@ -59,15 +59,15 @@ class PaymentController extends Controller
             'expiration' => date('c', strtotime('+2 days')),
             'ipAddress' => $request->ip(),
             'userAgent' => $request->header('User-Agent'),
-            'returnUrl' => route('payments.show', compact('invoice', 'payment')), 
+            'returnUrl' => route('payments.show', compact('invoice', 'payment')),
         ];
-        
+
         $response = $placetopay->request($request2);
         if ($response->isSuccessful()) {
             // STORE THE $response->requestId() and $response->processUrl() on your DB associated with the payment order
             $payment->invoice_id = $invoice->id;
             $payment->amount = $invoice->total;
-            $payment->status = 'inProcess';
+            $payment->status = $response->status()->message();
             $payment->request_id = $response->requestId();
             $payment->processUrl = $response->processUrl();
             $payment->save();

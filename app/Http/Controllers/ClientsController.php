@@ -53,7 +53,7 @@ class ClientsController extends Controller
                 'name' => 'required|min:3|max:100',
                 'last_name' => 'required|min:3|max:100',
                 'id_type' => 'required',
-                'id_card' => 'required|unique:clients',
+                'id_card' => 'required|unique:clients|min:8|max:10',
                 'email' => 'required|unique:clients|email',
                 'cellphone' => 'required|min:10',
                 'country' => 'required',
@@ -63,7 +63,8 @@ class ClientsController extends Controller
             [
                 'required' => "El :attribute del Cliente es un campo obligatorio",
                 'unique' => 'El :attribute ya está registrado',
-                'min' => 'El :attribute de tener minimo :min letras'
+                'min' => 'El :attribute de tener mínimo :min letras',
+                'max' => 'El :attribute de tener máximo :max letras'
             ],
             [
                 'name' => 'Nombre',
@@ -136,14 +137,16 @@ class ClientsController extends Controller
                 'id_type' => 'required',
                 'id_card' => [
                     'required',
-                    Rule::unique('clients')->ignore($id)
+                    Rule::unique('clients')->ignore($id),
+                    'max:10',
+                    'min:8'
                 ],
                 'email' => [
                     'required',
                     Rule::unique('clients')->ignore($id),
                     'email'
                 ],
-                'cellphone' => 'required|min:10',
+                'cellphone' => 'required|min:10|max:10',
                 'country' => 'required',
                 'city' => 'required',
                 'address' => 'required'

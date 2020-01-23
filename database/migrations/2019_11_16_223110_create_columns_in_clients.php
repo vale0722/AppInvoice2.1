@@ -14,14 +14,15 @@ class CreateColumnsInClients extends Migration
     public function up()
     {
         Schema::table('clients', function (Blueprint $table) {
-            $table->text('name');
-            $table->text('last_name');
-            $table->text('id_type');
+            $table->string('name');
+            $table->string('last_name');
+            $table->string('id_type');
             $table->integer('id_card')->unique;
             $table->string('email')->unique;
             $table->bigInteger('cellphone')->min('10');
-            $table->text('country');
-            $table->text('city');
+            $table->string('country');
+            $table->string('department');
+            $table->string('city');
             $table->string('address');
         });
     }

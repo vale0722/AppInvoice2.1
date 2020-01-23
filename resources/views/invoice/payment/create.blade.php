@@ -22,7 +22,7 @@
                             <div class="row"> {{$invoice->client->id_type .' '. $invoice->client->id_card}}</div>
                             <div class="row"> {{$invoice->client->email}}</div>
                             <div class="row"> {{$invoice->code}}</div>
-                            <div class="row"> {{'$'. number_format($invoice->total)}} </div>
+                            <div class="row"> {{'$'. number_format($invoice->total) . ' COP'}} </div>
                         </div>
                     </div>
                 </div>
