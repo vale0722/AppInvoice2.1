@@ -6,12 +6,6 @@ $now = $now->format('Y-m-d H:i:s');
 ?>
 <div class="container">
     <br>
-    <br>
-    <div class="col my-2">
-        <a class="btn btn-circle btn-lg btn-secondary" href="{{ route('invoices.index') }}"><i class="fas fa-undo"></i></a>
-    </div>
-</div>
-<div class="container">
     <div class="row justify-content-center">
         <div class="col-xl-12 col-lg-12 col-md-9">
             <div class="card o-hidden border-0 shadow my-3">
@@ -35,6 +29,7 @@ $now = $now->format('Y-m-d H:i:s');
                                 @else
                                 <button type="button" class="btn btn-secondary btn-sm"> Sin recibir </button>
                                 @endif
+
                         </h5>
                         <br>
                     </div>
@@ -42,10 +37,6 @@ $now = $now->format('Y-m-d H:i:s');
             </div>
         </div>
     </div>
-</div>
-</div>
-
-<div class="container">
     <div class="row justify-content-center">
         <div class="col-xl-12 col-lg-12 col-md-9">
             <div class="row">
@@ -82,17 +73,13 @@ $now = $now->format('Y-m-d H:i:s');
                             <h5><b>Subtotal: </b>{{ '$'. number_format($invoice->subtotal, 2)  }}</h5>
                             <h5><b>iva (16%): </b> {{'$'. number_format($invoice->vat) }} </h5>
                             <h5><b>Total: </b>{{ '$'. number_format($invoice->total) }}</h5>
-                            <a href="{{ route('redirection.create', $invoice)}}">Pagar</a>
                         </div>
                     </div>
                 </div>
 
             </div>
         </div>
-
     </div>
-</div>
-<div class="container">
     <div class="row justify-content-center">
         <div class="col-xl-12 col-lg-12 col-md-9">
             <div class="card o-hidden border-1 my-3">
@@ -136,10 +123,15 @@ $now = $now->format('Y-m-d H:i:s');
                             </div>
                         </div>
                     </div>
+                    @if(empty($invoice->state))
+                    <a href="#" class="btn btn-success btn-block" data-toggle="modal" data-target="#create">
+                        Realiza el pago de la factura
+                    </a>
+                    @include('invoice.payment.create')
+                    @endif
                 </div>
             </div>
         </div>
     </div>
 </div>
-
 @endsection

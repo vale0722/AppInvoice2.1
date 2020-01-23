@@ -3,11 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Invoice;
-use App\Redirection;
+use App\Payment;
 use Illuminate\Http\Request;
 use Dnetix\Redirection\PlacetoPay;
 
-class RedirectionController extends Controller
+class PaymentController extends Controller
 {
     /**
      * Show the form for creating a new resource.
@@ -16,7 +16,7 @@ class RedirectionController extends Controller
      */
     public function create(Invoice $invoice)
     {
-        return view("invoice.redirection.create", compact('invoice'));
+        return view("invoice.payment.create", compact('invoice'));
     }
 
     /**
@@ -32,11 +32,10 @@ class RedirectionController extends Controller
             'tranKey' => '024h1IlD',
             'url' => 'https://test.placetopay.com/redirection/',
         ]);
-        
-        $reference = $invoice->id;
-        
-       // REGISTRO EN LA BASE DE DATOS 
 
+        $reference = $invoice->id;
+
+        $payment = new Payment();
         $request2 = [
             "buyer" => [
                 "name" => $invoice->client->name,
@@ -60,11 +59,18 @@ class RedirectionController extends Controller
             'expiration' => date('c', strtotime('+2 days')),
             'ipAddress' => $request->ip(),
             'userAgent' => $request->header('User-Agent'),
-            'returnUrl' => route('redirection.show'), // la factura y El registro que voy a crear
+            'returnUrl' => route('payments.show', compact('invoice', 'payment')), 
         ];
+        
         $response = $placetopay->request($request2);
         if ($response->isSuccessful()) {
             // STORE THE $response->requestId() and $response->processUrl() on your DB associated with the payment order
+            $payment->invoice_id = $invoice->id;
+            $payment->amount = $invoice->total;
+            $payment->status = 'inProcess';
+            $payment->request_id = $response->requestId();
+            $payment->processUrl = $response->processUrl();
+            $payment->save();
             // Redirect the client to the processUrl or display it on the JS extension
             return redirect()->away($response->processUrl());
         } else {
@@ -76,21 +82,21 @@ class RedirectionController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Redirection  $redirection
+     * @param  \App\Payment  $payment
      * @return \Illuminate\Http\Response
      */
-    public function show()
+    public function show(Invoice $invoice, Payment $payment)
     {
-        echo ('Holi caracoli');
+        return view("invoice.payment.show", compact('invoice', 'payment'));
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Redirection  $redirection
+     * @param  \App\Payment  $payment
      * @return \Illuminate\Http\Response
      */
-    public function edit(Redirection $redirection)
+    public function edit(Payment $payment)
     {
         //
     }
@@ -99,10 +105,10 @@ class RedirectionController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Redirection  $redirection
+     * @param  \App\Payment  $payment
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Redirection $redirection)
+    public function update(Request $request, Payment $payment)
     {
         //
     }
@@ -110,10 +116,10 @@ class RedirectionController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Redirection  $redirection
+     * @param  \App\Payment  $payment
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Redirection $redirection)
+    public function destroy(Payment $payment)
     {
         //
     }

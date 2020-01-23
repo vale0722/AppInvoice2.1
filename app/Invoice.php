@@ -15,6 +15,11 @@ class Invoice extends Model
     {
         return $this->belongsToMany(Product::class)->withPivot(['quantity', 'unit_value', 'total_value']);
     }
+
+    public function payment()
+    {
+        return $this->hasOne(Product::class);
+    }
     
     public function getSubtotalAttribute()
     {
