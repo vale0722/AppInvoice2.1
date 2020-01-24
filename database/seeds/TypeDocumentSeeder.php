@@ -19,12 +19,6 @@ class TypeDocumentSeeder extends Seeder
             'code' => 'CE',
             'name' => '	Cédula de extranjería',
         ],[
-            'code' => 'TI',
-            'name' => 'Tarjeta de identidad',
-        ], [
-            'code' => 'RC',
-            'name' => 'Registro Civil',
-        ],[
             'code' => 'NIT',
             'name' => 'Número de Identificación Tributaria',
         ], [

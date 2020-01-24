@@ -18,6 +18,7 @@ class CreatePaymentsTable extends Migration
             $table->unsignedInteger('invoice_id')->unique;
             $table->double('amount');
             $table->string('status')->nullable();
+            $table->timestamp('payment_date')->nullable();
             $table->string('request_id')->nullable()->unique;
             $table->string('processUrl')->nullable()->unique;
             $table->timestamps();

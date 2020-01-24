@@ -57,6 +57,7 @@ class ClientsController extends Controller
                 'email' => 'required|unique:clients|email',
                 'cellphone' => 'required|min:10',
                 'country' => 'required',
+                'department' => 'required',
                 'city' => 'required',
                 'address' => 'required'
             ],
@@ -74,6 +75,7 @@ class ClientsController extends Controller
                 'email' => 'Correo Electrónico',
                 'cellphone' => 'Número de Celular',
                 'country' => 'País',
+                'department' => 'Departamento',
                 'city' => 'Ciudad',
                 'address' => 'Dirección'
             ]
@@ -86,6 +88,7 @@ class ClientsController extends Controller
         $client->email = $validData['email'];
         $client->cellphone = intval($validData['cellphone']);
         $client->country = $validData['country'];
+        $client->department = $validData['department'];
         $client->city = $validData['city'];
         $client->address = $validData['address'];
         $client->save();
@@ -148,6 +151,7 @@ class ClientsController extends Controller
                 ],
                 'cellphone' => 'required|min:10|max:10',
                 'country' => 'required',
+                'department' => 'required',
                 'city' => 'required',
                 'address' => 'required'
             ],
@@ -164,6 +168,7 @@ class ClientsController extends Controller
                 'email' => 'Correo Electrónico',
                 'cellphone' => 'Número de Celular',
                 'country' => 'País',
+                'department' => 'Departamento',
                 'city' => 'Ciudad',
                 'address' => 'Dirección'
             ]

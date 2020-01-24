@@ -6,6 +6,7 @@ use App\Invoice;
 use App\Payment;
 use Illuminate\Http\Request;
 use Dnetix\Redirection\PlacetoPay;
+use Illuminate\Support\Facades\DB;
 
 class PaymentController extends Controller
 {
@@ -33,9 +34,10 @@ class PaymentController extends Controller
             'url' => 'https://test.placetopay.com/redirection/',
         ]);
 
-        $reference = $invoice->id;
-
-        $payment = new Payment();
+        $payment = Payment::create([
+            'invoice_id' => $invoice->id,
+            'amount' => $invoice->total
+        ]);
         $request2 = [
             'buyer' => [
                 'name' => $invoice->client->name,
@@ -59,20 +61,18 @@ class PaymentController extends Controller
             'expiration' => date('c', strtotime('+2 days')),
             'ipAddress' => $request->ip(),
             'userAgent' => $request->header('User-Agent'),
-            'returnUrl' => route('payments.show', compact('invoice', 'payment')),
+            'returnUrl' => route('payments.show', $payment->id),
         ];
-
         $response = $placetopay->request($request2);
         if ($response->isSuccessful()) {
             // STORE THE $response->requestId() and $response->processUrl() on your DB associated with the payment order
-            $payment->invoice_id = $invoice->id;
-            $payment->amount = $invoice->total;
+            $payment = Payment::where('id', $payment->id)->first();
             $payment->status = $response->status()->message();
             $payment->request_id = $response->requestId();
             $payment->processUrl = $response->processUrl();
-            $payment->save();
+            $payment->update();
             // Redirect the client to the processUrl or display it on the JS extension
-            return redirect()->away($response->processUrl());
+            return redirect($response->processUrl());
         } else {
             // There was some error so check the message and log it
             $response->status()->message();
@@ -85,9 +85,36 @@ class PaymentController extends Controller
      * @param  \App\Payment  $payment
      * @return \Illuminate\Http\Response
      */
-    public function show(Invoice $invoice, Payment $payment)
+    public function show(Payment $payment)
     {
-        return view("invoice.payment.show", compact('invoice', 'payment'));
+        $placetopay = new PlacetoPay([
+            'login' => '6dd490faf9cb87a9862245da41170ff2',
+            'tranKey' => '024h1IlD',
+            'url' => 'https://test.placetopay.com/redirection/',
+        ]);
+
+        $response = $placetopay->query($payment->request_id);
+        $payment = Payment::where('id', $payment->id)->first();
+        $payment->status = $response->status()->status();
+        $payment->update();
+        $invoice = Invoice::where('id', $payment->invoice_id)->first();
+        if ($response->isSuccessful()) {
+            if ($response->status()->isApproved()) {
+                $date = date("Y-m-d H:i:s", strtotime($response->status()->date()));
+                $invoice->state = $date;
+                if($invoice->receipt_date == NULL){
+                    $invoice->receipt_date = $date;
+                }
+                $payment->payment_date = $date;
+                $invoice->update();
+                $payment->update();
+            }
+        } else {
+            $invoice->state = NULL;
+            $invoice->receipt_date = NULL;
+            $invoice->update();
+        }
+        return view("invoice.payment.show", compact('payment', 'invoice'));
     }
 
     /**
