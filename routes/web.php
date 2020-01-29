@@ -17,7 +17,6 @@ Route::resource('/invoices', 'InvoiceController');
 Route::resource('/clients', 'ClientsController');
 Route::resource('/products', 'ProductController');
 Route::resource('/companies', 'CompanyController');
-Route::get('/invoices/{id}/confirmDelete', 'InvoiceController@confirmDelete')->name('invoices.confirm.delete');
 Route::get('/clients/{id}/confirmDelete', 'ClientsController@confirmDelete')->name('clients.confirm.delete');
 Route::get('/products/{id}/confirmDelete', 'ProductController@confirmDelete')->name('products.confirm.delete');
 Route::get('/companies/{id}/confirmDelete', 'CompanyController@confirmDelete')->name('companies.confirm.delete');

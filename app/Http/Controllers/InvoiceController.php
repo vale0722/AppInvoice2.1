@@ -64,10 +64,10 @@ class InvoiceController extends Controller
     public function store(Request $request)
     {
         $validData = $request->validate([
-            'title' => 'required',
+            'title' => 'required|min:3|max:100',
             'code' => 'required|unique:invoices',
-            'client_id' => 'required',
-            'company_id' => 'required',
+            'client_id' => 'required|numeric|exists:clients,id',
+            'company_id' => 'required|numeric|exists:companies,id',
         ]);
 
         $invoice = new Invoice();
@@ -126,8 +126,8 @@ class InvoiceController extends Controller
                 'required',
                 Rule::unique('invoices')->ignore($id)
             ],
-            'client_id' => 'required',
-            'company_id' => 'required',
+            'client_id' => 'required|numeric|exists:clients,id',
+            'company_id' => 'required|numeric|exists:companies,id',
             'state' => 'required',
             'stateReceipt' => 'required',
         ]);
@@ -168,15 +168,7 @@ class InvoiceController extends Controller
         $invoice = Invoice::find($id);
         $invoice->delete();
 
-        return redirect('/invoices');
-    }
-
-    public function confirmDelete($id)
-    {
-        $invoice = Invoice::find($id);
-        return view('invoice.confirmDelete', [
-            'invoice' => $invoice
-        ]);
+        return redirect()->route('invoices.index');
     }
 
     public function createInvoiceProduct($id)
