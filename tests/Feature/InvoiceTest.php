@@ -55,6 +55,7 @@ class InvoiceTest extends TestCase
     public function AuthenticatedUserCanCreateAnInvoice()
     {
         $user = factory(User::class)->create();
+        $this->seed("TypeDocumentSeeder");
         $client = factory(Client::class)->create();
         $company = factory(Company::class)->create();
         $this->actingAs($user)->post(route('invoices.store'), [
@@ -79,6 +80,7 @@ class InvoiceTest extends TestCase
     public function AuthenticatedUserCanCreateAnInvoiceProduct()
     {
         $user = factory(User::class)->create();
+        $this->seed("TypeDocumentSeeder");
         $invoice = factory(Invoice::class)->create();
         $product = factory(Product::class)->create();
         $this->actingAs($user)->post(route('invoices.product.store', $invoice->id), [
@@ -102,6 +104,7 @@ class InvoiceTest extends TestCase
     public function AuthenticatedUserCanSeeDetailsOfAnInvoice()
     {
         $user = factory(User::class)->create();
+        $this->seed("TypeDocumentSeeder");
         $invoice = factory(Invoice::class)->create();
         $response = $this->actingAs($user)->get(route('invoices.show', $invoice));
         $response->assertSuccessful();
@@ -116,6 +119,7 @@ class InvoiceTest extends TestCase
     public function AuthenticatedUserCanUpdateAnInvoice()
     {
         $user = factory(User::class)->create();
+        $this->seed("TypeDocumentSeeder");
         $invoice = factory(Invoice::class)->create();
         $client = factory(Client::class)->create();
         $company = factory(Company::class)->create();
@@ -143,6 +147,7 @@ class InvoiceTest extends TestCase
     public function AuthenticatedUserCanDeleteAnInvoice()
     {
         $user = factory(User::class)->create();
+        $this->seed("TypeDocumentSeeder");
         $invoice = factory(Invoice::class)->create();
         $this->actingAs($user)->delete(route('invoices.destroy', $invoice))
             ->assertRedirect(route('invoices.index'))

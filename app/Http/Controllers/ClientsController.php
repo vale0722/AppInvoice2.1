@@ -92,7 +92,7 @@ class ClientsController extends Controller
         $client->city = $validData['city'];
         $client->address = $validData['address'];
         $client->save();
-        return redirect('/clients');
+        return redirect()->route('clients.index');
     }
 
     /**
@@ -181,10 +181,11 @@ class ClientsController extends Controller
         $client->email = $validData['email'];
         $client->cellphone = intval($validData['cellphone']);
         $client->country = $validData['country'];
+        $client->department = $validData['department'];
         $client->city = $validData['city'];
         $client->address = $validData['address'];
         $client->save();
-        return redirect('/clients');
+        return redirect()->route('clients.index');
     }
 
     /**
@@ -197,7 +198,7 @@ class ClientsController extends Controller
     {
         $client = Client::findOrFail($id);
         $client->delete();
-        return redirect('/clients');
+        return redirect()->route('clients.index');
     }
 
     public function confirmDelete($id)

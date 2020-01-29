@@ -12,16 +12,15 @@ $factory->define(Client::class, function (Faker $faker) {
     $id_type =  Type_Document::all()->random(1)->first(); 
     return [
         'name' => $faker->firstName,
-        'last_name'=> $faker->lastname,
-        'id_type'=> $id_type->code,
-        'id_card'=> $faker->ean8,
-        'email'=> $faker->unique()->email,
-        'cellphone'=> $faker->isbn10,
-        'country'=> $faker->country, 
-        'department'=> $faker->state, 
-        'city'=> $faker->city,
-        'address'=> $faker->streetAddress
+        'last_name' => $faker->lastname,
+        'id_type' => $id_type->code,
+        'id_card' => $faker->ean8,
+        'email' => $faker->unique()->email,
+        'cellphone' => "12345678910",
+        'country' => $faker->country, 
+        'department' => $faker->state, 
+        'city' => $faker->city,
+        'address' => $faker->streetAddress
 
     ];
 });
-?>
