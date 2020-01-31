@@ -15,8 +15,8 @@ class Payment extends Model
         'processUrl',
     ];
 
-    public function invoice()
+    public function Invoice()
     {
-        return $this->hasOne(Invoice::class);
+        return $this->belongsTo(Invoice::class);
     }
 }

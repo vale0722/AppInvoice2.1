@@ -26,19 +26,13 @@ class PaymentController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request, Invoice $invoice)
+    public function store(Request $request, Invoice $invoice, PlacetoPay $placetopay)
     {
-        $placetopay = new PlacetoPay([
-            'login' => '6dd490faf9cb87a9862245da41170ff2',
-            'tranKey' => '024h1IlD',
-            'url' => 'https://test.placetopay.com/redirection/',
-        ]);
-
         $payment = Payment::create([
             'invoice_id' => $invoice->id,
             'amount' => $invoice->total
         ]);
-        $request2 = [
+        $requestPayment = [
             'buyer' => [
                 'name' => $invoice->client->name,
                 'surname' => $invoice->client->last_name,
@@ -54,20 +48,20 @@ class PaymentController extends Controller
                 'reference' => $invoice->code,
                 'description' => $invoice->title,
                 'amount' => [
-                    'currency' => 'COP', // crear esto en la tabla
+                    'currency' => 'COP',
                     'total' => $invoice->total,
                 ],
             ],
             'expiration' => date('c', strtotime('+2 days')),
             'ipAddress' => $request->ip(),
             'userAgent' => $request->header('User-Agent'),
-            'returnUrl' => route('payments.show', $payment->id),
+            'returnUrl' => route('payments.update', $payment->id),
         ];
-        $response = $placetopay->request($request2);
+        $response = $placetopay->request($requestPayment);
         if ($response->isSuccessful()) {
             // STORE THE $response->requestId() and $response->processUrl() on your DB associated with the payment order
             $payment = Payment::where('id', $payment->id)->first();
-            $payment->status = $response->status()->message();
+            $payment->status = $response->status()->status();
             $payment->request_id = $response->requestId();
             $payment->processUrl = $response->processUrl();
             $payment->update();
@@ -82,17 +76,33 @@ class PaymentController extends Controller
     /**
      * Display the specified resource.
      *
+     * @param  \App\Invoice  $invoice
+     * @return \Illuminate\Http\Response
+     */
+    public function show(Invoice $invoice)
+    {
+        return view("invoice.payment.show", compact('invoice'));
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     *
      * @param  \App\Payment  $payment
      * @return \Illuminate\Http\Response
      */
-    public function show(Payment $payment)
+    public function edit(Payment $payment)
     {
-        $placetopay = new PlacetoPay([
-            'login' => '6dd490faf9cb87a9862245da41170ff2',
-            'tranKey' => '024h1IlD',
-            'url' => 'https://test.placetopay.com/redirection/',
-        ]);
+    }
 
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Dnetix\Redirection\PlacetoPay $placetopay
+     * @param  \App\Payment  $payment
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Payment $payment, PlacetoPay $placetopay)
+    {
         $response = $placetopay->query($payment->request_id);
         $payment = Payment::where('id', $payment->id)->first();
         $payment->status = $response->status()->status();
@@ -102,7 +112,7 @@ class PaymentController extends Controller
             if ($response->status()->isApproved()) {
                 $date = date("Y-m-d H:i:s", strtotime($response->status()->date()));
                 $invoice->state = $date;
-                if($invoice->receipt_date == NULL){
+                if ($invoice->receipt_date == NULL) {
                     $invoice->receipt_date = $date;
                 }
                 $payment->payment_date = $date;
@@ -114,30 +124,7 @@ class PaymentController extends Controller
             $invoice->receipt_date = NULL;
             $invoice->update();
         }
-        return view("invoice.payment.show", compact('payment', 'invoice'));
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Payment  $payment
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Payment $payment)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Payment  $payment
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Payment $payment)
-    {
-        //
+        return redirect()->route('payments.show', $invoice->id);
     }
 
     /**

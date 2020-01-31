@@ -16,11 +16,6 @@ class Invoice extends Model
         return $this->belongsToMany(Product::class)->withPivot(['quantity', 'unit_value', 'total_value']);
     }
 
-    public function payment()
-    {
-        return $this->hasOne(Product::class);
-    }
-    
     public function getSubtotalAttribute()
     {
         if (isset($this->products[0])) {
@@ -43,10 +38,16 @@ class Invoice extends Model
         return $subtotal + $vat;
     }
 
+    public function Payments()
+    {
+        return $this->hasMany(Payment::class);
+    }
+
     public function Client()
     {
         return $this->belongsTo(Client::class);
     }
+
     public function Company()
     {
         return $this->belongsTo(Company::class);

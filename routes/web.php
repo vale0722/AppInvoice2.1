@@ -35,4 +35,5 @@ Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/payment/{invoice}', 'paymentController@create')->name('payments.create');
 Route::post('/payment/{invoice}', 'paymentController@store')->name('payments.store');
-Route::get('/payment/show/{payment}/', 'paymentController@show')->name('payments.show');
+Route::get('/payment/show/{invoice}/', 'paymentController@show')->name('payments.show');
+Route::get('/payment/update/{payment}/', 'paymentController@update')->name('payments.update');

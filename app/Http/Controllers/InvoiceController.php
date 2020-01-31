@@ -9,6 +9,7 @@ use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Facades\Excel;
 use App\{Invoice, Client, Product, Company};
+use App\Http\Requests\Invoices\InvoiceStoreRequest;
 
 class InvoiceController extends Controller
 {
@@ -61,20 +62,13 @@ class InvoiceController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(InvoiceStoreRequest $request)
     {
-        $validData = $request->validate([
-            'title' => 'required|min:3|max:100',
-            'code' => 'required|unique:invoices',
-            'client_id' => 'required|numeric|exists:clients,id',
-            'company_id' => 'required|numeric|exists:companies,id',
-        ]);
-
         $invoice = new Invoice();
-        $invoice->title = $validData['title'];
-        $invoice->code = $validData['code'];
-        $invoice->client_id = $validData['client_id'];
-        $invoice->company_id = $validData['company_id'];
+        $invoice->title = $request->input('title');
+        $invoice->code = $request->input('code');
+        $invoice->client_id = $request->input('client');
+        $invoice->company_id = $request->input('company');
         $invoice->duedate = date("Y-m-d H:i:s", strtotime($invoice->created_at . "+ 30 days"));
         $invoice->save();
         return redirect()->route('invoices.edit', $invoice->id);
@@ -126,16 +120,16 @@ class InvoiceController extends Controller
                 'required',
                 Rule::unique('invoices')->ignore($id)
             ],
-            'client_id' => 'required|numeric|exists:clients,id',
-            'company_id' => 'required|numeric|exists:companies,id',
+            'client' => 'required|numeric|exists:clients,id',
+            'company' => 'required|numeric|exists:companies,id',
             'state' => 'required',
             'stateReceipt' => 'required',
         ]);
         $invoice = Invoice::find($id);
         $invoice->title = $validData['title'];
         $invoice->code = $validData['code'];
-        $invoice->client_id = $validData['client_id'];
-        $invoice->company_id = $validData['company_id'];
+        $invoice->client_id = $validData['client'];
+        $invoice->company_id = $validData['company'];
         $invoice->duedate = date("Y-m-d H:i:s", strtotime($invoice->created_at . "+ 30 days"));
         if ($validData['stateReceipt'] == '1') {
             $now = new \DateTime();
@@ -181,13 +175,13 @@ class InvoiceController extends Controller
     {
         $invoice = Invoice::find($id);
         $validData = $request->validate([
-            'product_id' => 'required',
+            'product' => 'required',
             'quantity' => 'required',
             'unit_value' => 'required',
         ]);
-        $product = Product::find($validData['product_id']);
+        $product = Product::find($validData['product']);
         $validData['unit_value'] = $product->price;
-        $invoice->products()->attach($validData['product_id'], [
+        $invoice->products()->attach($validData['product'], [
             'quantity' => $validData['quantity'],
             'unit_value' => $validData['unit_value'],
             'total_value' => $validData['quantity'] * $validData['unit_value']

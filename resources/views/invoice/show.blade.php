@@ -129,6 +129,7 @@ $now = $now->format('Y-m-d H:i:s');
                     </a>
                     @include('invoice.payment.create')
                     @endif
+                    <a class="btn btn-primary btn-block" href="{{ route('payments.show', $invoice->id) }}"><i class="far fa-eye"></i> Ver intentos de pago </a>
                 </div>
             </div>
         </div>

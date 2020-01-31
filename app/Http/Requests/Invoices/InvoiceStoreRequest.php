@@ -4,7 +4,7 @@ namespace App\Http\Requests\Invoices;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class InvoiceRequest extends FormRequest
+class InvoiceStoreRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -13,7 +13,7 @@ class InvoiceRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -26,12 +26,12 @@ class InvoiceRequest extends FormRequest
         return [
             'title' => 'required|min:3|max:100',
             'code' => 'required|unique:invoices',
-            'client_id' => 'required|numeric|exists:clients,id',
-            'company_id' => 'required|numeric|exists:companies,id',
+            'client' => 'required|numeric|exists:clients,id',
+            'company' => 'required|numeric|exists:companies,id',
         ];
     }
 
-      /**
+    /**
      * Get custom messages for validator errors.
      *
      * @return array
@@ -55,8 +55,8 @@ class InvoiceRequest extends FormRequest
         return [
             'title' => 'Título',
             'code' => 'Código',
-            'client_id' => 'Id del Cliente',
-            'company_id' => 'Id del Vendedor',
+            'client' => 'Id del Cliente',
+            'company' => 'Id del Vendedor',
         ];
     }
 }

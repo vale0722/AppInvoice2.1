@@ -61,8 +61,8 @@ class InvoiceTest extends TestCase
         $this->actingAs($user)->post(route('invoices.store'), [
             'title' => 'Invoice',
             'code' => 'TestCode1',
-            'client_id' => $client->id,
-            'company_id' => $company->id,
+            'client' => $client->id,
+            'company' => $company->id,
         ])
             ->assertRedirect()
             ->assertSessionHasNoErrors();
@@ -84,8 +84,8 @@ class InvoiceTest extends TestCase
         $invoice = factory(Invoice::class)->create();
         $product = factory(Product::class)->create();
         $this->actingAs($user)->post(route('invoices.product.store', $invoice->id), [
-            'invoice_id' => $invoice->id,
-            'product_id' => $product->id,
+            'invoice' => $invoice->id,
+            'product' => $product->id,
             'quantity' => '2',
             'unit_value' => $product->price,
         ])
@@ -126,8 +126,8 @@ class InvoiceTest extends TestCase
         $this->actingAs($user)->put(route('invoices.update', $invoice), [
             'title' => 'Invoice',
             'code' => 'TestCode1',
-            'client_id' => $client->id,
-            'company_id' => $company->id,
+            'client' => $client->id,
+            'company' => $company->id,
             'state' => '1',
             'stateReceipt' => '2'
         ])
