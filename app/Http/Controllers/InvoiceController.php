@@ -122,7 +122,6 @@ class InvoiceController extends Controller
             ],
             'client' => 'required|numeric|exists:clients,id',
             'company' => 'required|numeric|exists:companies,id',
-            'state' => 'required',
             'stateReceipt' => 'required',
         ]);
         $invoice = Invoice::find($id);
@@ -136,15 +135,6 @@ class InvoiceController extends Controller
             $invoice->receipt_date = $now->format('Y-m-d H:i:s');
         } else {
             $invoice->receipt_date = NULL;
-        }
-        if ($validData['state'] == '1') {
-            $now = new \DateTime();
-            $invoice->state = $now->format('Y-m-d H:i:s');
-            if ($validData['stateReceipt'] == '2') {
-                $invoice->receipt_date = $now->format('Y-m-d H:i:s');
-            }
-        } else {
-            $invoice->state = NULL;
         }
         $this->updateOrder($invoice);
         $invoice->save();

@@ -28,18 +28,6 @@
                                 @method('put')
                                 @include('invoice.__form')
                                 <div class="form-group">
-                                    <label>Estado: </label>
-                                    <select name="state" id="state">
-                                        @if (isset($invoice->state))
-                                        <option value='1' selected>PAGADA</option>
-                                        <option value='2'> Sin pagar </option>
-                                        @else
-                                        <option value='2' selected> SIN PAGAR </option>
-                                        <option value='1'> Pagada </option>
-                                        @endif
-                                    </select>
-                                </div>
-                                <div class="form-group">
                                     <label>Estado de recibo: </label>
                                     <select name="stateReceipt" id="stateReceipt">
                                         @if (isset($invoice->receipt_date))

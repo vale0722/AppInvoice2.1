@@ -12,27 +12,34 @@
 */
 Route::get('/index', 'HomeController@index1');
 Route::get('/', 'HomeController@index');
+Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/dashboard', 'DashboardController@index');
+
+Auth::routes();
+
 Route::resource('/invoices', 'InvoiceController');
-Route::resource('/clients', 'ClientsController');
-Route::resource('/products', 'ProductController');
-Route::resource('/companies', 'CompanyController');
-Route::get('/clients/{id}/confirmDelete', 'ClientsController@confirmDelete')->name('clients.confirm.delete');
-Route::get('/products/{id}/confirmDelete', 'ProductController@confirmDelete')->name('products.confirm.delete');
-Route::get('/companies/{id}/confirmDelete', 'CompanyController@confirmDelete')->name('companies.confirm.delete');
-Route::get('/invoicesItems/{id}/view', 'InvoiceController@view');
-Route::get('/invoices/{id}/invoice_product/create', 'InvoiceController@createInvoiceProduct');
-Route::post('/invoices/{id}/invoice_product', 'InvoiceController@invoiceProductStore')->name('invoices.product.store');
 Route::get('/invoices/create', 'InvoiceController@create');
 Route::get('/update', 'InvoiceController@updateInvoices')->name('invoices.updates');
+Route::get('/invoices/{id}/invoice_product/create', 'InvoiceController@createInvoiceProduct');
+Route::post('/invoices/{id}/invoice_product', 'InvoiceController@invoiceProductStore')->name('invoices.product.store');
 Route::get('/invoices/import/view', 'InvoiceController@indexImport')->name('invoices.import.view');
 Route::post('/invoices/import', 'InvoiceController@importExcel')->name('invoices.import');
 Route::get('/exportInvoices', 'InvoiceController@exportExcel')->name('invoices.export');
+
+Route::resource('/clients', 'ClientsController');
+Route::get('/clients/{id}/confirmDelete', 'ClientsController@confirmDelete')->name('clients.confirm.delete');
 Route::get('/clients/import/view', 'ClientsController@indexImport')->name('clients.import.view');
 Route::post('/clients/import', 'ClientsController@importExcel')->name('clients.import');
 Route::get('/exportClient', 'ClientsController@exportExcel')->name('clients.export');
-Auth::routes();
-Route::get('/home', 'HomeController@index')->name('home');
+
+
+Route::resource('/products', 'ProductController');
+Route::get('/products/{id}/confirmDelete', 'ProductController@confirmDelete')->name('products.confirm.delete');
+
+
+Route::resource('/companies', 'CompanyController');
+Route::get('/companies/{id}/confirmDelete', 'CompanyController@confirmDelete')->name('companies.confirm.delete');
+
 Route::get('/payment/{invoice}', 'paymentController@create')->name('payments.create');
 Route::post('/payment/{invoice}', 'paymentController@store')->name('payments.store');
 Route::get('/payment/show/{invoice}/', 'paymentController@show')->name('payments.show');

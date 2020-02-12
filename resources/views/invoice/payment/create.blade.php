@@ -15,6 +15,9 @@
                             <div class="row"> Documento de Identidad</div>
                             <div class="row"> Correo Electronico</div>
                             <div class="row"> Código de Factura</div>
+                            @if($invoice->state != NULL)
+                            <div class="row"> Estado de la factura </div>
+                            @endif
                             <div class="row"> Monto </div>
                         </div>
                         <div class="col-md-6">
@@ -22,6 +25,9 @@
                             <div class="row"> {{$invoice->client->id_type .' '. $invoice->client->id_card}}</div>
                             <div class="row"> {{$invoice->client->email}}</div>
                             <div class="row"> {{$invoice->code}}</div>
+                            @if($invoice->state != NULL)
+                            <div class="row"> {{$invoice->state}} </div>
+                            @endif
                             <div class="row"> {{'$'. number_format($invoice->total) . ' COP'}} </div>
                         </div>
                     </div>

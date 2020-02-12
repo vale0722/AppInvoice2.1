@@ -9,7 +9,7 @@ use Faker\Provider\es_ES\Person;
 
 $factory->define(Client::class, function (Faker $faker) {
     $faker->addProvider(new Person($faker));
-    $id_type =  Type_Document::all()->random(1)->first(); 
+    $id_type =  Type_Document::all()->random(1)->first();
     return [
         'name' => $faker->firstName,
         'last_name' => $faker->lastname,
@@ -17,8 +17,8 @@ $factory->define(Client::class, function (Faker $faker) {
         'id_card' => $faker->ean8,
         'email' => $faker->unique()->email,
         'cellphone' => "12345678910",
-        'country' => $faker->country, 
-        'department' => $faker->state, 
+        'country' => $faker->country,
+        'department' => $faker->state,
         'city' => $faker->city,
         'address' => $faker->streetAddress
 

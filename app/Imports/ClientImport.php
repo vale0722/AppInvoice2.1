@@ -24,8 +24,9 @@ class ClientImport implements ToModel, WithValidation, WithBatchInserts
             'email' => $row[4],
             'cellphone' => $row[5],
             'country' => $row[6],
-            'city' => $row[7],
-            'address' => $row[8]
+            'department' => $row[7],
+            'city' => $row[8],
+            'address' => $row[9]
         ]);
         return $client;
     }
@@ -45,6 +46,7 @@ class ClientImport implements ToModel, WithValidation, WithBatchInserts
             'email' => 'required|unique:clients|email',
             'cellphone' => 'required|min:10',
             'country' => 'required',
+            'department' => 'required',
             'city' => 'required',
             'address' => 'required'
         ];
@@ -78,6 +80,7 @@ class ClientImport implements ToModel, WithValidation, WithBatchInserts
             'email' => 'Correo Electrónico',
             'cellphone' => 'Número de Celular',
             'country' => 'País',
+            'department' => 'Departamento',
             'city' => 'Ciudad',
             'address' => 'Dirección'
         ];

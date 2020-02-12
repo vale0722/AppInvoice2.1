@@ -4,7 +4,7 @@
 $now = new \DateTime();
 $now = $now->format('Y-m-d H:i:s');
 ?>
-@include_once('invoice.filtration')
+@include('invoice.filtration')
 <div class="container">
     <div class="card shadow mb-4 my-5">
         <div class="card-header py-3 ">
@@ -42,7 +42,7 @@ $now = $now->format('Y-m-d H:i:s');
                             <td> {{$invoice->client->name . ' ' .$invoice->client->last_name }}</td>
                             <td> {{ $invoice->company->name }}</td>
                             <td>
-                                @if(isset($invoice->state))
+                                @if($invoice->state == 'APPROVED')
                                 <button type="button" class="btn btn-success btn-sm"> Pago </button>
                                 @elseif($invoice->duedate <= $now) <button type="button" class="btn btn-danger btn-sm"> Vencido </button>
                                     @else

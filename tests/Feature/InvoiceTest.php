@@ -128,7 +128,6 @@ class InvoiceTest extends TestCase
             'code' => 'TestCode1',
             'client' => $client->id,
             'company' => $company->id,
-            'state' => '1',
             'stateReceipt' => '2'
         ])
             ->assertRedirect()

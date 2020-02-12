@@ -28,10 +28,20 @@ class PaymentController extends Controller
      */
     public function store(Request $request, Invoice $invoice, PlacetoPay $placetopay)
     {
+
         $payment = Payment::create([
             'invoice_id' => $invoice->id,
             'amount' => $invoice->total
         ]);
+        if ($invoice->total == 0) {
+            $payment->status = "SIN PRODUCTOS";
+            $invoice->state = "SIN PRODUCTOS";
+            $invoice->update();
+            $payment->update();
+            return redirect()->route('invoices.show', $invoice)->withErrors("No hay productos en la factura, vuelva a intentarlo");
+        } elseif ($invoice->state == "APPROVED") {
+            return redirect()->route('invoices.show', $invoice)->withErrors("La factura ya está pagada");
+        }
         $requestPayment = [
             'buyer' => [
                 'name' => $invoice->client->name,
@@ -109,18 +119,19 @@ class PaymentController extends Controller
         $payment->update();
         $invoice = Invoice::where('id', $payment->invoice_id)->first();
         if ($response->isSuccessful()) {
+            $invoice->state = $response->status()->status();
             if ($response->status()->isApproved()) {
                 $date = date("Y-m-d H:i:s", strtotime($response->status()->date()));
-                $invoice->state = $date;
                 if ($invoice->receipt_date == NULL) {
                     $invoice->receipt_date = $date;
                 }
+                $invoice->payment_date = $date;
                 $payment->payment_date = $date;
-                $invoice->update();
                 $payment->update();
             }
+            $invoice->update();
         } else {
-            $invoice->state = NULL;
+            $invoice->state = $response->status()->status();
             $invoice->receipt_date = NULL;
             $invoice->update();
         }
