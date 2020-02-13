@@ -6,15 +6,18 @@ $now = $now->format('Y-m-d H:i:s');
 ?>
 <div class="container">
     <br>
-    @if($errors->any())
     <br>
-    @foreach($errors->all() as $error)
-    <div class="alert alert-danger">
+    @if($errors->any())
+    <div id="divErrors">
+     @foreach($errors->all() as $error)
+     <div class="alert alert-danger">
         <ul>
             <li>{{ $error }}</li>
         </ul>
     </div>
+    <br>
     @endforeach
+    </div>
     @endif
     <div class="row justify-content-center">
         <div class="col-xl-12 col-lg-12 col-md-9">
