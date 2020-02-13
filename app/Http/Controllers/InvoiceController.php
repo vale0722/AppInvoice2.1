@@ -8,6 +8,7 @@ use App\Imports\InvoiceImport;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Facades\Excel;
+use Illuminate\Support\Facades\Cache;
 use App\{Invoice, Client, Product, Company};
 use App\Http\Requests\Invoices\InvoiceStoreRequest;
 
@@ -192,7 +193,8 @@ class InvoiceController extends Controller
             $file = $request->file('file')->getRealPath();
             $import = new InvoiceImport;
             $import->import($file);
-            return redirect()->route('invoices.index')->with('message', 'Importación de facturas exítosa');
+            $contImport = Cache::get('rows');
+            return redirect()->route('invoices.index')->with('success', 'Importación de facturas exítosa, se importaron ' . $contImport . ' facturas');
         } else {
             return back()->withErrors("Ingresa el archivo");
         }

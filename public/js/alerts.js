@@ -101,6 +101,17 @@ if (document.getElementById('divErrors')) {
   });
 }
 
+;
+
+if (document.getElementById('success')) {
+  swal({
+    title: 'Importación exítosa',
+    icon: 'success'
+  });
+}
+
+;
+
 /***/ }),
 
 /***/ 2:

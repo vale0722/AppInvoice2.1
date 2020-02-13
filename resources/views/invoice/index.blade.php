@@ -5,6 +5,11 @@ $now = new \DateTime();
 $now = $now->format('Y-m-d H:i:s');
 ?>
 @include('invoice.filtration')
+@if(session()->has('success'))
+<div class="alert alert-success" id="success">
+    {{ session()->get('success') }}
+</div>
+@endif
 <div class="container">
     <div class="card shadow mb-4 my-5">
         <div class="card-header py-3 ">

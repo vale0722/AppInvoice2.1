@@ -9,14 +9,14 @@ $now = $now->format('Y-m-d H:i:s');
     <br>
     @if($errors->any())
     <div id="divErrors">
-     @foreach($errors->all() as $error)
-     <div class="alert alert-danger">
-        <ul>
-            <li>{{ $error }}</li>
-        </ul>
-    </div>
-    <br>
-    @endforeach
+        @foreach($errors->all() as $error)
+        <div class="alert alert-danger">
+            <ul>
+                <li>{{ $error }}</li>
+            </ul>
+        </div>
+        <br>
+        @endforeach
     </div>
     @endif
     <div class="row justify-content-center">
