@@ -66,7 +66,7 @@ return [
     | ahead and set this to a sensible default for you out of the box.
     |
     */
-    
+
     'timezone' => 'America/Bogota',
 
     /*
@@ -161,7 +161,7 @@ return [
         Illuminate\Translation\TranslationServiceProvider::class,
         Illuminate\Validation\ValidationServiceProvider::class,
         Illuminate\View\ViewServiceProvider::class,
-    
+
 
         /*
          * Package Service Providers...
@@ -176,6 +176,7 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
         App\Providers\ViewComposerProvider::class,
+        App\Providers\PlacetopayProvider::class,
 
     ],
 

@@ -19,7 +19,8 @@ class CreateColumnTitleInInvoice extends Migration
             $table->double('subtotal')->nullable();
             $table->double('vat')->nullable();
             $table->double('total')->nullable();
-            $table->timestamp('state')->nullable();
+            $table->string('state')->nullable();
+            $table->timestamp('payment_date')->nullable();
         });
     }
 
@@ -37,7 +38,7 @@ class CreateColumnTitleInInvoice extends Migration
             $table->dropColumn('vat');
             $table->dropColumn('total');
             $table->dropColumn('state');
+            $table->dropColumn('payment_date');
         });
     }
 }
-?>

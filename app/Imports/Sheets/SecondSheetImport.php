@@ -2,7 +2,8 @@
 
 namespace App\Imports\Sheets;
 
-use App\{Invoice, Product};
+use App\Invoice;
+use App\Product;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Validator;
 use Maatwebsite\Excel\Concerns\Importable;

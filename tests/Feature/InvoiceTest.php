@@ -55,13 +55,14 @@ class InvoiceTest extends TestCase
     public function AuthenticatedUserCanCreateAnInvoice()
     {
         $user = factory(User::class)->create();
+        $this->seed("TypeDocumentSeeder");
         $client = factory(Client::class)->create();
         $company = factory(Company::class)->create();
         $this->actingAs($user)->post(route('invoices.store'), [
             'title' => 'Invoice',
             'code' => 'TestCode1',
-            'client_id' => $client->id,
-            'company_id' => $company->id,
+            'client' => $client->id,
+            'company' => $company->id,
         ])
             ->assertRedirect()
             ->assertSessionHasNoErrors();
@@ -79,11 +80,12 @@ class InvoiceTest extends TestCase
     public function AuthenticatedUserCanCreateAnInvoiceProduct()
     {
         $user = factory(User::class)->create();
+        $this->seed("TypeDocumentSeeder");
         $invoice = factory(Invoice::class)->create();
         $product = factory(Product::class)->create();
         $this->actingAs($user)->post(route('invoices.product.store', $invoice->id), [
-            'invoice_id' => $invoice->id,
-            'product_id' => $product->id,
+            'invoice' => $invoice->id,
+            'product' => $product->id,
             'quantity' => '2',
             'unit_value' => $product->price,
         ])
@@ -102,6 +104,7 @@ class InvoiceTest extends TestCase
     public function AuthenticatedUserCanSeeDetailsOfAnInvoice()
     {
         $user = factory(User::class)->create();
+        $this->seed("TypeDocumentSeeder");
         $invoice = factory(Invoice::class)->create();
         $response = $this->actingAs($user)->get(route('invoices.show', $invoice));
         $response->assertSuccessful();
@@ -116,15 +119,15 @@ class InvoiceTest extends TestCase
     public function AuthenticatedUserCanUpdateAnInvoice()
     {
         $user = factory(User::class)->create();
+        $this->seed("TypeDocumentSeeder");
         $invoice = factory(Invoice::class)->create();
         $client = factory(Client::class)->create();
         $company = factory(Company::class)->create();
         $this->actingAs($user)->put(route('invoices.update', $invoice), [
             'title' => 'Invoice',
             'code' => 'TestCode1',
-            'client_id' => $client->id,
-            'company_id' => $company->id,
-            'state' => '1',
+            'client' => $client->id,
+            'company' => $company->id,
             'stateReceipt' => '2'
         ])
             ->assertRedirect()
@@ -137,12 +140,13 @@ class InvoiceTest extends TestCase
         ]);
     }
 
-    /** 
+    /**
      * @test
      */
     public function AuthenticatedUserCanDeleteAnInvoice()
     {
         $user = factory(User::class)->create();
+        $this->seed("TypeDocumentSeeder");
         $invoice = factory(Invoice::class)->create();
         $this->actingAs($user)->delete(route('invoices.destroy', $invoice))
             ->assertRedirect(route('invoices.index'))

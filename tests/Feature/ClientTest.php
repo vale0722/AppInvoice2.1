@@ -40,11 +40,12 @@ class ClientTest extends TestCase
         $this->actingAs($user)->post(route('clients.store'), [
             'name' => 'test name',
             'last_name' => 'test lastname',
-            'id_type' => 'cc',
+            'id_type' => 'CC',
             'id_card' => '12345678',
             'email' => 'correo@correo.com',
             'cellphone' => '1234567810',
             'country' => 'test country',
+            'department' => 'test department',
             'city' => 'test city',
             'address' => 'test address'
         ])
@@ -53,11 +54,12 @@ class ClientTest extends TestCase
         $this->assertDatabaseHas('clients', [
             'name' => 'test name',
             'last_name' => 'test lastname',
-            'id_type' => 'cc',
+            'id_type' => 'CC',
             'id_card' => '12345678',
             'email' => 'correo@correo.com',
             'cellphone' => '1234567810',
             'country' => 'test country',
+            'department' => 'test department',
             'city' => 'test city',
             'address' => 'test address'
         ]);
@@ -69,6 +71,7 @@ class ClientTest extends TestCase
     public function AuthenticatedUserCanSeeDetailsOfAClient()
     {
         $user = factory(User::class)->create();
+        $this->seed("TypeDocumentSeeder");
         $client = factory(Client::class)->create();
         $response = $this->actingAs($user)->get(route('clients.show', $client));
         $response->assertSuccessful();
@@ -82,15 +85,17 @@ class ClientTest extends TestCase
     public function AuthenticatedUserCanUpdateAClient()
     {
         $user = factory(User::class)->create();
+        $this->seed("TypeDocumentSeeder");
         $client = factory(Client::class)->create();
         $this->actingAs($user)->put(route('clients.update', $client), [
             'name' => 'test name',
             'last_name' => 'test lastname',
-            'id_type' => 'cc',
+            'id_type' => 'CC',
             'id_card' => '12345678',
             'email' => 'correo@correo.com',
             'cellphone' => '1234567810',
             'country' => 'test country',
+            'department' => 'test department',
             'city' => 'test city',
             'address' => 'test address'
         ])
@@ -99,22 +104,24 @@ class ClientTest extends TestCase
         $this->assertDatabaseHas('clients', [
             'name' => 'test name',
             'last_name' => 'test lastname',
-            'id_type' => 'cc',
+            'id_type' => 'CC',
             'id_card' => '12345678',
             'email' => 'correo@correo.com',
             'cellphone' => '1234567810',
             'country' => 'test country',
+            'department' => 'test department',
             'city' => 'test city',
             'address' => 'test address'
         ]);
     }
 
-    /** 
+    /**
      * @test
      */
     public function AuthenticatedUserCanDeleteAClient()
     {
         $user = factory(User::class)->create();
+        $this->seed("TypeDocumentSeeder");
         $client = factory(Client::class)->create();
         $this->actingAs($user)->delete(route('clients.destroy', $client))
             ->assertRedirect(route('clients.index'))

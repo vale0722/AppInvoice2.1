@@ -7,10 +7,7 @@ use App\Company;
 use App\Invoice;
 use Faker\Generator as Faker;
 
-
-
 $factory->define(Invoice::class, function (Faker $faker) {
-    
     $client = factory(Client::class)->create();
     $company = factory(Company::class)->create();
     return [

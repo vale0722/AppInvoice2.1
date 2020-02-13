@@ -2,7 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\{Client, Invoice};
+use App\Client;
+use App\Invoice;
 use Illuminate\Http\Request;
 use App\Exports\ClientExport;
 use App\Imports\ClientImport;
@@ -53,17 +54,19 @@ class ClientsController extends Controller
                 'name' => 'required|min:3|max:100',
                 'last_name' => 'required|min:3|max:100',
                 'id_type' => 'required',
-                'id_card' => 'required|unique:clients',
+                'id_card' => 'required|unique:clients|min:8|max:10',
                 'email' => 'required|unique:clients|email',
                 'cellphone' => 'required|min:10',
                 'country' => 'required',
+                'department' => 'required',
                 'city' => 'required',
                 'address' => 'required'
             ],
             [
                 'required' => "El :attribute del Cliente es un campo obligatorio",
                 'unique' => 'El :attribute ya está registrado',
-                'min' => 'El :attribute de tener minimo :min letras'
+                'min' => 'El :attribute de tener mínimo :min letras',
+                'max' => 'El :attribute de tener máximo :max letras'
             ],
             [
                 'name' => 'Nombre',
@@ -73,6 +76,7 @@ class ClientsController extends Controller
                 'email' => 'Correo Electrónico',
                 'cellphone' => 'Número de Celular',
                 'country' => 'País',
+                'department' => 'Departamento',
                 'city' => 'Ciudad',
                 'address' => 'Dirección'
             ]
@@ -85,10 +89,11 @@ class ClientsController extends Controller
         $client->email = $validData['email'];
         $client->cellphone = intval($validData['cellphone']);
         $client->country = $validData['country'];
+        $client->department = $validData['department'];
         $client->city = $validData['city'];
         $client->address = $validData['address'];
         $client->save();
-        return redirect('/clients');
+        return redirect()->route('clients.index');
     }
 
     /**
@@ -136,15 +141,18 @@ class ClientsController extends Controller
                 'id_type' => 'required',
                 'id_card' => [
                     'required',
-                    Rule::unique('clients')->ignore($id)
+                    Rule::unique('clients')->ignore($id),
+                    'max:10',
+                    'min:8'
                 ],
                 'email' => [
                     'required',
                     Rule::unique('clients')->ignore($id),
                     'email'
                 ],
-                'cellphone' => 'required|min:10',
+                'cellphone' => 'required|min:10|max:10',
                 'country' => 'required',
+                'department' => 'required',
                 'city' => 'required',
                 'address' => 'required'
             ],
@@ -161,6 +169,7 @@ class ClientsController extends Controller
                 'email' => 'Correo Electrónico',
                 'cellphone' => 'Número de Celular',
                 'country' => 'País',
+                'department' => 'Departamento',
                 'city' => 'Ciudad',
                 'address' => 'Dirección'
             ]
@@ -173,10 +182,11 @@ class ClientsController extends Controller
         $client->email = $validData['email'];
         $client->cellphone = intval($validData['cellphone']);
         $client->country = $validData['country'];
+        $client->department = $validData['department'];
         $client->city = $validData['city'];
         $client->address = $validData['address'];
         $client->save();
-        return redirect('/clients');
+        return redirect()->route('clients.index');
     }
 
     /**
@@ -189,7 +199,7 @@ class ClientsController extends Controller
     {
         $client = Client::findOrFail($id);
         $client->delete();
-        return redirect('/clients');
+        return redirect()->route('clients.index');
     }
 
     public function confirmDelete($id)

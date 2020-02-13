@@ -3,15 +3,17 @@
 namespace App\Imports\Sheets;
 
 use App\Invoice;
+use Illuminate\Support\Facades\Cache;
 use Maatwebsite\Excel\Concerns\ToModel;
-use Maatwebsite\Excel\Concerns\WithHeadingRow;
 use Maatwebsite\Excel\Concerns\Importable;
+use Maatwebsite\Excel\Concerns\WithHeadingRow;
 use Maatwebsite\Excel\Concerns\WithValidation;
 use Maatwebsite\Excel\Concerns\WithBatchInserts;
 
 class SheetImport implements ToModel, WithHeadingRow, WithValidation, WithBatchInserts
 {
     use Importable;
+    private $rows = 0;
     /**
      * @param array $row
      *
@@ -20,6 +22,7 @@ class SheetImport implements ToModel, WithHeadingRow, WithValidation, WithBatchI
 
     public function model(array $row)
     {
+        ++$this->rows;
         $invoice = new Invoice([
             'title'     => $row['title'],
             'code'    => $row['code'],
@@ -27,9 +30,13 @@ class SheetImport implements ToModel, WithHeadingRow, WithValidation, WithBatchI
             'company_id' => $row['company_id'],
         ]);
         $invoice->duedate = date("Y-m-d H:i:s", strtotime($invoice->created_at . "+ 30 days"));
+        Cache::put('rows', $this->rows, 10);
         return $invoice;
     }
-
+    public function getRowCount(): int
+    {
+        return $this->rows;
+    }
     public function batchSize(): int
     {
         return 100;

@@ -8,7 +8,12 @@ use App\Imports\InvoiceImport;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Facades\Excel;
-use App\{Invoice, Client, Product, Company};
+use Illuminate\Support\Facades\Cache;
+use App\Invoice;
+use App\Client;
+use App\Product;
+use App\Company;
+use App\Http\Requests\Invoices\InvoiceStoreRequest;
 
 class InvoiceController extends Controller
 {
@@ -48,7 +53,11 @@ class InvoiceController extends Controller
      */
     public function create(Invoice $invoice)
     {
-        return response()->view('invoice.create', compact('invoice'));
+        return response()->view('invoice.create', [
+            'invoice' => $invoice,
+            'clients' => Client::all(),
+            'companies' => Company::all()
+        ]);
     }
 
     /**
@@ -57,20 +66,13 @@ class InvoiceController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(InvoiceStoreRequest $request)
     {
-        $validData = $request->validate([
-            'title' => 'required',
-            'code' => 'required|unique:invoices',
-            'client_id' => 'required',
-            'company_id' => 'required',
-        ]);
-
         $invoice = new Invoice();
-        $invoice->title = $validData['title'];
-        $invoice->code = $validData['code'];
-        $invoice->client_id = $validData['client_id'];
-        $invoice->company_id = $validData['company_id'];
+        $invoice->title = $request->input('title');
+        $invoice->code = $request->input('code');
+        $invoice->client_id = $request->input('client');
+        $invoice->company_id = $request->input('company');
         $invoice->duedate = date("Y-m-d H:i:s", strtotime($invoice->created_at . "+ 30 days"));
         $invoice->save();
         return redirect()->route('invoices.edit', $invoice->id);
@@ -122,31 +124,21 @@ class InvoiceController extends Controller
                 'required',
                 Rule::unique('invoices')->ignore($id)
             ],
-            'client_id' => 'required',
-            'company_id' => 'required',
-            'state' => 'required',
+            'client' => 'required|numeric|exists:clients,id',
+            'company' => 'required|numeric|exists:companies,id',
             'stateReceipt' => 'required',
         ]);
         $invoice = Invoice::find($id);
         $invoice->title = $validData['title'];
         $invoice->code = $validData['code'];
-        $invoice->client_id = $validData['client_id'];
-        $invoice->company_id = $validData['company_id'];
+        $invoice->client_id = $validData['client'];
+        $invoice->company_id = $validData['company'];
         $invoice->duedate = date("Y-m-d H:i:s", strtotime($invoice->created_at . "+ 30 days"));
         if ($validData['stateReceipt'] == '1') {
             $now = new \DateTime();
             $invoice->receipt_date = $now->format('Y-m-d H:i:s');
         } else {
-            $invoice->receipt_date = NULL;
-        }
-        if ($validData['state'] == '1') {
-            $now = new \DateTime();
-            $invoice->state = $now->format('Y-m-d H:i:s');
-            if ($validData['stateReceipt'] == '2') {
-                $invoice->receipt_date = $now->format('Y-m-d H:i:s');
-            }
-        } else {
-            $invoice->state = NULL;
+            $invoice->receipt_date = null;
         }
         $this->updateOrder($invoice);
         $invoice->save();
@@ -164,15 +156,7 @@ class InvoiceController extends Controller
         $invoice = Invoice::find($id);
         $invoice->delete();
 
-        return redirect('/invoices');
-    }
-
-    public function confirmDelete($id)
-    {
-        $invoice = Invoice::find($id);
-        return view('invoice.confirmDelete', [
-            'invoice' => $invoice
-        ]);
+        return redirect()->route('invoices.index');
     }
 
     public function createInvoiceProduct($id)
@@ -185,13 +169,13 @@ class InvoiceController extends Controller
     {
         $invoice = Invoice::find($id);
         $validData = $request->validate([
-            'product_id' => 'required',
+            'product' => 'required',
             'quantity' => 'required',
             'unit_value' => 'required',
         ]);
-        $product = Product::find($validData['product_id']);
+        $product = Product::find($validData['product']);
         $validData['unit_value'] = $product->price;
-        $invoice->products()->attach($validData['product_id'], [
+        $invoice->products()->attach($validData['product'], [
             'quantity' => $validData['quantity'],
             'unit_value' => $validData['unit_value'],
             'total_value' => $validData['quantity'] * $validData['unit_value']
@@ -212,7 +196,8 @@ class InvoiceController extends Controller
             $file = $request->file('file')->getRealPath();
             $import = new InvoiceImport;
             $import->import($file);
-            return redirect()->route('invoices.index')->with('message', 'Importación de facturas exítosa');
+            $contImport = Cache::get('rows');
+            return redirect()->route('invoices.index')->with('success', 'Importación de facturas exítosa, se importaron ' . $contImport . ' facturas');
         } else {
             return back()->withErrors("Ingresa el archivo");
         }

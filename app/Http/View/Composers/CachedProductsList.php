@@ -16,7 +16,7 @@ class CachedProductsList
     }
     public function compose(View $view)
     {
-        $view->with('products', Cache::remember('products.enabled', 600, function() {
+        $view->with('products', Cache::remember('products.enabled', 600, function () {
             return $this->product->all();
         }));
     }

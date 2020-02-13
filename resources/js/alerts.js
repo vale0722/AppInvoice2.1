@@ -1,0 +1,13 @@
+ if (document.getElementById('divErrors')) {
+     swal({
+         title: 'ERROR!',
+         text: 'Algo ha fallado!',
+         icon: 'error',
+     });
+ };
+ if (document.getElementById('success')) {
+     swal({
+         title: 'Importación exítosa',
+         icon: 'success',
+     });
+ };

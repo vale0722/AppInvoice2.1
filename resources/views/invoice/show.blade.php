@@ -7,11 +7,18 @@ $now = $now->format('Y-m-d H:i:s');
 <div class="container">
     <br>
     <br>
-    <div class="col my-2">
-        <a class="btn btn-circle btn-lg btn-secondary" href="{{ route('invoices.index') }}"><i class="fas fa-undo"></i></a>
+    @if($errors->any())
+    <div id="divErrors">
+        @foreach($errors->all() as $error)
+        <div class="alert alert-danger">
+            <ul>
+                <li>{{ $error }}</li>
+            </ul>
+        </div>
+        <br>
+        @endforeach
     </div>
-</div>
-<div class="container">
+    @endif
     <div class="row justify-content-center">
         <div class="col-xl-12 col-lg-12 col-md-9">
             <div class="card o-hidden border-0 shadow my-3">
@@ -24,7 +31,7 @@ $now = $now->format('Y-m-d H:i:s');
                         <h2><b> FACTURA </b></h2>
                         <h3><small>Factura {{ $invoice->code }}</small></h3>
                         <h5>
-                            @if (isset($invoice->state))
+                            @if ($invoice->state == 'APPROVED')
                             <button type="button" class="btn btn-success btn-sm"> Pago </button>
                             @elseif($invoice->duedate <= $now) <button type="button" class="btn btn-danger btn-sm"> Vencido </button>
                                 @else
@@ -35,6 +42,7 @@ $now = $now->format('Y-m-d H:i:s');
                                 @else
                                 <button type="button" class="btn btn-secondary btn-sm"> Sin recibir </button>
                                 @endif
+
                         </h5>
                         <br>
                     </div>
@@ -42,10 +50,6 @@ $now = $now->format('Y-m-d H:i:s');
             </div>
         </div>
     </div>
-</div>
-</div>
-
-<div class="container">
     <div class="row justify-content-center">
         <div class="col-xl-12 col-lg-12 col-md-9">
             <div class="row">
@@ -73,8 +77,8 @@ $now = $now->format('Y-m-d H:i:s');
                         <div class="card-body p-4">
                             <h5><b>Fecha de creación: </b>{{ $invoice->created_at }} </h5>
                             <h5><b>Fecha de expiración:</b> {{ $invoice->duedate }} </h5>
-                            @if (isset($invoice->state))
-                            <h5><b>Fecha de pago:</b> {{ $invoice->state}} </h5>
+                            @if ($invoice->state == 'APPROVED')
+                            <h5><b>Fecha de pago:</b> {{ $invoice->payment_date}} </h5>
                             @endif
                             @if (isset($invoice->receipt_date))
                             <h5><b>Fecha de recibo:</b> {{ $invoice->receipt_date}} </h5>
@@ -85,11 +89,10 @@ $now = $now->format('Y-m-d H:i:s');
                         </div>
                     </div>
                 </div>
+
             </div>
         </div>
     </div>
-</div>
-<div class="container">
     <div class="row justify-content-center">
         <div class="col-xl-12 col-lg-12 col-md-9">
             <div class="card o-hidden border-1 my-3">
@@ -133,10 +136,16 @@ $now = $now->format('Y-m-d H:i:s');
                             </div>
                         </div>
                     </div>
+                    @if($invoice->state != 'APPROVED')
+                    <a href="#" class="btn btn-success btn-block" data-toggle="modal" data-target="#create">
+                        Realiza el pago de la factura
+                    </a>
+                    @include('invoice.payment.create')
+                    @endif
+                    <a class="btn btn-primary btn-block" href="{{ route('payments.show', $invoice->id) }}"><i class="far fa-eye"></i> Ver intentos de pago </a>
                 </div>
             </div>
         </div>
     </div>
 </div>
-
 @endsection
