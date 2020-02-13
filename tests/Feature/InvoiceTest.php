@@ -140,7 +140,7 @@ class InvoiceTest extends TestCase
         ]);
     }
 
-    /** 
+    /**
      * @test
      */
     public function AuthenticatedUserCanDeleteAnInvoice()

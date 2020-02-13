@@ -2,7 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\{Client, Invoice};
+use App\Client;
+use App\Invoice;
 use Illuminate\Http\Request;
 use App\Exports\ClientExport;
 use App\Imports\ClientImport;

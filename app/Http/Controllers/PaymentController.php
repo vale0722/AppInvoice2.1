@@ -28,7 +28,6 @@ class PaymentController extends Controller
      */
     public function store(Request $request, Invoice $invoice, PlacetoPay $placetopay)
     {
-
         $payment = Payment::create([
             'invoice_id' => $invoice->id,
             'amount' => $invoice->total
@@ -122,7 +121,7 @@ class PaymentController extends Controller
             $invoice->state = $response->status()->status();
             if ($response->status()->isApproved()) {
                 $date = date("Y-m-d H:i:s", strtotime($response->status()->date()));
-                if ($invoice->receipt_date == NULL) {
+                if ($invoice->receipt_date == null) {
                     $invoice->receipt_date = $date;
                 }
                 $invoice->payment_date = $date;
@@ -132,7 +131,7 @@ class PaymentController extends Controller
             $invoice->update();
         } else {
             $invoice->state = $response->status()->status();
-            $invoice->receipt_date = NULL;
+            $invoice->receipt_date = null;
             $invoice->update();
         }
         return redirect()->route('payments.show', $invoice->id);

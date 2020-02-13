@@ -115,7 +115,7 @@ class ClientTest extends TestCase
         ]);
     }
 
-    /** 
+    /**
      * @test
      */
     public function AuthenticatedUserCanDeleteAClient()

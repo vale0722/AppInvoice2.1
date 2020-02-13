@@ -49,9 +49,9 @@ class CompanyTest extends TestCase
         ]);
     }
 
-     /**
-     * @test
-     */
+    /**
+    * @test
+    */
     public function AuthenticatedUserCanUpdateACompany()
     {
         $user = factory(User::class)->create();
@@ -68,7 +68,7 @@ class CompanyTest extends TestCase
         ]);
     }
 
-    /** 
+    /**
      * @test
      */
     public function AuthenticatedUserCanDeleteACompany()

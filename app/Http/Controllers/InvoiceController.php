@@ -9,7 +9,10 @@ use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Support\Facades\Cache;
-use App\{Invoice, Client, Product, Company};
+use App\Invoice;
+use App\Client;
+use App\Product;
+use App\Company;
 use App\Http\Requests\Invoices\InvoiceStoreRequest;
 
 class InvoiceController extends Controller
@@ -135,7 +138,7 @@ class InvoiceController extends Controller
             $now = new \DateTime();
             $invoice->receipt_date = $now->format('Y-m-d H:i:s');
         } else {
-            $invoice->receipt_date = NULL;
+            $invoice->receipt_date = null;
         }
         $this->updateOrder($invoice);
         $invoice->save();

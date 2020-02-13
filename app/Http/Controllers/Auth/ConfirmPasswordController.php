@@ -37,4 +37,3 @@ class ConfirmPasswordController extends Controller
         $this->middleware('auth');
     }
 }
-?>

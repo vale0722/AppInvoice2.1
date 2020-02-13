@@ -8,6 +8,6 @@ use Faker\Generator as Faker;
 $factory->define(Company::class, function (Faker $faker) {
     return [
         'name' => $faker->company,
-        'nit' => $faker->unique()->swiftBicNumber 
+        'nit' => $faker->unique()->swiftBicNumber
     ];
 });

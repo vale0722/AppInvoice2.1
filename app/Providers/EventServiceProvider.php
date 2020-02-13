@@ -32,4 +32,3 @@ class EventServiceProvider extends ServiceProvider
         //
     }
 }
-?>

@@ -16,7 +16,7 @@ class CachedTypesDocumentsList
     }
     public function compose(View $view)
     {
-        $view->with('types_documents', Cache::remember('typesDocuments.enabled', 600, function() {
+        $view->with('types_documents', Cache::remember('typesDocuments.enabled', 600, function () {
             return $this->typeDocument->all();
         }));
     }

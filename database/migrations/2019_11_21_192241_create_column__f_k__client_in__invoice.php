@@ -31,4 +31,3 @@ class CreateColumnFKClientInInvoice extends Migration
         });
     }
 }
-?>

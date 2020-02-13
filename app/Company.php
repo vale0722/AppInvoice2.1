@@ -12,8 +12,10 @@ class Company extends Model
     }
     public function scopeSearch($query, $search, $type)
     {
-        if ($type)
-            if ($search)
+        if ($type) {
+            if ($search) {
                 return $query->where("$type", 'LIKE', "%$search%");
+            }
+        }
     }
 }

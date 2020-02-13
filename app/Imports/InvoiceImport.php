@@ -23,7 +23,6 @@ class InvoiceImport implements WithMultipleSheets, SkipsUnknownSheets
 
     public function onUnknownSheet($sheetName)
     {
-
         info("Se omitió la hoja {$sheetName}");
     }
 }

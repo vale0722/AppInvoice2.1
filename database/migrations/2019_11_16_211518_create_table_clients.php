@@ -29,4 +29,3 @@ class CreateTableClients extends Migration
         Schema::dropIfExists('clients');
     }
 }
-?>

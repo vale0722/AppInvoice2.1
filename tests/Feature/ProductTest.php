@@ -72,7 +72,7 @@ class ProductTest extends TestCase
         ]);
     }
 
-    /** 
+    /**
      * @test
      */
     public function AuthenticatedUserCanDeleteACompany()

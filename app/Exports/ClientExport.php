@@ -15,4 +15,3 @@ class ClientExport implements FromCollection
         return Client::all();
     }
 }
-
