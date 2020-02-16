@@ -31,8 +31,6 @@ class ViewComposerProvider extends ServiceProvider
         View::composer(
             'invoiceProduct.create',
             CachedProductsList::class,
-            CachedCompaniesList::class,
-            CachedClientsList::class
         );
         View::composer(
             'client.__form',
