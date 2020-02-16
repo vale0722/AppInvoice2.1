@@ -26,9 +26,9 @@ class PlacetopayProvider extends ServiceProvider
     {
         $this->app->singleton(PlacetoPay::class, function ($app) {
             return new PlacetoPay([
-                'login' => config('placetoplay.login'),
-                'tranKey' => config('placetoplay.trankey'),
-                'url' => config('placetoplay.url'),
+                'login' => config('placetopay.login'),
+                'tranKey' => config('placetopay.trankey'),
+                'url' => config('placetopay.url'),
             ]);
         });
     }

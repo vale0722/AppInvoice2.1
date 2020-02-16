@@ -1,7 +1,7 @@
 <?php
 
 return [
-    'login' => env('PLACETOPLAY_LOGIN'),
+    'login' => env('PLACETOPAY_LOGIN'),
     'trankey' => env('PLACETOPAY_TRANKEY'),
     'url' => env('PLACETOPAY_URL')
 ];
