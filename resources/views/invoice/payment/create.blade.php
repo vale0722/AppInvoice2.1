@@ -9,6 +9,9 @@
             </div>
             <div class="modal-body">
                 <div class="col-lg-12">
+                    @if($invoice->state == 'PENDING')
+                    <div class="alert alert-danger"> TIENES UN PAGO PENDIENTE DE APROBACIÓN </div>
+                    @else
                     <div class='row'>
                         <div class="col-md-6">
                             <div class="row"> Nombre del cliente</div>
@@ -37,6 +40,7 @@
                 @csrf
                 <button type="submit" class="btn btn-success btn-block"> confirmar </button>
             </form>
+            @endif
         </div>
     </div>
 </div>
