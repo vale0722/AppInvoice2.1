@@ -2,6 +2,11 @@
 @section('content')
 <div class="container">
     <br>
+    @if(session()->has('message'))
+    <div class="alert alert-success" id="message">
+        {{ session()->get('message') }}
+    </div>
+    @endif
     <div class="card shadow mb-5 my-5">
         <div class="card-header">
             <div class="text-center">
@@ -24,7 +29,7 @@
                         @foreach($invoice->payments as $payment)
                         <tr>
                             <td>{{ $invoice->code }}</td>
-                            <td>{{ $payment->created_at }}</td>
+                            <td><a href="{{ route('payments.show', $payment->id) }}">{{ $payment->created_at }}</a></td>
                             <td>{{ $payment->status }}</td>
                         </tr>
                         @endforeach

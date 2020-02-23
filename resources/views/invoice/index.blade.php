@@ -39,7 +39,7 @@ $now = $now->format('Y-m-d H:i:s');
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach($invoices as $invoice)
+                        @forelse($invoices as $invoice)
                         <tr>
                             <td>{{ $invoice->code }}</td>
                             <td nowrap>{{ $invoice->created_at }}</td>
@@ -66,7 +66,18 @@ $now = $now->format('Y-m-d H:i:s');
                                 </div>
                             </td>
                         </tr>
-                        @endforeach
+                        @empty
+                        <tr>
+                            <td> NO SE ENCUENTRAN FACTURAS </td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        @endforelse
                     </tbody>
                 </table>
                 {{ $invoices->appends($_GET)->links() }}

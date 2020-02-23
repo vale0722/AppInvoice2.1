@@ -40,7 +40,7 @@ Route::get('/products/{id}/confirmDelete', 'ProductController@confirmDelete')->n
 Route::resource('/companies', 'CompanyController');
 Route::get('/companies/{id}/confirmDelete', 'CompanyController@confirmDelete')->name('companies.confirm.delete');
 
-Route::get('/payment/{invoice}', 'paymentController@create')->name('payments.create');
-Route::post('/payment/{invoice}', 'paymentController@store')->name('payments.store');
-Route::get('/payment/show/{invoice}/', 'paymentController@show')->name('payments.show');
-Route::get('/payment/update/{payment}/', 'paymentController@update')->name('payments.update');
+Route::get('/payment/{invoice}', 'paymentController@index')->name('payments.index');
+Route::get('/payment/create/{invoice}', 'paymentController@create')->name('payments.create');
+Route::post('/payment/create/{invoice}', 'paymentController@store')->name('payments.store');
+Route::get('/payment/show/{payment}/', 'paymentController@show')->name('payments.show');

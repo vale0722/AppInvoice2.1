@@ -7,7 +7,14 @@
  };
  if (document.getElementById('success')) {
      swal({
-         title: 'Importación exítosa',
+         title: 'Importación exitosa',
+         icon: 'success',
+     });
+ };
+
+ if (document.getElementById('message')) {
+     swal({
+         title: 'Importación exitosa',
          icon: 'success',
      });
  };
