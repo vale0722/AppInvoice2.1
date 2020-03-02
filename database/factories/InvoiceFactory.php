@@ -12,8 +12,9 @@ $factory->define(Invoice::class, function (Faker $faker) {
     $company = factory(Company::class)->create();
     return [
         'title' => $faker->name,
-        'code' => $faker->bothify('?###') ,
+        'code' => $faker->bothify('?###'),
         'client_id' => $client->id,
         'company_id' => $company->id,
+        'state' => 'DEFAULT'
     ];
 });

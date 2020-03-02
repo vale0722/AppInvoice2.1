@@ -34,9 +34,10 @@ $now = $now->format('Y-m-d H:i:s');
                             @if ($invoice->state == 'APPROVED')
                             <button type="button" class="btn btn-success btn-sm"> Pago </button>
                             @elseif($invoice->duedate <= $now) <button type="button" class="btn btn-danger btn-sm"> Vencido </button>
-                                @else
-                                <button type="button" class="btn btn-warning btn-sm"> Sin pagar </button>
-                                @endif
+                            @elseif($invoice->state == 'PENDING') <button type="button" class="btn btn-primary btn-sm"> Pendiente </button>
+                                    @else
+                                    <button type="button" class="btn btn-warning btn-sm">Sin Pagar </button>
+                                    @endif
                                 @if (isset($invoice->receipt_date))
                                 <button type="button" class="btn btn-primary btn-sm"> Recibido </button>
                                 @else

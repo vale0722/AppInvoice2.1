@@ -28,6 +28,7 @@ class SheetImport implements ToModel, WithHeadingRow, WithValidation, WithBatchI
             'code'    => $row['code'],
             'client_id' => $row['client_id'],
             'company_id' => $row['company_id'],
+            'state' => $row['state'],
         ]);
         $invoice->duedate = date("Y-m-d H:i:s", strtotime($invoice->created_at . "+ 30 days"));
         Cache::put('rows', $this->rows, 10);
@@ -49,6 +50,7 @@ class SheetImport implements ToModel, WithHeadingRow, WithValidation, WithBatchI
             'code' => 'required|unique:invoices',
             'client_id' => 'required|numeric|exists:clients,id',
             'company_id' => 'required|numeric|exists:companies,id',
+            'state' => 'required'
         ];
     }
 
@@ -63,7 +65,7 @@ class SheetImport implements ToModel, WithHeadingRow, WithValidation, WithBatchI
             'required' => "El :attribute de la factura es requerido",
             'code.unique' => 'El código de factura ya exíste',
             'client_id.exists' => 'El id del cliente no exíste',
-            'company_id.exists' => 'El id de la compañia no exíste'
+            'company_id.exists' => 'El id de la compañia no exíste',
         ];
     }
 
@@ -79,6 +81,7 @@ class SheetImport implements ToModel, WithHeadingRow, WithValidation, WithBatchI
             'code' => 'Código',
             'client_id' => 'Id del Cliente',
             'company_id' => 'Id del Vendedor',
+            'state' => 'Estado'
         ];
     }
 }

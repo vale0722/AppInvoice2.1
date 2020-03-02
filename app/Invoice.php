@@ -8,7 +8,7 @@ use PHP_Token_ELSEIF;
 
 class Invoice extends Model
 {
-    protected $fillable = ['title', 'code', 'client_id', 'company_id', 'duedate'];
+    protected $fillable = ['title', 'code', 'client_id', 'company_id', 'duedate', 'state'];
 
 
     public function products()
@@ -96,18 +96,18 @@ class Invoice extends Model
         $now = $now->format('Y-m-d H:i:s');
         if ($state) {
             if ($state == "paid") {
-                return $query->where("state", "!=", "NULL");
+                return $query->where("state", "APPROVED");
             } elseif ($state == "overdue") {
                 return $query->where("duedate", "<=", "$now");
+            } elseif ($state == "pending") {
+                return $query->where("state", "PENDING");
             } else {
-                return $query->where("state");
+                return $query->where("state", "!=", "APPROVED");
             }
         }
     }
     public function scopeFiltrate($query, $typeDate, $firstCreationDate, $finalCreationDate)
     {
-        $now = new \DateTime();
-        $now = $now->format('Y-m-d H:i:s');
         if ($typeDate) {
             return $query->whereDate("$typeDate", ">=", "$firstCreationDate")->whereDate("$typeDate", '<=', "$finalCreationDate");
         }

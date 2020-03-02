@@ -39,7 +39,7 @@ class InvoiceController extends Controller
             ->search($search, $type)
             ->filtrate($typeDate, $firstCreationDate, $finalCreationDate)
             ->filtrateState($state)
-            ->paginate(4);
+            ->paginate(10);
         return view('invoice.index', [
             'clients' => Client::all(),
             'companies' => Company::all()
@@ -73,6 +73,7 @@ class InvoiceController extends Controller
         $invoice->code = $request->input('code');
         $invoice->client_id = $request->input('client');
         $invoice->company_id = $request->input('company');
+        $invoice->state = "DEFAULT";
         $invoice->duedate = date("Y-m-d H:i:s", strtotime($invoice->created_at . "+ 30 days"));
         $invoice->save();
         return redirect()->route('invoices.edit', $invoice->id);
