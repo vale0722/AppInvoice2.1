@@ -1,6 +1,9 @@
 @extends ('layouts.app')
 @section('content')
-
+<?php
+$now = new \DateTime();
+$now = $now->format('Y-m-d H:i:s');
+?>
 <div class="container">
     <br>
     <br>
@@ -65,11 +68,13 @@
                                     <td> {{$invoice->client->name . ' ' .$invoice->client->last_name }}</td>
                                     <td> {{ $invoice->company->name }}</td>
                                     <td>
-                                        @if (isset($invoice->state))
+                                        @if ($invoice->state == 'APPROVED')
                                         <button type="button" class="btn btn-success btn-sm"> Pago </button>
-                                        @else
-                                        <button type="button" class="btn btn-warning btn-sm"> Sin pagar </button>
-                                        @endif
+                                        @elseif($invoice->duedate <= $now) <button type="button" class="btn btn-danger btn-sm"> Vencido </button>
+                                            @elseif($invoice->state == 'PENDING') <button type="button" class="btn btn-primary btn-sm"> Pendiente </button>
+                                            @else
+                                            <button type="button" class="btn btn-warning btn-sm">Sin Pagar </button>
+                                            @endif
                                     </td>
                                     <td>{{ '$'. number_format($invoice->total, 2) }}</td>
                                     <td>

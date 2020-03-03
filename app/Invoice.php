@@ -101,8 +101,8 @@ class Invoice extends Model
                 return $query->where("duedate", "<=", "$now");
             } elseif ($state == "pending") {
                 return $query->where("state", "PENDING");
-            } else {
-                return $query->where("state", "!=", "APPROVED");
+            } {
+                return $query->where("state", "!=", "APPROVED")->where("state", "!=", "PENDING");
             }
         }
     }
