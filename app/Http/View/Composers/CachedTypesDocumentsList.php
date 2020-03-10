@@ -8,8 +8,6 @@ use Illuminate\View\View;
 
 class CachedTypesDocumentsList
 {
-    private $product;
-    
     public function __construct(Type_Document $typeDocument)
     {
         $this->typeDocument = $typeDocument;

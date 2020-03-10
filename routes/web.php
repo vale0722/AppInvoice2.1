@@ -47,3 +47,5 @@ Route::get('/payment/show/{payment}/', 'PaymentController@show')->name('payments
 
 Route::get('/report', 'ReportController@index')->name('report.index');
 Route::get('/report/export/{state}/{firstCreationDate}/{finalCreationDate}/{format}', 'ReportController@export')->name('report.export');
+
+Route::resource('/users', 'UserController');
