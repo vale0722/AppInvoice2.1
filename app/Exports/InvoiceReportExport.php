@@ -3,13 +3,15 @@
 namespace App\Exports;
 
 use App\Invoice;
+use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Queue\InteractsWithQueue;
 use Maatwebsite\Excel\Concerns\FromQuery;
 use Maatwebsite\Excel\Concerns\Exportable;
 
 class InvoiceReportExport implements FromQuery, ShouldQueue
 {
-    use Exportable;
+    use Exportable, InteractsWithQueue, Queueable;
 
     public function __construct(string $state, string $firstCreationDate, string $finalCreationDate)
     {

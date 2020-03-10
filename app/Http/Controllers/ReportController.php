@@ -2,8 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Client;
-use App\Company;
 use App\Invoice;
 use Illuminate\Http\Request;
 use App\Exports\InvoiceReportExport;
@@ -31,6 +29,6 @@ class ReportController extends Controller
 
     public function export(Request $request, $firstCreationDate, $finalCreationDate, $state, $format)
     {
-        return (new InvoiceReportExport($firstCreationDate, $finalCreationDate, $state))->download('invoices.'. $format);
+        return (new InvoiceReportExport($firstCreationDate, $finalCreationDate, $state))->download('invoices.' . $format);
     }
 }

@@ -2,7 +2,6 @@
 
 use App\User;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\DB;
 
 class UserSeeder extends Seeder
 {
@@ -13,12 +12,37 @@ class UserSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('users')->insert([
-            'name' => 'test Name',
-            'email' => 'test@mail.com',
+        //admin user creation
+        $user = User::create([
+            'name' => 'Admin',
+            'lastname' => 'Administrador',
+            'email' => 'admin@mail.com',
             'email_verified_at' => now(),
-            'password' => bcrypt('12345678'), // password
+            'password' => bcrypt('12345678'),
             'remember_token' => '1',
         ]);
+        $user->assignRole('admin');
+
+        //client user creation
+        $user = User::create([
+            'name' => 'Client',
+            'lastname' => 'Client',
+            'email' => 'client@mail.com',
+            'email_verified_at' => now(),
+            'password' => bcrypt('12345678'),
+            'remember_token' => '1',
+        ]);
+        $user->assignRole('client');
+
+        //company user creation
+        $user = User::create([
+            'name' => 'company',
+            'lastname' => 'company',
+            'email' => 'company@mail.com',
+            'email_verified_at' => now(),
+            'password' => bcrypt('12345678'),
+            'remember_token' => '1',
+        ]);
+        $user->assignRole('company');
     }
 }
