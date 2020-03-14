@@ -10,6 +10,7 @@ class ReportController extends Controller
 {
     public function index(Request $request)
     {
+        $this->authorize('export', new Invoice());
         $firstCreationDate = $request->get('firstCreationDate');
         $finalCreationDate = $request->get('finalCreationDate');
         $state = $request->get('state');
@@ -29,6 +30,7 @@ class ReportController extends Controller
 
     public function export(Request $request, $firstCreationDate, $finalCreationDate, $state, $format)
     {
+        $this->authorize('export', new Invoice());
         return (new InvoiceReportExport($firstCreationDate, $finalCreationDate, $state))->download('invoices.' . $format);
     }
 }

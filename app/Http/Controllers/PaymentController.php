@@ -17,6 +17,7 @@ class PaymentController extends Controller
      */
     public function index(Invoice $invoice)
     {
+        $this->authorize('payment', $invoice);
         return view("invoice.payment.index", compact('invoice'));
     }
 
@@ -27,6 +28,7 @@ class PaymentController extends Controller
      */
     public function create(Invoice $invoice)
     {
+        $this->authorize('payment', $invoice);
         return view("invoice.payment.create", compact('invoice'));
     }
 
@@ -38,6 +40,7 @@ class PaymentController extends Controller
      */
     public function store(Request $request, Invoice $invoice, PlacetoPay $placetopay)
     {
+        $this->authorize('payment', $invoice);
         $payment = Payment::create([
             'invoice_id' => $invoice->id,
             'amount' => $invoice->total
@@ -102,11 +105,13 @@ class PaymentController extends Controller
      */
     public function show(Payment $payment, PlacetoPay $placetopay)
     {
+
         $payment = Payment::where('id', $payment->id)->first();
         $response = $placetopay->query($payment->request_id);
         $payment->status = $response->status()->status();
         $payment->update();
         $invoice = Invoice::where('id', $payment->invoice_id)->first();
+        $this->authorize('payment', $invoice);
         if ($response->isSuccessful()) {
             $invoice->state = $response->status()->status();
             if ($response->status()->isApproved()) {

@@ -55,8 +55,6 @@ class RolesSeeder extends Seeder
         $role->givePermissionTo('view associated invoices');
         $role->givePermissionTo('create invoice');
         $role->givePermissionTo('update associated invoice');
-        $role->givePermissionTo('delete associated invoice');
-        $role->givePermissionTo('show associated invoice');
         $role->givePermissionTo('import invoices');
 
         //assinging client permissions to the company
@@ -64,7 +62,7 @@ class RolesSeeder extends Seeder
         $role->givePermissionTo('create client');
         $role->givePermissionTo('update associated client');
         $role->givePermissionTo('delete associated client');
-        $role->givePermissionTo('show associated client');
+        $role->givePermissionTo('show client');
         $role->givePermissionTo('import clients');
         $role->givePermissionTo('export clients');
 

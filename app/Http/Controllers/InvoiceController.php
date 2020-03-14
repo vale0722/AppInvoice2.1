@@ -29,6 +29,7 @@ class InvoiceController extends Controller
      */
     public function index(Request $request)
     {
+        $this->authorize('viewAny', new Invoice());
         $typeDate = $request->get('typeDate');
         $firstCreationDate = $request->get('firstCreationDate');
         $finalCreationDate = $request->get('finalCreationDate');
@@ -53,6 +54,7 @@ class InvoiceController extends Controller
      */
     public function create(Invoice $invoice)
     {
+        $this->authorize('create', new Invoice());
         return response()->view('invoice.create', [
             'invoice' => $invoice,
             'clients' => Client::all(),
@@ -68,6 +70,7 @@ class InvoiceController extends Controller
      */
     public function store(InvoiceStoreRequest $request)
     {
+        $this->authorize('create', new Invoice());
         $invoice = new Invoice();
         $invoice->title = $request->input('title');
         $invoice->code = $request->input('code');
@@ -88,6 +91,7 @@ class InvoiceController extends Controller
      */
     public function show(Invoice $invoice)
     {
+        $this->authorize('show', $invoice);
         return view('invoice.show', [
             'invoice' => $invoice
         ]);
@@ -102,6 +106,7 @@ class InvoiceController extends Controller
     public function edit($id)
     {
         $invoice = Invoice::find($id);
+        $this->authorize('update', $invoice);
         return view('invoice.edit', [
             'invoice' => $invoice,
             'clients' => Client::all(),
@@ -118,6 +123,9 @@ class InvoiceController extends Controller
      */
     public function update(Request $request, $id)
     {
+
+        $invoice = Invoice::find($id);
+        $this->authorize('update', $invoice);
         $validData = $request->validate([
             'title' => 'required',
 
@@ -129,7 +137,6 @@ class InvoiceController extends Controller
             'company' => 'required|numeric|exists:companies,id',
             'stateReceipt' => 'required',
         ]);
-        $invoice = Invoice::find($id);
         $invoice->title = $validData['title'];
         $invoice->code = $validData['code'];
         $invoice->client_id = $validData['client'];
@@ -155,6 +162,7 @@ class InvoiceController extends Controller
     public function destroy($id)
     {
         $invoice = Invoice::find($id);
+        $this->authorize('update', $invoice);
         $invoice->delete();
 
         return redirect()->route('invoices.index');
@@ -163,12 +171,14 @@ class InvoiceController extends Controller
     public function createInvoiceProduct($id)
     {
         $invoice = Invoice::find($id);
+        $this->authorize('update', $invoice);
         return response()->view('invoiceProduct.create', compact('invoice'));
     }
 
     public function invoiceProductStore(Request $request, $id)
     {
         $invoice = Invoice::find($id);
+        $this->authorize('update', $invoice);
         $validData = $request->validate([
             'product' => 'required',
             'quantity' => 'required',
@@ -188,11 +198,13 @@ class InvoiceController extends Controller
 
     public function indexImport()
     {
+        $this->authorize('import', new Invoice());
         return view('invoice.importInvoice');
     }
 
     public function importExcel(Request $request)
     {
+        $this->authorize('import', new Invoice());
         if ($request->file('file')) {
             $file = $request->file('file')->getRealPath();
             $import = new InvoiceImport;
@@ -202,11 +214,6 @@ class InvoiceController extends Controller
         } else {
             return back()->withErrors("Ingresa el archivo");
         }
-    }
-
-    public function exportExcel()
-    {
-        return Excel::download(new InvoiceExport, "invoice-list.xlsx");
     }
 
     public function updateOrder(Invoice $invoice)

@@ -2,6 +2,7 @@
 
 namespace App\Policies;
 
+use App\Company;
 use App\Invoice;
 use App\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
@@ -18,7 +19,7 @@ class InvoicePolicy
      */
     public function viewAny(User $user)
     {
-        //
+        return ($user->hasPermissionTo('view all invoices'));
     }
 
     /**
@@ -28,11 +29,22 @@ class InvoicePolicy
      * @param  \App\Invoice  $invoice
      * @return mixed
      */
-    public function view(User $user, Invoice $invoice)
+    public function view(User $user)
     {
-        //
+        return ($user->hasPermissionTo('view associated invoices'));
     }
 
+    /**
+     * Determine whether the company can be shown to de user.
+     *
+     * @param  \App\User  $user
+     * @param  \App\Invoice  $invoice
+     * @return mixed
+     */
+    public function show(User $user, Invoice $invoice)
+    {
+        return ($user->hasPermissionTo('show invoice'));
+    }
     /**
      * Determine whether the user can create invoices.
      *
@@ -41,7 +53,7 @@ class InvoicePolicy
      */
     public function create(User $user)
     {
-        //
+        return ($user->hasPermissionTo('create invoice'));
     }
 
     /**
@@ -53,7 +65,7 @@ class InvoicePolicy
      */
     public function update(User $user, Invoice $invoice)
     {
-        //
+        return ($user->hasPermissionTo('update invoice'));
     }
 
     /**
@@ -65,30 +77,42 @@ class InvoicePolicy
      */
     public function delete(User $user, Invoice $invoice)
     {
-        //
+        return ($user->hasPermissionTo('delete invoice'));
     }
 
     /**
-     * Determine whether the user can restore the invoice.
+     * Determine whether the user can payment the invoice.
      *
      * @param  \App\User  $user
      * @param  \App\Invoice  $invoice
      * @return mixed
      */
-    public function restore(User $user, Invoice $invoice)
+    public function payment(User $user, Invoice $invoice)
     {
-        //
+        return ($user->hasPermissionTo('payment invoice'));
     }
 
     /**
-     * Determine whether the user can permanently delete the invoice.
+     * Determine whether the user can import invoices.
      *
      * @param  \App\User  $user
      * @param  \App\Invoice  $invoice
      * @return mixed
      */
-    public function forceDelete(User $user, Invoice $invoice)
+    public function import(User $user, Invoice $invoice)
     {
-        //
+        return ($user->hasPermissionTo('import invoices'));
+    }
+
+    /**
+     * Determine whether the user can export invoices.
+     *
+     * @param  \App\User  $user
+     * @param  \App\Invoice  $invoice
+     * @return mixed
+     */
+    public function export(User $user, Invoice $invoice)
+    {
+        return ($user->hasPermissionTo('export invoices'));
     }
 }
