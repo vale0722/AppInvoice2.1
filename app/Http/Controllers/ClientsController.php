@@ -24,6 +24,7 @@ class ClientsController extends Controller
      */
     public function index(Request $request)
     {
+        $this->authorize('viewAny', new Client);
         $search = $request->get('search');
         $type = $request->get('type');
         $clients = Client::orderBy('id', 'DESC')

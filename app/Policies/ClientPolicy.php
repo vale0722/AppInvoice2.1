@@ -18,7 +18,7 @@ class ClientPolicy
      */
     public function viewAny(User $user)
     {
-        return ($user->hasPermissionTo('view associated clients'));
+        return ($user->hasPermissionTo('view all clients'));
     }
 
     /**
@@ -30,7 +30,7 @@ class ClientPolicy
      */
     public function view(User $user, Client $client)
     {
-        return ($user->hasPermissionTo('view all clients'));
+        return ($user->hasPermissionTo('view associated clients'));
     }
 
     /**
