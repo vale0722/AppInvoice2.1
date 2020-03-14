@@ -66,6 +66,7 @@ class RolesSeeder extends Seeder
         $role->givePermissionTo('delete associated client');
         $role->givePermissionTo('show associated client');
         $role->givePermissionTo('import clients');
+        $role->givePermissionTo('export clients');
 
         //asignig product permissions to the company
         $role->givePermissionTo('view all products');

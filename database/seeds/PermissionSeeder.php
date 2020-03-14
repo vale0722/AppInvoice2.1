@@ -38,6 +38,7 @@ class PermissionSeeder extends Seeder
         $permission = Permission::create(['name' => 'show client']);
         $permission = Permission::create(['name' => 'show associated client']);
         $permission = Permission::create(['name' => 'import clients']);
+        $permission = Permission::create(['name' => 'export clients']);
 
         // company permissions
         $permission = Permission::create(['name' => 'view all companies']);

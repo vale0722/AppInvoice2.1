@@ -16,6 +16,7 @@ class ClientsController extends Controller
     {
         $this->middleware('auth');
     }
+
     /**
      * Display a listing of the resource.
      *
@@ -38,6 +39,7 @@ class ClientsController extends Controller
      */
     public function create()
     {
+        $this->authorize('create', new Client());
         return view('client.create');
     }
 
@@ -49,6 +51,7 @@ class ClientsController extends Controller
      */
     public function store(Request $request)
     {
+        $this->authorize('create', new Client());
         $validData = $request->validate(
             [
                 'name' => 'required|min:3|max:100',
@@ -104,6 +107,7 @@ class ClientsController extends Controller
      */
     public function show(Client $client)
     {
+        $this->authorize('show', $client);
         return view('client.show', [
             'invoice' => Invoice::all(),
             'client' => $client
@@ -118,7 +122,9 @@ class ClientsController extends Controller
      */
     public function edit($id)
     {
+
         $client = Client::findOrFail($id);
+        $this->authorize('update', $client);
         return view('client.edit', [
             'client' => $client
         ]);
@@ -134,6 +140,9 @@ class ClientsController extends Controller
      */
     public function update(Request $request, $id)
     {
+
+        $client = Client::findOrFail($id);
+        $this->authorize('update', $client);
         $validData = $request->validate(
             [
                 'name' => 'required|min:3|max:100',
@@ -174,7 +183,6 @@ class ClientsController extends Controller
                 'address' => 'Dirección'
             ]
         );
-        $client = Client::findOrFail($id);
         $client->name = $validData['name'];
         $client->last_name = $validData['last_name'];
         $client->id_type = $validData['id_type'];
@@ -198,6 +206,7 @@ class ClientsController extends Controller
     public function destroy($id)
     {
         $client = Client::findOrFail($id);
+        $this->authorize('destroy', $client);
         $client->delete();
         return redirect()->route('clients.index');
     }
@@ -205,6 +214,7 @@ class ClientsController extends Controller
     public function confirmDelete($id)
     {
         $client = Client::findOrFail($id);
+        $this->authorize('destroy', $client);
         return view('client.confirmDelete', [
             'client' => $client
         ]);
@@ -217,6 +227,7 @@ class ClientsController extends Controller
 
     public function importExcel(Request $request)
     {
+        $this->authorize('import', new Client);
         if ($request->file('file')) {
             $path = $request->file('file')->getRealPath();
             Excel::import(new ClientImport, $path);
@@ -228,6 +239,7 @@ class ClientsController extends Controller
 
     public function exportExcel()
     {
+        $this->authorize('export', new Client);
         return Excel::download(new ClientExport, "client-list.xlsx");
     }
 }
