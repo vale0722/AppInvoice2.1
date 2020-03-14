@@ -20,6 +20,7 @@ class companyController extends Controller
      */
     public function index(Request $request)
     {
+        $this->authorize('viewAny', new Company);
         $search = $request->get('search');
         $type = $request->get('type');
         $companies = Company::orderBy('id', 'DESC')
@@ -35,6 +36,7 @@ class companyController extends Controller
      */
     public function create()
     {
+        $this->authorize('create', new Company);
         return view('company.create');
     }
 
@@ -46,6 +48,7 @@ class companyController extends Controller
      */
     public function store(Request $request)
     {
+        $this->authorize('create', new Company);
         $validData = $request->validate([
             'name' => 'required',
             'nit' => 'required|unique:companies'
@@ -58,17 +61,6 @@ class companyController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
      * Show the form for editing the specified resource.
      *
      * @param  int  $id
@@ -77,6 +69,7 @@ class companyController extends Controller
     public function edit($id)
     {
         $company = Company::findOrFail($id);
+        $this->authorize('update', $company);
         return view('company.edit', [
             'company' => $company
         ]);
@@ -91,6 +84,8 @@ class companyController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $company = Company::findOrFail($id);
+        $this->authorize('update', $company);
         $validData = $request->validate([
             'name' => 'required',
             'nit' => [
@@ -98,8 +93,6 @@ class companyController extends Controller
                 Rule::unique('companies')->ignore($id)
             ],
         ]);
-
-        $company = Company::findOrFail($id);
         $company->name = $validData['name'];
         $company->nit = $validData['nit'];
         $company->save();
@@ -115,6 +108,7 @@ class companyController extends Controller
     public function destroy($id)
     {
         $company = Company::findOrFail($id);
+        $this->authorize('delete', $company);
         $company->delete();
         return redirect()->route('companies.index');
     }
@@ -122,6 +116,7 @@ class companyController extends Controller
     public function confirmDelete($id)
     {
         $company = Company::findOrFail($id);
+        $this->authorize('delete', $company);
         return view('company.confirmDelete', [
             'company' => $company
         ]);

@@ -18,7 +18,7 @@ class CompanyPolicy
      */
     public function viewAny(User $user)
     {
-        //
+        return ($user->hasPermissionTo('view all company'));
     }
 
     /**
@@ -30,7 +30,7 @@ class CompanyPolicy
      */
     public function view(User $user, Company $company)
     {
-        //
+        return ($user->hasPermissionTo('view associated company'));
     }
 
     /**
@@ -41,7 +41,7 @@ class CompanyPolicy
      */
     public function create(User $user)
     {
-        //
+        return ($user->hasPermissionTo('create company'));
     }
 
     /**
@@ -53,7 +53,7 @@ class CompanyPolicy
      */
     public function update(User $user, Company $company)
     {
-        //
+        return ($user->hasPermissionTo('update company'));
     }
 
     /**
@@ -65,30 +65,6 @@ class CompanyPolicy
      */
     public function delete(User $user, Company $company)
     {
-        //
-    }
-
-    /**
-     * Determine whether the user can restore the company.
-     *
-     * @param  \App\User  $user
-     * @param  \App\Company  $company
-     * @return mixed
-     */
-    public function restore(User $user, Company $company)
-    {
-        //
-    }
-
-    /**
-     * Determine whether the user can permanently delete the company.
-     *
-     * @param  \App\User  $user
-     * @param  \App\Company  $company
-     * @return mixed
-     */
-    public function forceDelete(User $user, Company $company)
-    {
-        //
+        return ($user->hasPermissionTo('delete company'));
     }
 }
