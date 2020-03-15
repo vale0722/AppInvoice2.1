@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Invoice;
 use App\Product;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
@@ -19,6 +20,7 @@ class ProductController extends Controller
      */
     public function index(Request $request)
     {
+        $this->authorize('viewAny', new Invoice());
         $search = $request->get('search');
         $type = $request->get('type');
         $products = Product::orderBy('id', 'DESC')
@@ -34,6 +36,7 @@ class ProductController extends Controller
      */
     public function create()
     {
+        $this->authorize('create', new Invoice());
         return view('product.create');
     }
 
@@ -45,6 +48,7 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
+        $this->authorize('create', new Product());
         $validData = $request->validate([
             'name' => 'required',
             'code' => 'required|unique:products',
@@ -58,16 +62,6 @@ class ProductController extends Controller
         return redirect('/products');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
 
     /**
      * Show the form for editing the specified resource.
@@ -78,6 +72,7 @@ class ProductController extends Controller
     public function edit($id)
     {
         $product = Product::findOrFail($id);
+        $this->authorize('update', $product);
         return view('product.edit', [
             'product' => $product
         ]);
@@ -92,6 +87,8 @@ class ProductController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $product = Product::findOrFail($id);
+        $this->authorize('update', $product);
         $validData = $request->validate([
             'name' => 'required',
             'code' => [
@@ -100,7 +97,6 @@ class ProductController extends Controller
             ],
             'price' => 'required'
         ]);
-        $product = Product::findOrFail($id);
         $product->name = $validData['name'];
         $product->price = $validData['price'];
         $product->code = $validData['code'];
@@ -117,6 +113,7 @@ class ProductController extends Controller
     public function destroy($id)
     {
         $product = Product::findOrFail($id);
+        $this->authorize('delete', $product);
         $product->delete();
         return redirect('/products');
     }
@@ -124,6 +121,7 @@ class ProductController extends Controller
     public function confirmDelete($id)
     {
         $product = Product::findOrFail($id);
+        $this->authorize('delete', $product);
         return view('Product.confirmDelete', [
             'product' => $product
         ]);

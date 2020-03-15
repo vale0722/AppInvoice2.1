@@ -22,6 +22,7 @@ class UserController extends Controller
      */
     public function index(Request $request)
     {
+        $this->authorize('viewAny', new User());
         $users = User::orderBy('id', 'DESC')->paginate(10);
         return view('user.index', compact('users'));
     }
@@ -33,6 +34,7 @@ class UserController extends Controller
      */
     public function create()
     {
+        $this->authorize('create', new User());
         return view('user.create');
     }
 
@@ -44,6 +46,7 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
+        $this->authorize('create', new User());
         $data = $request->validate(
             [
                 'name' => ['required', 'string', 'max:255'],
@@ -87,6 +90,7 @@ class UserController extends Controller
     public function destroy($id)
     {
         $user = User::findOrFail($id);
+        $this->authorize('delete', $user);
         $user->delete();
         return redirect()->route('users.index');
     }
@@ -94,6 +98,7 @@ class UserController extends Controller
     public function confirmDelete($id)
     {
         $user = User::findOrFail($id);
+        $this->authorize('delete', $user);
         return view('user.confirmDelete', [
             'user' => $user
         ]);

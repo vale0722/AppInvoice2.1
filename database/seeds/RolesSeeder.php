@@ -46,6 +46,7 @@ class RolesSeeder extends Seeder
         //asignig user permissions to the admin
         $role->givePermissionTo('view all users');
         $role->givePermissionTo('create user');
+        $role->givePermissionTo('show user');
         $role->givePermissionTo('update user');
         $role->givePermissionTo('delete user');
 
