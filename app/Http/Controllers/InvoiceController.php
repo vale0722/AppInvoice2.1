@@ -101,11 +101,14 @@ class InvoiceController extends Controller
     public function edit($id)
     {
         $invoice = Invoice::find($id);
-        return view('invoice.edit', [
-            'invoice' => $invoice,
-            'clients' => Client::all(),
-            'companies' => Company::all()
-        ]);
+        if ($invoice->state != 'APPROVED' && $invoice->state != 'PENDING') {
+            return view('invoice.edit', [
+                'invoice' => $invoice,
+                'clients' => Client::all(),
+                'companies' => Company::all()
+            ]);
+        }
+        return redirect()->route('invoices.index')->with('errorEdit', 'LA FACTURA NO SE PUEDE EDITAR');
     }
 
     /**
@@ -117,32 +120,36 @@ class InvoiceController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $validData = $request->validate([
-            'title' => 'required',
-
-            'code' => [
-                'required',
-                Rule::unique('invoices')->ignore($id)
-            ],
-            'client' => 'required|numeric|exists:clients,id',
-            'company' => 'required|numeric|exists:companies,id',
-            'stateReceipt' => 'required',
-        ]);
         $invoice = Invoice::find($id);
-        $invoice->title = $validData['title'];
-        $invoice->code = $validData['code'];
-        $invoice->client_id = $validData['client'];
-        $invoice->company_id = $validData['company'];
-        $invoice->duedate = date("Y-m-d H:i:s", strtotime($invoice->created_at . "+ 30 days"));
-        if ($validData['stateReceipt'] == '1') {
-            $now = new \DateTime();
-            $invoice->receipt_date = $now->format('Y-m-d H:i:s');
-        } else {
-            $invoice->receipt_date = null;
+        if ($invoice->state != 'APPROVED' && $invoice->state != 'PENDING') {
+            $validData = $request->validate([
+                'title' => 'required',
+
+                'code' => [
+                    'required',
+                    Rule::unique('invoices')->ignore($id)
+                ],
+                'client' => 'required|numeric|exists:clients,id',
+                'company' => 'required|numeric|exists:companies,id',
+                'stateReceipt' => 'required',
+            ]);
+
+            $invoice->title = $validData['title'];
+            $invoice->code = $validData['code'];
+            $invoice->client_id = $validData['client'];
+            $invoice->company_id = $validData['company'];
+            $invoice->duedate = date("Y-m-d H:i:s", strtotime($invoice->created_at . "+ 30 days"));
+            if ($validData['stateReceipt'] == '1') {
+                $now = new \DateTime();
+                $invoice->receipt_date = $now->format('Y-m-d H:i:s');
+            } else {
+                $invoice->receipt_date = null;
+            }
+            $this->updateOrder($invoice);
+            $invoice->save();
+            return redirect()->route('invoices.index');
         }
-        $this->updateOrder($invoice);
-        $invoice->save();
-        return redirect()->route('invoices.index');
+        return redirect()->route('invoices.index')->with('errorEdit', 'LA FACTURA NO SE PUEDE EDITAR');
     }
 
     /**
