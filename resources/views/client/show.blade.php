@@ -17,12 +17,12 @@ $now = $now->format('Y-m-d H:i:s');
                     <div class="row">
                         <div class="col-lg">
                             <div class="p-5">
-                                <h5><b>Nombre:</b> {{ $client->name .' '. $client->last_name }}</h5>
+                                <h5><b>Nombre:</b> {{ $client->user->name .' '. $client->user->lastname }}</h5>
                                 <div class="card-body p-0">
                                     <h5><b>Identificación: </b> {{ $client->id_type . ': ' . $client->id_card }}
                                         <h5><b>Celular:</b> {{ $client->cellphone }} </h5>
                                         <h5><b>Correo Electrónico:</b> {{ $client->email }} </h5>
-
+                                        <h5><b>Creado por:</b> {{ $client->creator->name }} </h5>
                                         <div class="text-right">
                                             <h5><b>Ubicación:</b> {{ $client->address }} </h5>
                                             <h5><b>{{ $client->country .'-'.  $client->city}}</b></h5>
@@ -65,8 +65,8 @@ $now = $now->format('Y-m-d H:i:s');
 
                                     <td>{{ $invoice->created_at }}</td>
                                     <td>{{ $invoice->title }}</td>
-                                    <td> {{$invoice->client->name . ' ' .$invoice->client->last_name }}</td>
-                                    <td> {{ $invoice->company->name }}</td>
+                                    <td> {{$invoice->client->user->name . ' ' .$invoice->client->user->lastname }}</td>
+                                    <td> {{ $invoice->creator->name }}</td>
                                     <td>
                                         @if ($invoice->state == 'APPROVED')
                                         <button type="button" class="btn btn-success btn-sm"> Pago </button>
@@ -79,8 +79,11 @@ $now = $now->format('Y-m-d H:i:s');
                                     <td>{{ '$'. number_format($invoice->total, 2) }}</td>
                                     <td>
                                         <div class="btn-group" role="group">
+                                            @if ($invoice->state != 'APPROVED' && $invoice->state != 'PENDING' )
                                             <a class="btn btn-warning" href="{{ route('invoices.edit', $invoice->id) }}"><i class="far fa-edit"></i> Editar </a>
+                                            @endif
                                             <a class="btn btn-danger" href="/invoices/{{ $invoice->id }}/confirmDelete"><i class="far fa-trash-alt"></i> Eliminar</a>
+                                            @include('invoice.confirmDelete')
                                             <a class="btn btn-success" href="{{ route('invoices.show', $invoice->id) }}"><i class="far fa-eye"></i> Ver detalles </a>
                                         </div>
                                     </td>

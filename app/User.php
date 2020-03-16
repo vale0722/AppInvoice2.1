@@ -37,4 +37,26 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function invoices()
+    {
+        return $this->hasMany(Invoice::class);
+    }
+
+    public function client()
+    {
+        return $this->hasOne(Invoice::class);
+    }
+
+    public function clientsCreated()
+    {
+        return $this->hasMany(Client::class);
+    }
+
+    public function scopeExceptClient($query)
+    {
+        return $query->reject(function ($user) {
+            $user->hasRole(['admin', 'company']);
+        });;
+    }
 }

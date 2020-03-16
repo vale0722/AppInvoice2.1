@@ -10,6 +10,10 @@ $now = $now->format('Y-m-d H:i:s');
     {{ session()->get('success') }}
 </div>
 @endif
+@if(session()->has('errorEdit'))
+<div class="alert alert-success" id="errorEdit">
+</div>
+@endif
 </div>
 <div class="container" style="max-width: 1200px">
     <div class="card shadow mb-4 my-5">

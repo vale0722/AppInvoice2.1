@@ -22,6 +22,7 @@ class RolesSeeder extends Seeder
         $role->givePermissionTo('show invoice');
         $role->givePermissionTo('import invoices');
         $role->givePermissionTo('export invoices');
+        $role->givePermissionTo('view payment attempts');
 
         //assinging client permissions to the admin
         $role->givePermissionTo('view all clients');
@@ -30,12 +31,7 @@ class RolesSeeder extends Seeder
         $role->givePermissionTo('delete client');
         $role->givePermissionTo('show client');
         $role->givePermissionTo('import clients');
-
-        //asigning company permissions to the admin
-        $role->givePermissionTo('view all companies');
-        $role->givePermissionTo('create company');
-        $role->givePermissionTo('update company');
-        $role->givePermissionTo('delete company');
+        $role->givePermissionTo('export clients');
 
         //asignig product permissions to the admin
         $role->givePermissionTo('view all products');
@@ -49,14 +45,17 @@ class RolesSeeder extends Seeder
         $role->givePermissionTo('show user');
         $role->givePermissionTo('update user');
         $role->givePermissionTo('delete user');
+        $role->givePermissionTo('show your user');
 
         $role = Role::create(['name' => 'company', 'description' => 'Vendedor']);
 
         //assinging invoice permissions to the company
         $role->givePermissionTo('view associated invoices');
         $role->givePermissionTo('create invoice');
+        $role->givePermissionTo('show invoice');
         $role->givePermissionTo('update associated invoice');
         $role->givePermissionTo('import invoices');
+        $role->givePermissionTo('view payment attempts');
 
         //assinging client permissions to the company
         $role->givePermissionTo('view all clients');
@@ -70,11 +69,18 @@ class RolesSeeder extends Seeder
         //asignig product permissions to the company
         $role->givePermissionTo('view all products');
 
+        //asignig user permissions to the company
+        $role->givePermissionTo('show your user');
+
         $role = Role::create(['name' => 'client', 'description' => 'Cliente']);
 
         //assinging invoice permissions to the client
         $role->givePermissionTo('view associated invoices');
+        $role->givePermissionTo('show invoice');
         $role->givePermissionTo('pay invoice');
         $role->givePermissionTo('view payment attempts');
+
+        //asignig user permissions to the client
+        $role->givePermissionTo('show your user');
     }
 }

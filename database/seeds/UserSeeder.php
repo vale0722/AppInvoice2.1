@@ -44,5 +44,16 @@ class UserSeeder extends Seeder
             'remember_token' => '1',
         ]);
         $user->assignRole('company');
+
+        $user = factory(User::class)->create();
+        $user->assignRole('company');
+        $user = factory(User::class)->create();
+        $user->assignRole('company');
+        $user = factory(User::class)->create();
+        $user->assignRole('company');
+        $user = factory(User::class)->create();
+        $user->assignRole('company');
+        $user = factory(User::class)->create();
+        $user->assignRole('company');
     }
 }

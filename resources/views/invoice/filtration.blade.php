@@ -18,28 +18,18 @@
                                 <option value="code" selected>Código</option>
                                 <option value="title">Títuto</option>
                                 <option value="client">Cliente</option>
-                                <option value="company">Vendedor</option>
                             </select>
                             @elseif($type == 'title')
                             <select name="type" class="form-control mr-sm-2" id="type">
                                 <option value="code">Código</option>
                                 <option value="title" selected>Títuto</option>
                                 <option value="client">Cliente</option>
-                                <option value="company">Vendedor</option>
                             </select>
-                            @elseif($type == 'client')
+                            @else
                             <select name="type" class="form-control mr-sm-2" id="type">
                                 <option value="code">Código</option>
                                 <option value="title">Títuto</option>
                                 <option value="client" selected>Cliente</option>
-                                <option value="company">Vendedor</option>
-                            </select>
-                            @elseif($type == 'company')
-                            <select name="type" class="form-control mr-sm-2" id="type">
-                                <option value="code">Código</option>
-                                <option value="title">Títuto</option>
-                                <option value="client">Cliente</option>
-                                <option value="company" selected>Vendedor</option>
                             </select>
                             @endif
                         </div>
@@ -57,7 +47,6 @@
                                 <option value="code">Código</option>
                                 <option value="title">Títuto</option>
                                 <option value="client">Cliente</option>
-                                <option value="company">Vendedor</option>
                             </select>
                         </div>
                         <div class="col-sm-8">
@@ -150,7 +139,6 @@
                                 <option value="overdue" selected>Vencido</option>
                             </select>
                             @endif
-
                         </div>
                     </div>
                 </div>

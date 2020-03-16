@@ -57,7 +57,9 @@
                                     <select name="role" class="form-control" id="role" rrequired autocomplete="role" autofocus required>
                                         <option disabled selected>Selecciona un rol: </option>
                                         @foreach($roles as $role)
+                                        @if( $role->name != 'client')
                                         <option value="{{ $role->id }}">{{ $role->description }}</option>
+                                        @endIf
                                         @endforeach
                                     </select>
                                 </div>

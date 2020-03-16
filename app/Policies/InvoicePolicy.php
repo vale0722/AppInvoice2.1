@@ -19,20 +19,12 @@ class InvoicePolicy
      */
     public function viewAny(User $user)
     {
-        return ($user->hasPermissionTo('view all invoices'));
+        if ($user->hasPermissionTo('view all invoices') || $user->hasPermissionTo('view associated invoices')) {
+            return true;
+        }
+        return false;
     }
 
-    /**
-     * Determine whether the user can view the invoice.
-     *
-     * @param  \App\User  $user
-     * @param  \App\Invoice  $invoice
-     * @return mixed
-     */
-    public function view(User $user)
-    {
-        return ($user->hasPermissionTo('view associated invoices'));
-    }
 
     /**
      * Determine whether the company can be shown to de user.
@@ -43,7 +35,16 @@ class InvoicePolicy
      */
     public function show(User $user, Invoice $invoice)
     {
-        return ($user->hasPermissionTo('show invoice'));
+        if ($user->hasPermissionTo('show invoice')) {
+            if ($user->hasRole('company')) {
+                return  $invoice->creator_id == $user->id;
+            }
+            if ($user->hasRole('client')) {
+                return  $invoice->client->user->id == $user->id;
+            }
+            return true;
+        }
+        return false;
     }
     /**
      * Determine whether the user can create invoices.
@@ -65,7 +66,13 @@ class InvoicePolicy
      */
     public function update(User $user, Invoice $invoice)
     {
-        return ($user->hasPermissionTo('update invoice'));
+        if ($user->hasPermissionTo('update invoice')) {
+            return true;
+        }
+        if ($user->hasPermissionTo('update associated invoice')) {
+            return  $invoice->creator_id == $user->id;
+        }
+        return false;
     }
 
     /**
@@ -77,7 +84,13 @@ class InvoicePolicy
      */
     public function delete(User $user, Invoice $invoice)
     {
-        return ($user->hasPermissionTo('delete invoice'));
+        if ($user->hasPermissionTo('delete invoice')) {
+            return true;
+        }
+        if ($user->hasPermissionTo('delete associated invoice')) {
+            return  $invoice->creator_id == $user->id;
+        }
+        return false;
     }
 
     /**
@@ -89,7 +102,31 @@ class InvoicePolicy
      */
     public function payment(User $user, Invoice $invoice)
     {
-        return ($user->hasPermissionTo('payment invoice'));
+        if ($user->hasPermissionTo('pay invoice')) {
+            return  $invoice->client->user->id == $user->id;
+        }
+        return false;
+    }
+
+    /**
+     * Determine whether the user can view payment attempts of the invoice.
+     *
+     * @param  \App\User  $user
+     * @param  \App\Invoice  $invoice
+     * @return mixed
+     */
+    public function paymentView(User $user, Invoice $invoice)
+    {
+        if ($user->hasPermissionTo('view payment attempts')) {
+            if ($user->hasRole('company')) {
+                return  $invoice->creator_id == $user->id;
+            }
+            if ($user->hasRole('client')) {
+                return  $invoice->client->user->id == $user->id;
+            }
+            return true;
+        }
+        return false;
     }
 
     /**

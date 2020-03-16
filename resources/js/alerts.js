@@ -11,5 +11,10 @@ if (document.getElementById('success')) {
         icon: 'success',
     });
 };
-
+if (document.getElementById('errorEdit')) {
+    swal({
+        title: 'La factura no se puede editar',
+        icon: 'error',
+    });
+};
 

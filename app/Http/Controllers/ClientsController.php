@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\User;
 use App\Client;
 use App\Invoice;
 use Illuminate\Http\Request;
+use App\Http\Requests\Clients\ClientStoreRequest;
 use App\Exports\ClientExport;
 use App\Imports\ClientImport;
 use Illuminate\Validation\Rule;
@@ -25,12 +27,8 @@ class ClientsController extends Controller
     public function index(Request $request)
     {
         $this->authorize('viewAny', new Client);
-        $search = $request->get('search');
-        $type = $request->get('type');
-        $clients = Client::orderBy('id', 'DESC')
-            ->search($search, $type)
-            ->paginate(4);
-        return view('client.index', compact('clients', 'search'));
+        $clients = Client::orderBy('id', 'DESC')->paginate(4);
+        return view('client.index', compact('clients'));
     }
 
     /**
@@ -50,52 +48,24 @@ class ClientsController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(ClientStoreRequest $request, Client $client)
     {
-        $this->authorize('create', new Client());
-        $validData = $request->validate(
-            [
-                'name' => 'required|min:3|max:100',
-                'last_name' => 'required|min:3|max:100',
-                'id_type' => 'required',
-                'id_card' => 'required|unique:clients|min:8|max:10',
-                'email' => 'required|unique:clients|email',
-                'cellphone' => 'required|min:10',
-                'country' => 'required',
-                'department' => 'required',
-                'city' => 'required',
-                'address' => 'required'
-            ],
-            [
-                'required' => "El :attribute del Cliente es un campo obligatorio",
-                'unique' => 'El :attribute ya está registrado',
-                'min' => 'El :attribute de tener mínimo :min letras',
-                'max' => 'El :attribute de tener máximo :max letras'
-            ],
-            [
-                'name' => 'Nombre',
-                'last_name' => 'Apellído',
-                'id_type' => 'Tipo de identificación',
-                'id_card' => 'Número de identificación',
-                'email' => 'Correo Electrónico',
-                'cellphone' => 'Número de Celular',
-                'country' => 'País',
-                'department' => 'Departamento',
-                'city' => 'Ciudad',
-                'address' => 'Dirección'
-            ]
-        );
-        $client = new Client();
-        $client->name = $validData['name'];
-        $client->last_name = $validData['last_name'];
-        $client->id_type = $validData['id_type'];
-        $client->id_card = $validData['id_card'];
-        $client->email = $validData['email'];
-        $client->cellphone = intval($validData['cellphone']);
-        $client->country = $validData['country'];
-        $client->department = $validData['department'];
-        $client->city = $validData['city'];
-        $client->address = $validData['address'];
+        $this->authorize('create', $client);
+        $user = new User();
+        $user->name = $request->input('name');
+        $user->lastname = $request->input('lastname');
+        $user->email = $request->input('email');
+        $user->password = bcrypt($request->input('id_card'));
+        $user->save();
+        $client->id_type = $request->input('id_type');
+        $client->id_card = $request->input('id_card');
+        $client->cellphone = intval($request->input('cellphone'));
+        $client->country = $request->input('country');
+        $client->department = $request->input('department');
+        $client->city = $request->input('city');
+        $client->address = $request->input('address');
+        $client->user_id = $user->id;
+        $client->creator_id = auth()->user()->id;
         $client->save();
         return redirect()->route('clients.index');
     }
@@ -147,7 +117,7 @@ class ClientsController extends Controller
         $validData = $request->validate(
             [
                 'name' => 'required|min:3|max:100',
-                'last_name' => 'required|min:3|max:100',
+                'lastname' => 'required|min:3|max:100',
                 'id_type' => 'required',
                 'id_card' => [
                     'required',
@@ -157,7 +127,7 @@ class ClientsController extends Controller
                 ],
                 'email' => [
                     'required',
-                    Rule::unique('clients')->ignore($id),
+                    Rule::unique('users')->ignore($client->user->id),
                     'email'
                 ],
                 'cellphone' => 'required|min:10|max:10',
@@ -168,12 +138,12 @@ class ClientsController extends Controller
             ],
             [
                 'required' => "El :attribute del Cliente es requerido",
-                'unique' => 'El :atribute ya está registrado',
+                'unique' => 'El :attribute ya está registrado',
                 'min' => 'El :attribute de tener minimo :min letras'
             ],
             [
                 'name' => 'Nombre',
-                'last_name' => 'Apellído',
+                'lastname' => 'Apellído',
                 'id_type' => 'Tipo de identificación',
                 'id_card' => 'Número de identificación',
                 'email' => 'Correo Electrónico',
@@ -184,16 +154,20 @@ class ClientsController extends Controller
                 'address' => 'Dirección'
             ]
         );
-        $client->name = $validData['name'];
-        $client->last_name = $validData['last_name'];
+        //update user
+        $client->user->name = $validData['name'];
+        $client->user->lastname = $validData['lastname'];
+        $client->user->email = $validData['email'];
+        //update client
         $client->id_type = $validData['id_type'];
         $client->id_card = $validData['id_card'];
-        $client->email = $validData['email'];
         $client->cellphone = intval($validData['cellphone']);
         $client->country = $validData['country'];
         $client->department = $validData['department'];
         $client->city = $validData['city'];
         $client->address = $validData['address'];
+        $client->user_id = $client->user->id;
+        $client->user->save();
         $client->save();
         return redirect()->route('clients.index');
     }
@@ -207,7 +181,7 @@ class ClientsController extends Controller
     public function destroy($id)
     {
         $client = Client::findOrFail($id);
-        $this->authorize('destroy', $client);
+        $this->authorize('delete', $client);
         $client->delete();
         return redirect()->route('clients.index');
     }
@@ -215,7 +189,7 @@ class ClientsController extends Controller
     public function confirmDelete($id)
     {
         $client = Client::findOrFail($id);
-        $this->authorize('destroy', $client);
+        $this->authorize('delete', $client);
         return view('client.confirmDelete', [
             'client' => $client
         ]);
@@ -223,7 +197,8 @@ class ClientsController extends Controller
 
     public function indexImport()
     {
-        return view('client.importCLient');
+        $this->authorize('import', new Client);
+        return view('client.importClient');
     }
 
     public function importExcel(Request $request)

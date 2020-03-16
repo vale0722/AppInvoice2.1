@@ -2,6 +2,7 @@
 
 namespace App\Imports;
 
+use App\User;
 use App\Client;
 use Maatwebsite\Excel\Concerns\ToModel;
 use Maatwebsite\Excel\Concerns\WithValidation;
@@ -16,17 +17,21 @@ class ClientImport implements ToModel, WithValidation, WithBatchInserts
      */
     public function model(array $row)
     {
-        $client = new Client([
+        $user = new User([
             'name' => $row[0],
-            'last_name' => $row[1],
+            'lastname' => $row[1],
+            'email' => $row[4],
+        ]);
+        $client = new Client([
             'id_type' => $row[2],
             'id_card' => $row[3],
-            'email' => $row[4],
             'cellphone' => $row[5],
             'country' => $row[6],
             'department' => $row[7],
             'city' => $row[8],
-            'address' => $row[9]
+            'address' => $row[9],
+            'user_id' => $user->id,
+            'creator_id' => auth()->user->id,
         ]);
         return $client;
     }
@@ -40,7 +45,7 @@ class ClientImport implements ToModel, WithValidation, WithBatchInserts
     {
         return [
             'name' => 'required|min:3|max:100',
-            'last_name' => 'required|min:3|max:100',
+            'lastname' => 'required|min:3|max:100',
             'id_type' => 'required',
             'id_card' => 'required|unique:clients',
             'email' => 'required|unique:clients|email',

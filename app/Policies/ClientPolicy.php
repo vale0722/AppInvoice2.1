@@ -16,21 +16,12 @@ class ClientPolicy
      * @param  \App\User  $user
      * @return mixed
      */
-    public function viewAny(User $user)
+    public function viewAny(User $user, Client $client)
     {
-        return ($user->hasPermissionTo('view all clients'));
-    }
-
-    /**
-     * Determine whether the user can view the client.
-     *
-     * @param  \App\User  $user
-     * @param  \App\Client  $client
-     * @return mixed
-     */
-    public function view(User $user, Client $client)
-    {
-        return ($user->hasPermissionTo('view associated clients'));
+        if ($user->hasPermissionTo('view all clients') || $user->hasPermissionTo('view associated clients')) {
+            return true;
+        }
+        return false;
     }
 
     /**
@@ -51,7 +42,7 @@ class ClientPolicy
      * @param  \App\User  $user
      * @return mixed
      */
-    public function create(User $user)
+    public function create(User $user, Client $client)
     {
         return ($user->hasPermissionTo('create client'));
     }
@@ -65,7 +56,13 @@ class ClientPolicy
      */
     public function update(User $user, Client $client)
     {
-        return ($user->hasPermissionTo('update client'));
+        if ($user->hasPermissionTo('update client')) {
+            return true;
+        }
+        if ($user->hasPermissionTo('update associated client')) {
+            return  $client->creator_id == $user->id;
+        }
+        return false;
     }
 
     /**
@@ -77,7 +74,13 @@ class ClientPolicy
      */
     public function delete(User $user, Client $client)
     {
-        return ($user->hasPermissionTo('delete client'));
+        if ($user->hasPermissionTo('delete client')) {
+            return true;
+        }
+        if ($user->hasPermissionTo('delete associated client')) {
+            return  $client->creator_id == $user->id;
+        }
+        return false;
     }
 
     /**

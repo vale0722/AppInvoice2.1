@@ -71,9 +71,6 @@
                             <a class="nav-link" href="{{ route('products.index') }}"><i class="fas fa-puzzle-piece"></i> Productos</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('companies.index') }}"><i class="far fa-building"></i> Vendedores </a>
-                        </li>
-                        <li class="nav-item">
                             <a class="nav-link" href="{{ route('users.index') }}"><i class="fas fa-users"></i> Usuarios</a>
                         </li>
                         <li class="nav-item dropdown">
@@ -84,9 +81,12 @@
                             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
                                 <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
+                                    {{ __('Mi Perfil') }}
+                                </a>
+                                <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();
+                                                     document.getElementById('logout-form').submit();">
                                     {{ __('Cerrar Sesión') }}
                                 </a>
-
                                 <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                                     @csrf
                                 </form>

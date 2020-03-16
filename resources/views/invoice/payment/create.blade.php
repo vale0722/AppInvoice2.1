@@ -1,5 +1,5 @@
-<div class="modal fade" id="create">
-    <div class="modal-dialog">
+<div class="modal fade " id="create">
+    <div class="modal-dialog modal-lg modal-dialog-centered ">
         <div class="modal-content">
             <div class="modal-header">
                 <h4 class="modal-title">{{ $invoice->title }}</h4>
@@ -24,9 +24,9 @@
                             <div class="row"> Monto </div>
                         </div>
                         <div class="col-md-6">
-                            <div class="row"> {{$invoice->client->name .' '. $invoice->client->last_name}}</div>
+                            <div class="row"> {{$invoice->client->user->name .' '. $invoice->client->user->lastname}}</div>
                             <div class="row"> {{$invoice->client->id_type .' '. $invoice->client->id_card}}</div>
-                            <div class="row"> {{$invoice->client->email}}</div>
+                            <div class="row"> {{$invoice->client->user->email}}</div>
                             <div class="row"> {{$invoice->code}}</div>
                             @if($invoice->state != NULL)
                             <div class="row"> {{$invoice->state}} </div>

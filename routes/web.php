@@ -36,10 +36,6 @@ Route::get('/exportClient', 'ClientsController@exportExcel')->name('clients.expo
 Route::resource('/products', 'ProductController');
 Route::get('/products/{id}/confirmDelete', 'ProductController@confirmDelete')->name('products.confirm.delete');
 
-
-Route::resource('/companies', 'CompanyController');
-Route::get('/companies/{id}/confirmDelete', 'CompanyController@confirmDelete')->name('companies.confirm.delete');
-
 Route::get('/payment/{invoice}', 'PaymentController@index')->name('payments.index');
 Route::get('/payment/create/{invoice}', 'PaymentController@create')->name('payments.create');
 Route::post('/payment/create/{invoice}', 'PaymentController@store')->name('payments.store');

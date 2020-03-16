@@ -23,11 +23,7 @@ $now = $now->format('Y-m-d H:i:s');
         <div class="col-xl-12 col-lg-12 col-md-9">
             <div class="card o-hidden border-0 shadow my-3">
                 <div class="card-header">
-                    <div class="col-xs-6">
-                        <h1><b> {{ $invoice->company->name }} </b></h1>
-                        <h3><small><b>NIT: </b> {{ $invoice->company->nit }}</small></h3>
-                    </div>
-                    <div class="col-xs-6 text-right">
+                    <div class="col-xs-12 text-center">
                         <h2><b> FACTURA </b></h2>
                         <h3><small>Factura {{ $invoice->code }}</small></h3>
                         <h5>
@@ -57,11 +53,11 @@ $now = $now->format('Y-m-d H:i:s');
                     <div class="card o-hidden border-0 shadow my-3">
                         <div class="card-header"> <b> CLIENTE: </b> </div>
                         <div class="card-body p-4">
-                            <h5><b>Nombre: </b>{{ $invoice->client->name .' '. $invoice->client->last_name }} </h5>
+                            <h5><b>Nombre: </b>{{ $invoice->client->user->name .' '. $invoice->client->user->lastname }} </h5>
                             <h5><b>Celular:</b> {{ $invoice->client->cellphone }} </h5>
-                            <h5><b>Correo Electrónico:</b> {{ $invoice->client->email }} </h5>
+                            <h5><b>Correo Electrónico:</b> {{ $invoice->client->user->email }} </h5>
                             <h5><b>Ubicación:</b> {{ $invoice->client->address }} </h5>
-                            <h5><b>{{ $invoice->client->country .'-'.  $invoice->client->city}}</b></h5>
+                            <h5><b>{{ $invoice->client->country .'-'. $invoice->client->department .'-'.  $invoice->client->city}}</b></h5>
                             @if (isset($invoice->state))
                             <h5><br></h5>
                             @endif
@@ -75,6 +71,7 @@ $now = $now->format('Y-m-d H:i:s');
                     <div class="card o-hidden border-0 shadow my-3">
                         <div class="card-header"> <b> DETALLE DE FACTURA: </b> </div>
                         <div class="card-body p-4">
+                            <h5><b>Vendedor: </b>{{ $invoice->creator->name .' '. $invoice->creator->lastname }} </h5>
                             <h5><b>Fecha de creación: </b>{{ $invoice->created_at }} </h5>
                             <h5><b>Fecha de expiración:</b> {{ $invoice->duedate }} </h5>
                             @if ($invoice->state == 'APPROVED')
@@ -89,7 +86,6 @@ $now = $now->format('Y-m-d H:i:s');
                         </div>
                     </div>
                 </div>
-
             </div>
         </div>
     </div>

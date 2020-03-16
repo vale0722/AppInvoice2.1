@@ -8,7 +8,7 @@ use PHP_Token_ELSEIF;
 
 class Invoice extends Model
 {
-    protected $fillable = ['title', 'code', 'client_id', 'company_id', 'duedate', 'state'];
+    protected $fillable = ['title', 'code', 'client_id', 'creator_id', 'duedate', 'state'];
 
 
     public function products()
@@ -38,19 +38,19 @@ class Invoice extends Model
         return $subtotal + $vat;
     }
 
-    public function Payments()
+    public function payments()
     {
         return $this->hasMany(Payment::class);
     }
 
-    public function Client()
+    public function client()
     {
         return $this->belongsTo(Client::class);
     }
 
-    public function Company()
+    public function creator()
     {
-        return $this->belongsTo(Company::class);
+        return $this->belongsTo(User::class);
     }
 
     //Query Scope
@@ -58,32 +58,26 @@ class Invoice extends Model
     {
         if ($client) {
             return Invoice::whereHas(
-                'Client',
+                'client',
                 function ($query) use ($client) {
-                    $query->where('name', 'LIKE', "%$client%");
+                    $query->whereHas(
+                        'User',
+                        function ($queryUser) use ($client) {
+                            $queryUser->where('name', 'LIKE', "%$client%");
+                        }
+
+                    );
                 }
             );
         }
     }
-    public function scopeCompany($query, $company)
-    {
-        if ($company) {
-            return Invoice::whereHas(
-                'Company',
-                function ($query) use ($company) {
-                    $query->where('name', 'LIKE', "%$company%");
-                }
-            );
-        }
-    }
+
     public function scopeSearch($query, $search, $type)
     {
         if ($type) {
             if ($search) {
                 if ($type == 'client') {
                     return Invoice::scopeClient($query, $search);
-                } elseif ($type == 'company') {
-                    return Invoice::scopeCompany($query, $search);
                 } else {
                     return $query->where("$type", 'LIKE', "%$search%");
                 }
@@ -108,8 +102,24 @@ class Invoice extends Model
     }
     public function scopeFiltrate($query, $typeDate, $firstCreationDate, $finalCreationDate)
     {
-        if ($typeDate) {
+        if ($typeDate && $firstCreationDate && $finalCreationDate) {
             return $query->whereDate("$typeDate", ">=", "$firstCreationDate")->whereDate("$typeDate", '<=', "$finalCreationDate");
         }
+    }
+
+    public function scopeCreator($query)
+    {
+        if (auth()->user()->hasPermissionTo('view all invoices')) {
+            return $query;
+        }
+        if (auth()->user()->hasPermissionTo('view associated invoices')) {
+            if (auth()->user()->hasRole('company')) {
+                return $query->where('creator_id', auth()->user()->id);
+            }
+            if (auth()->user()->hasRole('client')) {
+                return $query->where('client_id', auth()->user()->client->id);
+            }
+        }
+        return;
     }
 }

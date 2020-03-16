@@ -29,7 +29,13 @@ class UserPolicy
      */
     public function view(User $user, User $model)
     {
-        return ($user->hasPermissionTo('show user'));
+        if ($user->hasPermissionTo('show user')) {
+            return true;
+        }
+        if ($user->hasPermissionTo('show your user')) {
+            return ($user->id == $model->id);
+        }
+        return false;
     }
 
     /**

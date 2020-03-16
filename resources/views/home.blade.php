@@ -17,9 +17,7 @@
                         <div class="col-lg">
                             <div class="p-5">
                                 <div class="text-center">
-                                    <p class="h3"> <i class="far fa-file-alt"></i><br>FACTURAS</p>
-                                    <p>Aquí podrás crear, ver, actualizar y eliminar facturas.</p>
-                                    <a class="btn btn-primary" href="{{ route('invoices.index') }}"> ENTRAR </a>
+                                    <p class="h1"> <i class="far fa-file-alt"></i><br>BIENVENID@</p>
                                 </div>
                             </div>
                         </div>
@@ -68,9 +66,9 @@
                                 <div class="col-lg">
                                     <div class="p-5">
                                         <div class="text-center">
-                                            <p class="h3"> <i class="far fa-building"></i> VENDEDORES</p>
-                                            <p>Aquí podrás crear, ver, actualizar y eliminar vendedores.</p>
-                                            <a class="btn btn-primary" href="{{ route('companies.index') }}"> ENTRAR </a>
+                                            <p class="h3"> <i class="far fa-file-alt"></i><br>FACTURAS</p>
+                                            <p>Aquí podrás crear, ver, actualizar y eliminar facturas.</p>
+                                            <a class="btn btn-primary" href="{{ route('invoices.index') }}"> ENTRAR </a>
                                         </div>
                                     </div>
                                 </div>

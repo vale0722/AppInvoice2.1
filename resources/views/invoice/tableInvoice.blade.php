@@ -18,21 +18,23 @@
                 <td>{{ $invoice->code }}</td>
                 <td nowrap>{{ $invoice->created_at }}</td>
                 <td>{{ $invoice->title }}</td>
-                <td> {{$invoice->client->name . ' ' .$invoice->client->last_name }}</td>
-                <td> {{ $invoice->company->name }}</td>
+                <td> {{ $invoice->client->user->name . ' ' .$invoice->client->user->lastname }}</td>
+                <td> {{ $invoice->creator->name . ' ' . $invoice->creator->lastname }}</td>
                 <td>
                     @if($invoice->state == 'APPROVED')
                     <button type="button" class="btn btn-success btn-sm"> Pago </button>
                     @elseif($invoice->duedate <= $now) <button type="button" class="btn btn-danger btn-sm"> Vencido </button>
-                    @elseif($invoice->state == 'PENDING') <button type="button" class="btn btn-primary btn-sm"> Pendiente </button>
-                                    @else
-                                    <button type="button" class="btn btn-warning btn-sm">Sin Pagar </button>
-                                    @endif
+                        @elseif($invoice->state == 'PENDING') <button type="button" class="btn btn-primary btn-sm"> Pendiente </button>
+                        @else
+                        <button type="button" class="btn btn-warning btn-sm">Sin Pagar </button>
+                        @endif
                 </td>
                 <td>{{ '$'. number_format($invoice->total, 2) }}</td>
                 <td>
                     <div class="btn-group" role="group">
+                        @if ($invoice->state != 'APPROVED' && $invoice->state != 'PENDING' )
                         <a class="btn btn-warning" href="{{ route('invoices.edit', $invoice->id) }}"><i class="far fa-edit"></i> Editar </a>
+                        @endif
                         <a href="#" class="btn btn-danger" data-toggle="modal" data-target="#delete">
                             <i class="far fa-trash-alt"></i> Eliminar
                         </a>

@@ -10,30 +10,6 @@
                     <a class="btn btn-success btn-circle btn-lg" href="{{ route('clients.import.view') }}"><i class="fas fa-file-import"></i></a>
                     <a class="btn btn-warning btn-circle btn-lg" href="{{ route('clients.export') }}"><i class="fas fa-file-export"></i></a>
                 </div>
-                <div class="justify-content-end">
-                    <form action="{{ route('clients.index') }}" method="GET" class="form-inline justify-content-end">
-                        @if (!isset($search))
-                        <div class="form-group">
-                            <div class="input-group mb-2">
-                                <div>
-                                    <select name="type" class="form-control mr-sm-2" id="type">
-                                        <option disabled selected>Buscar por:</option>
-                                        <option value="name">Nombre</option>
-                                        <option value="id_card">Documento de Identidad</option>
-                                    </select>
-                                </div>
-                                <input type="text" class="form-control input-group-prepend" name="search" placeholder="Ingresa tu búsqueda" required>
-                                <div>
-                                    <button type="submit" class="btn btn-primary">
-                                        <i class="fas fa-search"></i> </button>
-                                </div>
-                            </div>
-                        </div>
-                        @else
-                        <a href="{{ route('clients.index') }}" class="btn btn-circle btn-danger"><i class="fas fa-undo"></i> </button></a>
-                        @endif
-                    </form>
-                </div>
             </div>
         </div>
         <div class="card-body">
@@ -49,7 +25,7 @@
                     <tbody>
                         @foreach($clients as $client)
                         <tr>
-                            <td>{{ $client->name . ' ' . $client->last_name }}</td>
+                            <td>{{ $client->user->name . ' ' . $client->user->lastname }}</td>
                             <td>{{ $client->id_type . ': ' . $client->id_card}}</td>
                             <td>
                                 <div class="btn-group" role="group">

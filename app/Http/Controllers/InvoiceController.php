@@ -14,6 +14,7 @@ use App\Client;
 use App\Product;
 use App\Company;
 use App\Http\Requests\Invoices\InvoiceStoreRequest;
+use App\User;
 
 class InvoiceController extends Controller
 {
@@ -40,10 +41,11 @@ class InvoiceController extends Controller
             ->search($search, $type)
             ->filtrate($typeDate, $firstCreationDate, $finalCreationDate)
             ->filtrateState($state)
+            ->creator()
             ->paginate(10);
+        $this->updateInvoices();
         return view('invoice.index', [
             'clients' => Client::all(),
-            'companies' => Company::all()
         ], compact('invoices', 'typeDate', 'firstCreationDate', 'type', 'finalCreationDate', 'state', 'search'));
     }
 
@@ -57,8 +59,7 @@ class InvoiceController extends Controller
         $this->authorize('create', new Invoice());
         return response()->view('invoice.create', [
             'invoice' => $invoice,
-            'clients' => Client::all(),
-            'companies' => Company::all()
+            'clients' => Client::all()
         ]);
     }
 
@@ -75,7 +76,7 @@ class InvoiceController extends Controller
         $invoice->title = $request->input('title');
         $invoice->code = $request->input('code');
         $invoice->client_id = $request->input('client');
-        $invoice->company_id = $request->input('company');
+        $invoice->creator_id = auth()->user()->id;
         $invoice->state = "DEFAULT";
         $invoice->duedate = date("Y-m-d H:i:s", strtotime($invoice->created_at . "+ 30 days"));
         $invoice->save();
@@ -110,7 +111,6 @@ class InvoiceController extends Controller
         return view('invoice.edit', [
             'invoice' => $invoice,
             'clients' => Client::all(),
-            'companies' => Company::all()
         ]);
     }
 
@@ -126,31 +126,34 @@ class InvoiceController extends Controller
 
         $invoice = Invoice::find($id);
         $this->authorize('update', $invoice);
-        $validData = $request->validate([
-            'title' => 'required',
+        if ($invoice->state != 'APPROVED' && $invoice->state != 'PENDING') {
+            $validData = $request->validate([
+                'title' => 'required',
 
-            'code' => [
-                'required',
-                Rule::unique('invoices')->ignore($id)
-            ],
-            'client' => 'required|numeric|exists:clients,id',
-            'company' => 'required|numeric|exists:companies,id',
-            'stateReceipt' => 'required',
-        ]);
-        $invoice->title = $validData['title'];
-        $invoice->code = $validData['code'];
-        $invoice->client_id = $validData['client'];
-        $invoice->company_id = $validData['company'];
-        $invoice->duedate = date("Y-m-d H:i:s", strtotime($invoice->created_at . "+ 30 days"));
-        if ($validData['stateReceipt'] == '1') {
-            $now = new \DateTime();
-            $invoice->receipt_date = $now->format('Y-m-d H:i:s');
+                'code' => [
+                    'required',
+                    Rule::unique('invoices')->ignore($id)
+                ],
+                'client' => 'required|numeric|exists:clients,id',
+                'stateReceipt' => 'required',
+            ]);
+            $invoice->title = $validData['title'];
+            $invoice->code = $validData['code'];
+            $invoice->client_id = $validData['client'];
+            $invoice->creator_id = auth()->user()->id;
+            $invoice->duedate = date("Y-m-d H:i:s", strtotime($invoice->created_at . "+ 30 days"));
+            if ($validData['stateReceipt'] == '1') {
+                $now = new \DateTime();
+                $invoice->receipt_date = $now->format('Y-m-d H:i:s');
+            } else {
+                $invoice->receipt_date = null;
+            }
+            $this->updateOrder($invoice);
+            $invoice->save();
+            return redirect()->route('invoices.index');
         } else {
-            $invoice->receipt_date = null;
+            return redirect()->route('invoices.index')->with('errorEdit', 'LA FACTURA NO SE PUEDE EDITAR');
         }
-        $this->updateOrder($invoice);
-        $invoice->save();
-        return redirect()->route('invoices.index');
     }
 
     /**
@@ -180,13 +183,13 @@ class InvoiceController extends Controller
         $invoice = Invoice::find($id);
         $this->authorize('update', $invoice);
         $validData = $request->validate([
-            'product' => 'required',
+            'product_id' => 'required',
             'quantity' => 'required',
             'unit_value' => 'required',
         ]);
-        $product = Product::find($validData['product']);
+        $product = Product::find($validData['product_id']);
         $validData['unit_value'] = $product->price;
-        $invoice->products()->attach($validData['product'], [
+        $invoice->products()->attach($validData['product_id'], [
             'quantity' => $validData['quantity'],
             'unit_value' => $validData['unit_value'],
             'total_value' => $validData['quantity'] * $validData['unit_value']
