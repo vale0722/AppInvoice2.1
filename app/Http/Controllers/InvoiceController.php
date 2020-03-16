@@ -108,10 +108,13 @@ class InvoiceController extends Controller
     {
         $invoice = Invoice::find($id);
         $this->authorize('update', $invoice);
-        return view('invoice.edit', [
-            'invoice' => $invoice,
-            'clients' => Client::all(),
-        ]);
+        if ($invoice->state != 'APPROVED' && $invoice->state != 'PENDING') {
+            return view('invoice.edit', [
+                'invoice' => $invoice,
+                'clients' => Client::all(),
+            ]);
+        }
+        return redirect()->route('invoices.index')->with('errorEdit', 'LA FACTURA NO SE PUEDE EDITAR');
     }
 
     /**
