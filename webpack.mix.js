@@ -21,3 +21,4 @@ mix.js('resources/js/bootstrap.js', 'public/js');
 mix.js('resources/js/alerts.js', 'public/js');
 mix.sass('resources/sass/buttons.scss', 'public/css');
 mix.sass('resources/sass/navbar.scss', 'public/css');
+mix.sass('resources/sass/cards.scss', 'public/css');

@@ -5,8 +5,6 @@ $now = new \DateTime();
 $now = $now->format('Y-m-d H:i:s');
 ?>
 <div class="container">
-    <br>
-    <br>
     @if($errors->any())
     <div id="divErrors">
         @foreach($errors->all() as $error)
@@ -27,17 +25,18 @@ $now = $now->format('Y-m-d H:i:s');
                         <h2><b> FACTURA </b></h2>
                         <h3><small>Factura {{ $invoice->code }}</small></h3>
                         <h5>
-                            @if ($invoice->state == 'APPROVED')
-                            <button type="button" class="btn btn-success btn-sm"> Pago </button>
-                            @elseif($invoice->duedate <= $now) <button type="button" class="btn btn-danger btn-sm"> Vencido </button>
-                                @elseif($invoice->state == 'PENDING') <button type="button" class="btn btn-primary btn-sm"> Pendiente </button>
+                            @if($invoice->state == 'APPROVED')
+                            <span class="badge badge-success">Pago</span>
+                            @elseif($invoice->duedate <= $now) <span class="badge badge-danger">Vencido</span>
+                                @elseif($invoice->state == 'PENDING')
+                                <span class="badge badge-primary">Pendiente</span>
                                 @else
-                                <button type="button" class="btn btn-warning btn-sm">Sin Pagar </button>
+                                <span class="badge badge-warning">Sin Pagar </span>
                                 @endif
                                 @if (isset($invoice->receipt_date))
-                                <button type="button" class="btn btn-primary btn-sm"> Recibido </button>
+                                <span class="badge badge-primary">Recibido</span>
                                 @else
-                                <button type="button" class="btn btn-secondary btn-sm"> Sin recibir </button>
+                                <span class="badge badge-secundary">Sin Recibir</span>
                                 @endif
                         </h5>
                         <br>
@@ -58,6 +57,7 @@ $now = $now->format('Y-m-d H:i:s');
                             <h5><b>Correo Electrónico:</b> {{ $invoice->client->user->email }} </h5>
                             <h5><b>Ubicación:</b> {{ $invoice->client->address }} </h5>
                             <h5><b>{{ $invoice->client->country .'-'. $invoice->client->department .'-'.  $invoice->client->city}}</b></h5>
+                            <h5><br></h5>
                             @if (isset($invoice->state))
                             <h5><br></h5>
                             @endif
@@ -94,11 +94,9 @@ $now = $now->format('Y-m-d H:i:s');
             <div class="card o-hidden border-1 my-3">
                 <div class="card-body p-0">
                     <div class="col col-md-12 table-responsive-sm">
-
                         <table class="table">
                             <thead>
                                 <tr>
-
                                     <th scope="col">Código</th>
                                     <th scope="col">Nombre</th>
                                     <th scope="col">Cantidad</th>
@@ -132,15 +130,19 @@ $now = $now->format('Y-m-d H:i:s');
                             </div>
                         </div>
                     </div>
+                    @can('paymentView', $invoice)
                     <a class="btn btn-primary btn-block" href="{{ route('payments.index', $invoice->id) }}"><i class="far fa-eye"></i> Ver intentos de pago </a>
+                    @endcan
+                    @can('pay invoice')
                     @if($invoice->state != 'APPROVED')
                     <a href="#" class="btn btn-success btn-block" data-toggle="modal" data-target="#create">
                         Realiza el pago de la factura
                     </a>
-                    @include('invoice.payment.create')
                     @endif
+                    @endcan
                 </div>
             </div>
+            @include('invoice.payment.create')
         </div>
     </div>
 </div>

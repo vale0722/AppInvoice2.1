@@ -17,7 +17,7 @@ class InvoicePolicy
      * @param  \App\User  $user
      * @return mixed
      */
-    public function viewAny(User $user)
+    public function viewAny(User $user, Invoice $invoice = NULL)
     {
         if ($user->hasPermissionTo('view all invoices') || $user->hasPermissionTo('view associated invoices')) {
             return true;
@@ -84,13 +84,7 @@ class InvoicePolicy
      */
     public function delete(User $user, Invoice $invoice)
     {
-        if ($user->hasPermissionTo('delete invoice')) {
-            return true;
-        }
-        if ($user->hasPermissionTo('delete associated invoice')) {
-            return  $invoice->creator_id == $user->id;
-        }
-        return false;
+        return ($user->hasPermissionTo('delete invoice'));
     }
 
     /**

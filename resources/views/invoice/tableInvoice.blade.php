@@ -22,24 +22,30 @@
                 <td> {{ $invoice->creator->name . ' ' . $invoice->creator->lastname }}</td>
                 <td>
                     @if($invoice->state == 'APPROVED')
-                    <button type="button" class="btn btn-success btn-sm"> Pago </button>
-                    @elseif($invoice->duedate <= $now) <button type="button" class="btn btn-danger btn-sm"> Vencido </button>
-                        @elseif($invoice->state == 'PENDING') <button type="button" class="btn btn-primary btn-sm"> Pendiente </button>
+                    <span class="badge badge-success">Pago</span>
+                    @elseif($invoice->duedate <= $now) <span class="badge badge-danger">Vencido</span>
+                        @elseif($invoice->state == 'PENDING')
+                        <span class="badge badge-primary">Pendiente</span>
                         @else
-                        <button type="button" class="btn btn-warning btn-sm">Sin Pagar </button>
+                        <span class="badge badge-warning">Sin Pagar </span>
                         @endif
                 </td>
                 <td>{{ '$'. number_format($invoice->total, 2) }}</td>
                 <td>
                     <div class="btn-group" role="group">
+                        @can('update', $invoice)
                         @if ($invoice->state != 'APPROVED' && $invoice->state != 'PENDING' )
                         <a class="btn btn-warning" href="{{ route('invoices.edit', $invoice->id) }}"><i class="far fa-edit"></i> Editar </a>
                         @endif
-                        <a href="#" class="btn btn-danger" data-toggle="modal" data-target="#delete">
+                        @endcan
+                        @can('delete', $invoice)
+                        <a href="{{ route('invoices.confirm.delete', $invoice) }}" class="btn btn-danger">
                             <i class="far fa-trash-alt"></i> Eliminar
                         </a>
-                        @include('invoice.confirmDelete')
+                        @endcan
+                        @can('show', $invoice)
                         <a class="btn btn-success" href="{{ route('invoices.show', $invoice->id) }}"><i class="far fa-eye"></i> Ver detalles </a>
+                        @endcan
                     </div>
                 </td>
             </tr>

@@ -33,7 +33,7 @@
     <link href="{{ mix('css/buttons.css') }}" rel="stylesheet">
     <link href="{{ mix('css/navbar.css') }}" rel="stylesheet">
     <link href="{{ mix('css/app.css') }}" rel="stylesheet">
-
+    <link href="{{ mix('css/cards.css') }}" rel="stylesheet">
 </head>
 
 <body>
@@ -51,38 +51,38 @@
 
             <div class="navbar">
                 <ul class="navbar-nav">
-                    @if(auth()->user()->can('view all invoices') || auth()->user()->can('view associated invoices'))
+                    @can('viewAny', App\Invoice::Class)
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('invoices.index') }}">
                             <i class="far fa-file-alt text-primary"></i>
                             <span class="nav-link-text"> Facturas</span>
                         </a>
                     </li>
-                    @endif
-                    @if(auth()->user()->can('view all clients'))
+                    @endcan
+                    @can('viewAny', App\Client::Class)
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('clients.index') }}">
                             <i class="fas fa-users text-primary"></i>
                             <span class="nav-link-text"> Clientes</span>
                         </a>
                     </li>
-                    @endif
-                    @if(auth()->user()->can('view all products'))
+                    @endcan
+                    @can('viewAny', App\Product::Class)
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('products.index') }}">
                             <i class="fas fa-puzzle-piece text-primary"></i>
                             <span class="nav-link-text"> Productos</span>
                         </a>
                     </li>
-                    @endif
-                    @if(auth()->user()->can('view all users'))
+                    @endcan
+                    @can('viewAny', App\User::Class)
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('users.index') }}">
                             <i class="fas fa-users text-primary"></i>
                             <span class="nav-link-text"> Usuarios</span>
                         </a>
                     </li>
-                    @endif
+                    @endcan
                 </ul>
             </div>
             <!-- Divider -->
@@ -118,7 +118,7 @@
         </nav>
         @endguest
         <div class="main-content">
-            <main class="py-4">
+            <main>
                 @yield('content')
             </main>
         </div>

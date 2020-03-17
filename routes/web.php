@@ -22,6 +22,7 @@ Route::get('/invoices/create', 'InvoiceController@create');
 Route::get('/update', 'InvoiceController@updateInvoices')->name('invoices.updates');
 Route::get('/invoices/{id}/invoice_product/create', 'InvoiceController@createInvoiceProduct');
 Route::post('/invoices/{id}/invoice_product', 'InvoiceController@invoiceProductStore')->name('invoices.product.store');
+Route::get('/invoices/{invoice}/confirmDelete', 'InvoiceController@confirmDelete')->name('invoices.confirm.delete');
 Route::get('/invoices/import/view', 'InvoiceController@indexImport')->name('invoices.import.view');
 Route::post('/invoices/import', 'InvoiceController@importExcel')->name('invoices.import');
 Route::get('/exportInvoices', 'InvoiceController@exportExcel')->name('invoices.export');

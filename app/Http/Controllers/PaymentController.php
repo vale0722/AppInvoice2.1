@@ -58,7 +58,7 @@ class PaymentController extends Controller
         $requestPayment = [
             'buyer' => [
                 'name' => $invoice->client->user->name,
-                'surname' => $invoice->client->user->last_name,
+                'surname' => $invoice->client->user->lastname,
                 'email' => $invoice->client->user->email,
                 'documentType' => $invoice->client->id_type,
                 'document' => $invoice->client->id_card,

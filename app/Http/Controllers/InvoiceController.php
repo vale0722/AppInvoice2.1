@@ -234,4 +234,12 @@ class InvoiceController extends Controller
         }
         return back();
     }
+
+    public function confirmDelete(Invoice $invoice)
+    {
+        $this->authorize('delete', $invoice);
+        return view('invoice.confirmDelete', [
+            'invoice' => $invoice
+        ]);
+    }
 }

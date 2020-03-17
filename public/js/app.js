@@ -49665,6 +49665,17 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./resources/sass/cards.scss":
+/*!***********************************!*\
+  !*** ./resources/sass/cards.scss ***!
+  \***********************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
+
+/***/ }),
+
 /***/ "./resources/sass/navbar.scss":
 /*!************************************!*\
   !*** ./resources/sass/navbar.scss ***!
@@ -49677,16 +49688,17 @@ __webpack_require__.r(__webpack_exports__);
 /***/ }),
 
 /***/ 0:
-/*!************************************************************************************************************************!*\
-  !*** multi ./resources/js/app.js ./resources/sass/app.scss ./resources/sass/buttons.scss ./resources/sass/navbar.scss ***!
-  \************************************************************************************************************************/
+/*!****************************************************************************************************************************************************!*\
+  !*** multi ./resources/js/app.js ./resources/sass/app.scss ./resources/sass/buttons.scss ./resources/sass/navbar.scss ./resources/sass/cards.scss ***!
+  \****************************************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(/*! C:\xampp\htdocs\appInvoice2.1\resources\js\app.js */"./resources/js/app.js");
 __webpack_require__(/*! C:\xampp\htdocs\appInvoice2.1\resources\sass\app.scss */"./resources/sass/app.scss");
 __webpack_require__(/*! C:\xampp\htdocs\appInvoice2.1\resources\sass\buttons.scss */"./resources/sass/buttons.scss");
-module.exports = __webpack_require__(/*! C:\xampp\htdocs\appInvoice2.1\resources\sass\navbar.scss */"./resources/sass/navbar.scss");
+__webpack_require__(/*! C:\xampp\htdocs\appInvoice2.1\resources\sass\navbar.scss */"./resources/sass/navbar.scss");
+module.exports = __webpack_require__(/*! C:\xampp\htdocs\appInvoice2.1\resources\sass\cards.scss */"./resources/sass/cards.scss");
 
 
 /***/ })
