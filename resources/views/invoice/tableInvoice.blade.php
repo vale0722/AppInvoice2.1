@@ -51,14 +51,7 @@
             </tr>
             @empty
             <tr>
-                <td> NO SE ENCUENTRAN FACTURAS </td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
+                <td colspan="8" class="text-center"> NO SE ENCUENTRAN FACTURAS </td>
             </tr>
             @endforelse
         </tbody>

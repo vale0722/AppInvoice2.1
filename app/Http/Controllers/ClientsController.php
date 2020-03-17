@@ -56,6 +56,7 @@ class ClientsController extends Controller
         $user->lastname = $request->input('lastname');
         $user->email = $request->input('email');
         $user->password = bcrypt($request->input('id_card'));
+        $user->assignRole('client');
         $user->save();
         $client->id_type = $request->input('id_type');
         $client->id_card = $request->input('id_card');
@@ -182,6 +183,7 @@ class ClientsController extends Controller
     {
         $client = Client::findOrFail($id);
         $this->authorize('delete', $client);
+        $client->user->delete();
         $client->delete();
         return redirect()->route('clients.index');
     }
