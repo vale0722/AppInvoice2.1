@@ -61,7 +61,7 @@ class Invoice extends Model
                 'client',
                 function ($query) use ($client) {
                     $query->whereHas(
-                        'User',
+                        'user',
                         function ($queryUser) use ($client) {
                             $queryUser->where('name', 'LIKE', "%$client%");
                         }

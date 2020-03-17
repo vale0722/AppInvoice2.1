@@ -45,7 +45,7 @@ class User extends Authenticatable
 
     public function client()
     {
-        return $this->hasOne(Invoice::class);
+        return $this->hasOne(Client::class);
     }
 
     public function clientsCreated()

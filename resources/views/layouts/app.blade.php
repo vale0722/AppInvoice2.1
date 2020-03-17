@@ -31,8 +31,8 @@
 
     <!-- Styles -->
     <link href="{{ mix('css/buttons.css') }}" rel="stylesheet">
+    <link href="{{ mix('css/navbar.css') }}" rel="stylesheet">
     <link href="{{ mix('css/app.css') }}" rel="stylesheet">
-    <link href="{{ asset('css/app2.css') }}" rel="stylesheet">
 
 </head>
 
@@ -42,67 +42,87 @@
         @if (Route::has('register'))
         @endif
         @else
-        <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm fixed-top">
-            <div class="container">
-                <a class="navbar-brand" href="{{ route('home') }}">
-                    {{ ('SISTEMA DE FACTURACIÓN') }}
+        <nav class="sidenav navbar navbar-vertical  fixed-left  navbar-expand-xs navbar-light bg-white">
+            <div class="sidenav-header  align-items-center">
+                <a class="navbarbrand" href="{{ route('home') }}">
+                    SISTEMA DE FACTURACIÓN
                 </a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <!-- Left Side Of Navbar -->
-                    <ul class="navbar-nav mr-auto">
-
-                    </ul>
-
-                    <!-- Right Side Of Navbar -->
-                    <ul class="navbar-nav ml-auto">
-                        <!-- Authentication Links -->
-
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ route('invoices.index') }}"><i class="far fa-file-alt"></i> Facturas</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ route('clients.index') }}"><i class="fas fa-users"></i> Clientes</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ route('products.index') }}"><i class="fas fa-puzzle-piece"></i> Productos</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ route('users.index') }}"><i class="fas fa-users"></i> Usuarios</a>
-                        </li>
-                        <li class="nav-item dropdown">
-                            <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                                <i class="fas fa-user"></i> {{ Auth::user()->name }} <span class="caret"></span>
-                            </a>
-
-                            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                                <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();
-                                                     document.getElementById('logout-form').submit();">
-                                    {{ __('Mi Perfil') }}
-                                </a>
-                                <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();
-                                                     document.getElementById('logout-form').submit();">
-                                    {{ __('Cerrar Sesión') }}
-                                </a>
-                                <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                                    @csrf
-                                </form>
-                            </div>
-                        </li>
-
-                    </ul>
-                </div>
             </div>
+
+            <div class="navbar">
+                <ul class="navbar-nav">
+                    @if(auth()->user()->can('view all invoices') || auth()->user()->can('view associated invoices'))
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('invoices.index') }}">
+                            <i class="far fa-file-alt text-primary"></i>
+                            <span class="nav-link-text"> Facturas</span>
+                        </a>
+                    </li>
+                    @endif
+                    @if(auth()->user()->can('view all clients'))
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('clients.index') }}">
+                            <i class="fas fa-users text-primary"></i>
+                            <span class="nav-link-text"> Clientes</span>
+                        </a>
+                    </li>
+                    @endif
+                    @if(auth()->user()->can('view all products'))
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('products.index') }}">
+                            <i class="fas fa-puzzle-piece text-primary"></i>
+                            <span class="nav-link-text"> Productos</span>
+                        </a>
+                    </li>
+                    @endif
+                    @if(auth()->user()->can('view all users'))
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('users.index') }}">
+                            <i class="fas fa-users text-primary"></i>
+                            <span class="nav-link-text"> Usuarios</span>
+                        </a>
+                    </li>
+                    @endif
+                </ul>
+            </div>
+            <!-- Divider -->
+            <hr class="my-3">
+            <!-- Heading -->
+            <div class="active-pro">
+                <br>
+                <h5 class="navbar-heading p-0 text-center text-primary">
+                    <i class="fas fa-user "></i> {{ Auth::user()->name }}
+                </h5>
+                <!-- Navigation -->
+                <ul class="navbar-nav mb-md-3">
+                    <li class="nav-item">
+                        <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();
+                                                     document.getElementById('logout-form').submit();">
+                            <i class="fas fa-user"></i>
+                            <span class="nav-link-text">Mi perfil</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();
+                                                     document.getElementById('logout-form').submit();">
+                            <i class="fas fa-sign-out-alt"></i>
+                            <span class="nav-link-text">Cerrar Sesión</span>
+                        </a>
+                        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                            @csrf
+                        </form>
+                    </li>
+                </ul>
+            </div>
+
         </nav>
         @endguest
-        <main class="py-4">
-            @yield('content')
-        </main>
+        <div class="main-content">
+            <main class="py-4">
+                @yield('content')
+            </main>
+        </div>
     </div>
-
     <script src="{{ mix('js/app.js') }}" defer></script>
     <script src="{{ mix('js/alerts.js') }}" defer></script>
     <script src="{{ mix('js/bootstrap.js') }}"></script>

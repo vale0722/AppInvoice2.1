@@ -49665,16 +49665,28 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./resources/sass/navbar.scss":
+/*!************************************!*\
+  !*** ./resources/sass/navbar.scss ***!
+  \************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
+
+/***/ }),
+
 /***/ 0:
-/*!*******************************************************************************************!*\
-  !*** multi ./resources/js/app.js ./resources/sass/app.scss ./resources/sass/buttons.scss ***!
-  \*******************************************************************************************/
+/*!************************************************************************************************************************!*\
+  !*** multi ./resources/js/app.js ./resources/sass/app.scss ./resources/sass/buttons.scss ./resources/sass/navbar.scss ***!
+  \************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! c:\xampp\htdocs\appInvoice2.1\resources\js\app.js */"./resources/js/app.js");
-__webpack_require__(/*! c:\xampp\htdocs\appInvoice2.1\resources\sass\app.scss */"./resources/sass/app.scss");
-module.exports = __webpack_require__(/*! c:\xampp\htdocs\appInvoice2.1\resources\sass\buttons.scss */"./resources/sass/buttons.scss");
+__webpack_require__(/*! C:\xampp\htdocs\appInvoice2.1\resources\js\app.js */"./resources/js/app.js");
+__webpack_require__(/*! C:\xampp\htdocs\appInvoice2.1\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! C:\xampp\htdocs\appInvoice2.1\resources\sass\buttons.scss */"./resources/sass/buttons.scss");
+module.exports = __webpack_require__(/*! C:\xampp\htdocs\appInvoice2.1\resources\sass\navbar.scss */"./resources/sass/navbar.scss");
 
 
 /***/ })

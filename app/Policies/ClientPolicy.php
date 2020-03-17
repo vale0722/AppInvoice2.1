@@ -18,7 +18,7 @@ class ClientPolicy
      */
     public function viewAny(User $user, Client $client)
     {
-        if ($user->hasPermissionTo('view all clients') || $user->hasPermissionTo('view associated clients')) {
+        if ($user->hasPermissionTo('view all clients')) {
             return true;
         }
         return false;

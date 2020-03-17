@@ -126,7 +126,6 @@ class InvoiceController extends Controller
      */
     public function update(Request $request, $id)
     {
-
         $invoice = Invoice::find($id);
         $this->authorize('update', $invoice);
         if ($invoice->state != 'APPROVED' && $invoice->state != 'PENDING') {
