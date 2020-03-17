@@ -21,6 +21,7 @@ class ClientImport implements ToModel, WithValidation, WithBatchInserts
             'name' => $row[0],
             'lastname' => $row[1],
             'email' => $row[4],
+            'password' => bcrypt($row[3]),
         ]);
         $client = new Client([
             'id_type' => $row[2],

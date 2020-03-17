@@ -6,9 +6,15 @@
             <div class="text-center"><i class="fas fa-users"></i><b> CLIENTES</b></div>
             <div>
                 <div>
+                    @can('create client')
                     <a class="btn btn-primary btn-circle btn-lg" href="{{ route('clients.create') }}"><i class="fas fa-plus"></i></a>
+                    @endcan
+                    @can('import clients')
                     <a class="btn btn-success btn-circle btn-lg" href="{{ route('clients.import.view') }}"><i class="fas fa-file-import"></i></a>
+                    @endcan
+                    @can('export clients')
                     <a class="btn btn-warning btn-circle btn-lg" href="{{ route('clients.export') }}"><i class="fas fa-file-export"></i></a>
+                    @endcan
                 </div>
             </div>
         </div>
@@ -29,9 +35,15 @@
                             <td>{{ $client->id_type . ': ' . $client->id_card}}</td>
                             <td>
                                 <div class="btn-group" role="group">
+                                    @can('update', $client)
                                     <a class="btn btn-warning" href="{{ route('clients.edit', $client->id) }}"><i class="far fa-edit"></i> Editar </a>
+                                    @endcan
+                                    @can('delete', $client)
                                     <a class="btn btn-danger" href="{{ route('clients.confirm.delete', $client->id) }}"><i class="far fa-trash-alt"></i> Eliminar</a>
+                                    @endcan
+                                    @can('show client')
                                     <a class="btn btn-success" href="{{ route('clients.show', $client->id) }}"><i class="far fa-eye"></i> Ver detalles </a>
+                                    @endcan
                                 </div>
                             </td>
                         </tr>

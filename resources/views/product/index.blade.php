@@ -5,7 +5,9 @@
     <div class="card shadow mb-4 my-5">
         <div class="card-header py-3">
             <div class="text-center"><i class="fas fa-users"></i><b> PRODUCTOS</b></div>
+            @can('create product')
             <div><a class="btn btn-primary btn-circle btn-lg" href="{{ route('products.create') }}"><i class="fas fa-plus"></i></a></div>
+            @endcan
             <div class="justify-content-end">
                 <form action="{{ route('products.index') }}" method="GET" class="form-inline justify-content-end">
                     @if (!isset($search))
@@ -40,7 +42,9 @@
                             <th scope="col">Código</th>
                             <th scope="col">Nombre</th>
                             <th scope="col">Precio ($)</th>
+                            @if(auth()->user()->can('edit product') || auth()->user()->can('delete product'))
                             <th scope="col">Acciones</th>
+                            @endif
                         </tr>
                     </thead>
                     <tbody>
@@ -49,12 +53,18 @@
                             <td>{{ $product->code }}</td>
                             <td>{{ $product->name }}</td>
                             <td>{{ '$'. number_format($product->price) }}</td>
+                            @if(auth()->user()->can('edit product') || auth()->user()->can('delete product'))
                             <td>
                                 <div class="btn-group" role="group">
+                                    @can('update', $product)
                                     <a class="btn btn-warning" href="{{ route('products.edit', $product->id) }}"><i class="far fa-edit"></i> Editar </a>
+                                    @endcan
+                                    @can('delete', $product)
                                     <a class="btn btn-danger" href="{{ route('products.confirm.delete', $product->id) }}"><i class="far fa-trash-alt"></i> Eliminar</a>
+                                    @endcan
                                 </div>
                             </td>
+                            @endif
                         </tr>
                         @endforeach
                     </tbody>
