@@ -42,7 +42,7 @@ $now = $now->format('Y-m-d H:i:s');
                             <td nowrap>{{ $invoice->created_at }}</td>
                             <td>{{ $invoice->title }}</td>
                             <td> {{ $invoice->client->user->name . ' ' .$invoice->client->user->lastname }}</td>
-                            <td> {{ $invoice->creator->name . ' ' .$invoice->client->creator->lastname }}</td>
+                            <td> {{ $invoice->creator->name . ' ' .$invoice->creator->lastname }}</td>
                             <td>
                                 @if($invoice->state == 'APPROVED')
                                 <button type="button" class="btn btn-success btn-sm"> Pago </button>

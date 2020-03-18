@@ -77,7 +77,7 @@ $now = $now->format('Y-m-d H:i:s');
                                         <div class="btn-group" role="group">
                                             @can('update', $invoice)
                                             @if ($invoice->state != 'APPROVED' && $invoice->state != 'PENDING' )
-                                            <a class="btn btn-warning" href="{{ route('invoices.edit', $invoice->id) }}"><i class="far fa-edit"></i> Editar </a>
+                                            <a class="btn btn-warning" href="{{ route('invoices.edit', $invoice) }}"><i class="far fa-edit"></i> Editar </a>
                                             @endif
                                             @endcan
                                             @can('delete', $invoice)

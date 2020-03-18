@@ -13,7 +13,7 @@ class InvoiceReportExport implements FromQuery, ShouldQueue
 {
     use Exportable, InteractsWithQueue, Queueable;
 
-    public function __construct(string $state, string $firstCreationDate, string $finalCreationDate)
+    public function __construct(string $firstCreationDate, string $finalCreationDate, string $state)
     {
         $this->firstCreationDate = $firstCreationDate;
         $this->finalCreationDate = $finalCreationDate;

@@ -2,19 +2,22 @@
 
 namespace App\Http\Controllers;
 
+use App\User;
+use App\Client;
+use App\Company;
+use App\Invoice;
+use App\Product;
 use Illuminate\Http\Request;
 use App\Exports\InvoiceExport;
 use App\Imports\InvoiceImport;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\DB;
+use App\Actions\StoreInvoiceAction;
+use App\Actions\UpdateInvoiceAction;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Support\Facades\Cache;
-use App\Invoice;
-use App\Client;
-use App\Product;
-use App\Company;
 use App\Http\Requests\Invoices\InvoiceStoreRequest;
-use App\User;
+use App\Http\Requests\Invoices\InvoiceUpdateRequest;
 
 class InvoiceController extends Controller
 {
@@ -69,18 +72,12 @@ class InvoiceController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(InvoiceStoreRequest $request)
+    public function store(InvoiceStoreRequest $request, StoreInvoiceAction $action)
     {
         $this->authorize('create', new Invoice());
         $invoice = new Invoice();
-        $invoice->title = $request->input('title');
-        $invoice->code = $request->input('code');
-        $invoice->client_id = $request->input('client');
-        $invoice->creator_id = auth()->user()->id;
-        $invoice->state = "DEFAULT";
-        $invoice->duedate = date("Y-m-d H:i:s", strtotime($invoice->created_at . "+ 30 days"));
-        $invoice->save();
-        return redirect()->route('invoices.edit', $invoice->id);
+        $invoice = $action->storeModel($invoice, $request);
+        return redirect()->route('invoices.edit', $invoice);
     }
 
 
@@ -124,34 +121,11 @@ class InvoiceController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(InvoiceUpdateRequest $request, Invoice $invoice, UpdateInvoiceAction $action)
     {
-        $invoice = Invoice::find($id);
         $this->authorize('update', $invoice);
         if ($invoice->state != 'APPROVED' && $invoice->state != 'PENDING') {
-            $validData = $request->validate([
-                'title' => 'required',
-
-                'code' => [
-                    'required',
-                    Rule::unique('invoices')->ignore($id)
-                ],
-                'client' => 'required|numeric|exists:clients,id',
-                'stateReceipt' => 'required',
-            ]);
-            $invoice->title = $validData['title'];
-            $invoice->code = $validData['code'];
-            $invoice->client_id = $validData['client'];
-            $invoice->creator_id = auth()->user()->id;
-            $invoice->duedate = date("Y-m-d H:i:s", strtotime($invoice->created_at . "+ 30 days"));
-            if ($validData['stateReceipt'] == '1') {
-                $now = new \DateTime();
-                $invoice->receipt_date = $now->format('Y-m-d H:i:s');
-            } else {
-                $invoice->receipt_date = null;
-            }
-            $this->updateOrder($invoice);
-            $invoice->save();
+            $invoice = $action->updateModel($invoice, $request);
             return redirect()->route('invoices.index');
         } else {
             return redirect()->route('invoices.index')->with('errorEdit', 'LA FACTURA NO SE PUEDE EDITAR');
@@ -169,7 +143,6 @@ class InvoiceController extends Controller
         $invoice = Invoice::find($id);
         $this->authorize('update', $invoice);
         $invoice->delete();
-
         return redirect()->route('invoices.index');
     }
 
@@ -198,7 +171,7 @@ class InvoiceController extends Controller
         ]);
         $this->updateOrder($invoice);
         $invoice->save();
-        return redirect()->route('invoices.edit', $invoice->id)->with('message', 'Registro de compra completado');
+        return redirect()->route('invoices.edit', $invoice)->with('message', 'Registro de compra completado');
     }
 
     public function indexImport()
