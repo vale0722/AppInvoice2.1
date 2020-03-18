@@ -44,7 +44,7 @@ class UserPolicy
      * @param  \App\User  $user
      * @return mixed
      */
-    public function create(User $user)
+    public function create(User $user, User $model = NULL)
     {
         return ($user->hasPermissionTo('create user'));
     }
@@ -58,7 +58,13 @@ class UserPolicy
      */
     public function update(User $user, User $model)
     {
-        return ($user->hasPermissionTo('update user'));
+        if ($user->hasPermissionTo('update user')) {
+            if ($user->hasRole('client') || $user->hasRole('company')) {
+                return ($user->id == $model->id);
+            }
+            return true;
+        }
+        return false;
     }
 
     /**

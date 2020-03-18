@@ -43,6 +43,8 @@ Route::post('/payment/create/{invoice}', 'PaymentController@store')->name('payme
 Route::get('/payment/show/{payment}/', 'PaymentController@show')->name('payments.show');
 
 Route::get('/report', 'ReportController@index')->name('report.index');
-Route::get('/report/export/{state}/{firstCreationDate}/{finalCreationDate}/{format}', 'ReportController@export')->name('report.export');
+Route::get('/users/{user}/edit', 'Auth\RegisterController@edit')->name('users.edit');
+Route::put('/users/{user}/update', 'Auth\RegisterController@update')->name('users.update');
+Route::get('/report/export/{firstCreationDate}/{finalCreationDate}/{format}/{state}', 'ReportController@export')->name('report.export');
 
-Route::resource('/users', 'UserController');
+Route::resource('/users', 'UserController')->except(['edit', 'update']);

@@ -170,6 +170,11 @@ class ClientsController extends Controller
         $client->user_id = $client->user->id;
         $client->user->save();
         $client->save();
+        if ($client->user_id == auth()->user()->id) {
+            return redirect()->route('users.show', [
+                'user' => $client->user
+            ]);
+        }
         return redirect()->route('clients.index');
     }
 

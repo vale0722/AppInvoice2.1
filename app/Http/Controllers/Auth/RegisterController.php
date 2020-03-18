@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\Http\Controllers\Controller;
 use App\User;
-use Illuminate\Foundation\Auth\RegistersUsers;
+use Illuminate\Validation\Rule;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Symfony\Component\HttpFoundation\Request;
+use Illuminate\Foundation\Auth\RegistersUsers;
 
 class RegisterController extends Controller
 {
@@ -84,5 +86,61 @@ class RegisterController extends Controller
         ]);
         $user->assignRole($data['role']);
         return $user;
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  User $user
+     * @return \Illuminate\Http\Response
+     */
+    public function edit(User $user)
+    {
+        $this->authorize('update', $user);
+        return view('user.edit', [
+            'user' => $user
+        ]);
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Request $request, User $user)
+    {
+        $this->authorize('update', $user);
+        $data = $request->validate(
+            [
+                'name' => ['required', 'string', 'max:255'],
+                'lastname' => ['required', 'string', 'max:255'],
+                'email' => ['required', 'string', 'email', 'max:255',  Rule::unique('users')->ignore($user->id)],
+            ],
+            [
+                'required' => "El :attribute del usuario es un campo obligatorio",
+                'unique' => 'El :attribute ya está registrado',
+                'min' => 'El :attribute de tener mínimo :min caracteres',
+                'max' => 'El :attribute de tener máximo :max caracteres'
+            ],
+            [
+                'name' => 'Nombre',
+                'lastname' => 'Apellido',
+                'email' => 'Correo Electrónico'
+            ]
+        );
+        $user->name = $data['name'];
+        $user->lastname = $data['lastname'];
+        $user->email = $data['email'];
+        $user->password = $user->password;
+        if ($request->input('role') != NULL) {
+            $user->removeRole($user->roles()->first());
+            $user->assignRole($request->input('role'));
+        }
+        $user->update();
+        return redirect()->route('users.show', [
+            'user' => $user,
+        ]);
     }
 }

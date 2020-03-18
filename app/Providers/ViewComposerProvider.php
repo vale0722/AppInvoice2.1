@@ -39,5 +39,9 @@ class ViewComposerProvider extends ServiceProvider
             'auth.register',
             CachedRolesList::class,
         );
+        View::composer(
+            'user.edit',
+            CachedRolesList::class,
+        );
     }
 }

@@ -14,21 +14,15 @@ class ReportController extends Controller
         $firstCreationDate = $request->get('firstCreationDate');
         $finalCreationDate = $request->get('finalCreationDate');
         $state = $request->get('state');
-        if ($firstCreationDate != null & $finalCreationDate != null) {
-            $invoices = Invoice::orderBy('id', 'DESC')
-                ->filtrate('created_at', $firstCreationDate, $finalCreationDate)
-                ->filtrateState($state)
-                ->paginate(10);
-        } else {
-            $invoices = Invoice::orderBy('id', 'DESC')
-                ->filtrateState($state)
-                ->paginate(10);
-        }
+        $invoices = Invoice::orderBy('id', 'DESC')
+            ->filtrate('created_at', $firstCreationDate, $finalCreationDate)
+            ->filtrateState($state)
+            ->paginate(10);
 
         return view('report.index', compact('invoices', 'firstCreationDate', 'finalCreationDate', 'state'));
     }
 
-    public function export(Request $request, $firstCreationDate, $finalCreationDate, $state, $format)
+    public function export(Request $request, $firstCreationDate, $finalCreationDate, $format, $state)
     {
         $this->authorize('export', new Invoice());
         return (new InvoiceReportExport($firstCreationDate, $finalCreationDate, $state))->download('invoices.' . $format);

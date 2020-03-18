@@ -22,7 +22,11 @@ class InvoiceReportExport implements FromQuery, ShouldQueue
 
     public function query()
     {
-        if ($this->state == "paid") {
+        if ($this->state == "all") {
+            return Invoice::query()
+                ->whereDate("created_at", ">=", "$this->firstCreationDate")
+                ->whereDate("created_at", '<=', "$this->finalCreationDate");
+        } elseif ($this->state == "paid") {
             return Invoice::query()
                 ->whereDate("created_at", ">=", "$this->firstCreationDate")
                 ->whereDate("created_at", '<=', "$this->finalCreationDate")

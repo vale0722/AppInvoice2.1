@@ -89,7 +89,9 @@ class Invoice extends Model
         $now = new \DateTime();
         $now = $now->format('Y-m-d H:i:s');
         if ($state) {
-            if ($state == "paid") {
+            if ($state == "all") {
+                return $query;
+            } elseif ($state == "paid") {
                 return $query->where("state", "APPROVED");
             } elseif ($state == "overdue") {
                 return $query->where("duedate", "<=", "$now");

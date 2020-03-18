@@ -9,9 +9,9 @@ $now = $now->format('Y-m-d H:i:s');
         <div class="col-sm-8"></div>
         <div class="col-sm-4">
             <div class="btn-group" role="group">
-                <a type="button" class="btn btn-success btn-sm" href="{{ route('report.export', [$state, $firstCreationDate, $finalCreationDate,'xlsx']) }}"> <i class="fas fa-file-excel"></i> Exportar .xlsx</a>
-                <a type="button" class="btn btn-warning btn-sm" href="{{ route('report.export', [$state, $firstCreationDate, $finalCreationDate, 'csv']) }}"> <i class="fas fa-file-csv"></i> Exportar .csv</a>
-                <a type="button" class="btn btn-primary btn-sm" href="{{ route('report.export', [$state, $firstCreationDate, $finalCreationDate, 'tsv']) }}"> <i class="far fa-file-alt"></i> Exportar .txt</a>
+                <a type="button" class="btn btn-success btn-sm" href="{{ route('report.export', [$firstCreationDate, $finalCreationDate,'xlsx', $state]) }}"> <i class="fas fa-file-excel"></i> Exportar .xlsx</a>
+                <a type="button" class="btn btn-warning btn-sm" href="{{ route('report.export', [$firstCreationDate, $finalCreationDate, 'csv', $state]) }}"> <i class="fas fa-file-csv"></i> Exportar .csv</a>
+                <a type="button" class="btn btn-primary btn-sm" href="{{ route('report.export', [$firstCreationDate, $finalCreationDate, 'tsv', $state]) }}"> <i class="far fa-file-alt"></i> Exportar .txt</a>
             </div>
         </div>
     </div>

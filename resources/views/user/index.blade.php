@@ -21,7 +21,7 @@
                     <tbody>
                         @foreach($users as $user)
                         <tr>
-                            <td>{{ $user->name .' '. $user->lastname }}</td>
+                            <td><a href="{{ route('users.show', $user) }}">{{ $user->name .' '. $user->lastname }}</a></td>
                             <td>{{ $user->email }}</td>
                             <td>
                                 @foreach($user->roles as $role)

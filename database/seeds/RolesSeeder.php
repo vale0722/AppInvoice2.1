@@ -70,6 +70,7 @@ class RolesSeeder extends Seeder
         $role->givePermissionTo('view all products');
 
         //asignig user permissions to the company
+        $role->givePermissionTo('update user');
         $role->givePermissionTo('show your user');
 
         $role = Role::create(['name' => 'client', 'description' => 'Cliente']);
@@ -81,6 +82,7 @@ class RolesSeeder extends Seeder
         $role->givePermissionTo('view payment attempts');
 
         //asignig user permissions to the client
+        $role->givePermissionTo('update associated client');
         $role->givePermissionTo('show your user');
     }
 }

@@ -60,6 +60,9 @@ class ClientPolicy
             return true;
         }
         if ($user->hasPermissionTo('update associated client')) {
+            if ($user->hasRole('client')) {
+                return  $client->user->id == $user->id;
+            }
             return  $client->creator_id == $user->id;
         }
         return false;
