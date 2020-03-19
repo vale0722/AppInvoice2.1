@@ -23,7 +23,6 @@ class UpdateInvoiceAction extends Action
             $invoice->receipt_date = null;
         }
         $invoice->update();
-
         return $invoice;
     }
 }
