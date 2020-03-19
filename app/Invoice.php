@@ -65,7 +65,6 @@ class Invoice extends Model
                         function ($queryUser) use ($client) {
                             $queryUser->where('name', 'LIKE', "%$client%");
                         }
-
                     );
                 }
             );
@@ -97,7 +96,8 @@ class Invoice extends Model
                 return $query->where("duedate", "<=", "$now");
             } elseif ($state == "pending") {
                 return $query->where("state", "PENDING");
-            } {
+            }
+            {
                 return $query->where("state", "!=", "APPROVED")->where("state", "!=", "PENDING");
             }
         }
@@ -109,7 +109,7 @@ class Invoice extends Model
         }
     }
 
-    public function scopeCreator($query)
+    public function scopeCreatorScp($query)
     {
         if (auth()->user()->hasPermissionTo('view all invoices')) {
             return $query;

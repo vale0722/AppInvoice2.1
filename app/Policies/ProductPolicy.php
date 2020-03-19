@@ -16,7 +16,7 @@ class ProductPolicy
      * @param  \App\User  $user
      * @return mixed
      */
-    public function viewAny(User $user, Product $product = NULL)
+    public function viewAny(User $user, Product $product = null)
     {
         return ($user->hasPermissionTo('view all products'));
     }

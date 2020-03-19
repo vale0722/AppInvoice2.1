@@ -105,7 +105,6 @@ class PaymentController extends Controller
      */
     public function show(Payment $payment, PlacetoPay $placetopay)
     {
-
         $payment = Payment::where('id', $payment->id)->first();
         $response = $placetopay->query($payment->request_id);
         $payment->status = $response->status()->status();

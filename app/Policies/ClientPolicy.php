@@ -16,7 +16,7 @@ class ClientPolicy
      * @param  \App\User  $user
      * @return mixed
      */
-    public function viewAny(User $user, Client $client = NULL)
+    public function viewAny(User $user, Client $client = null)
     {
         if ($user->hasPermissionTo('view all clients')) {
             return true;

@@ -12,7 +12,7 @@ $factory->define(Invoice::class, function (Faker $faker) {
     $creator = User::whereHas(
         'Roles',
         function ($query) {
-            $query->where('name',  'admin')->orWhere('name', 'company');
+            $query->where('name', 'admin')->orWhere('name', 'company');
         }
     )->first();
     return [

@@ -94,7 +94,6 @@ class ClientsController extends Controller
      */
     public function edit($id)
     {
-
         $client = Client::findOrFail($id);
         $this->authorize('update', $client);
         return view('client.edit', [
@@ -112,7 +111,6 @@ class ClientsController extends Controller
      */
     public function update(Request $request, $id)
     {
-
         $client = Client::findOrFail($id);
         $this->authorize('update', $client);
         $validData = $request->validate(

@@ -12,7 +12,7 @@ use Illuminate\Http\Request;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
-Route::prefix('/user')->group( function() {
+Route::prefix('/user')->group(function () {
     Route::post('/login', 'Api\LoginController@login');
     Route::get('invoices', 'Api\InvoiceController@index');
     Route::post('invoices', 'Api\InvoiceController@store');

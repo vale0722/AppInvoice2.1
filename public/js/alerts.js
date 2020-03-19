@@ -130,7 +130,7 @@ if (document.getElementById('errorEdit')) {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! C:\xampp\htdocs\appInvoice2.1\resources\js\alerts.js */"./resources/js/alerts.js");
+module.exports = __webpack_require__(/*! c:\xampp\htdocs\appInvoice2.1\resources\js\alerts.js */"./resources/js/alerts.js");
 
 
 /***/ })

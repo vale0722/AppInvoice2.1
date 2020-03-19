@@ -44,7 +44,7 @@ class InvoiceController extends Controller
             ->search($search, $type)
             ->filtrate($typeDate, $firstCreationDate, $finalCreationDate)
             ->filtrateState($state)
-            ->creator()
+            ->creatorScp()
             ->paginate(10);
         $this->updateInvoices();
         return view('invoice.index', [

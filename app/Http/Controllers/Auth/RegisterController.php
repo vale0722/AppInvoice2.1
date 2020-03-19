@@ -134,7 +134,7 @@ class RegisterController extends Controller
         $user->lastname = $data['lastname'];
         $user->email = $data['email'];
         $user->password = $user->password;
-        if ($request->input('role') != NULL) {
+        if ($request->input('role') != null) {
             $user->removeRole($user->roles()->first());
             $user->assignRole($request->input('role'));
         }

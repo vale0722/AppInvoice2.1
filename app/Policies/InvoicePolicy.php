@@ -17,7 +17,7 @@ class InvoicePolicy
      * @param  \App\User  $user
      * @return mixed
      */
-    public function viewAny(User $user, Invoice $invoice = NULL)
+    public function viewAny(User $user, Invoice $invoice = null)
     {
         if ($user->hasPermissionTo('view all invoices') || $user->hasPermissionTo('view associated invoices')) {
             return true;

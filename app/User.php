@@ -59,6 +59,7 @@ class User extends Authenticatable
     {
         return $query->reject(function ($user) {
             $user->hasRole(['admin', 'company']);
-        });;
+        });
+        ;
     }
 }

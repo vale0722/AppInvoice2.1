@@ -3,14 +3,12 @@
 namespace App\Http\Controllers\Api;
 
 use App\Invoice;
-use Illuminate\Http\Request;
 use App\Actions\StoreInvoiceAction;
 use App\Actions\UpdateInvoiceAction;
-use App\Http\Controllers\Controller;
-use App\Http\Requests\Invoices\InvoiceStoreRequest;
-use App\Http\Requests\Invoices\InvoiceUpdateRequest;
+use App\Http\Requests\Invoices\ApiInvoiceStoreRequest;
+use App\Http\Requests\Invoices\ApiInvoiceUpdateRequest;
 
-class InvoiceController extends Controller
+class InvoiceController extends ApiController
 {
     public function __construct()
     {
@@ -20,16 +18,17 @@ class InvoiceController extends Controller
     public function index(Invoice $invoice)
     {
         $this->authorize('viewAny', $invoice);
-        return Invoice::all();
+        $invoices = Invoice::creatorScp()->get();
+        return $this->success($invoices);
     }
 
-    public function store(InvoiceStoreRequest $request, Invoice $invoice, StoreInvoiceAction $action)
+    public function store(ApiInvoiceStoreRequest $request, Invoice $invoice, StoreInvoiceAction $action)
     {
         $this->authorize('create', $invoice);
         return $action->storeModel($invoice, $request);
     }
 
-    public function update(InvoiceUpdateRequest $request, Invoice $invoice, UpdateInvoiceAction $action)
+    public function update(ApiInvoiceUpdateRequest $request, Invoice $invoice, UpdateInvoiceAction $action)
     {
         $this->authorize('update', $invoice);
         return $action->updateModel($invoice, $request);

@@ -44,7 +44,7 @@ class UserPolicy
      * @param  \App\User  $user
      * @return mixed
      */
-    public function create(User $user, User $model = NULL)
+    public function create(User $user, User $model = null)
     {
         return ($user->hasPermissionTo('create user'));
     }
