@@ -27,7 +27,6 @@ class InvoiceStoreRequest extends FormRequest
             'title' => 'required|min:3|max:100',
             'code' => 'required|unique:invoices',
             'client' => 'required|numeric|exists:clients,id',
-            'company' => 'required|numeric|exists:companies,id',
         ];
     }
 
@@ -56,7 +55,6 @@ class InvoiceStoreRequest extends FormRequest
             'title' => 'Título',
             'code' => 'Código',
             'client' => 'Id del Cliente',
-            'company' => 'Id del Vendedor',
         ];
     }
 }

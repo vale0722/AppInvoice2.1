@@ -8,11 +8,8 @@ class Client extends Model
 {
     protected $fillable =
     [
-        'name',
-        'last_name',
         'id_type',
         'id_card',
-        'email',
         'cellphone',
         'country',
         'city',
@@ -24,12 +21,13 @@ class Client extends Model
         return $this->hasMany(Invoice::class);
     }
 
-    public function scopeSearch($query, $search, $type)
+    public function user()
     {
-        if ($type) {
-            if ($search) {
-                return $query->where("$type", 'LIKE', "%$search%");
-            }
-        }
+        return $this->belongsTo(User::class);
+    }
+
+    public function creator()
+    {
+        return $this->belongsTo(User::class);
     }
 }

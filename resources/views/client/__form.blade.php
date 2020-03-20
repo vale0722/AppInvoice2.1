@@ -1,11 +1,11 @@
 <div class="form-row">
     <div class="form-group col-md-6">
         <label for="name">Nombre</label>
-        <input type="text" class="form-control @error('name')is-invalid @enderror" id="name" name="name" value="{{ (isset($client->name) ? $client->name : old('name')) }}" placeholder="Nombre">
+        <input type="text" class="form-control @error('name')is-invalid @enderror" id="name" name="name" value="{{ (isset($client->user->name) ? $client->user->name : old('name')) }}" placeholder="Nombre">
     </div>
     <div class="form-group col-md-6">
-        <label for="last_name">Apellido</label>
-        <input type="text" class="form-control @error('last_name')is-invalid @enderror" id="last_name" name="last_name" value="{{ (isset($client->last_name) ? $client->last_name : old('last_name')) }}" placeholder="Apellido">
+        <label for="lastname">Apellido</label>
+        <input type="text" class="form-control @error('lastname')is-invalid @enderror" id="lastname" name="lastname" value="{{ (isset($client->user->lastname) ? $client->user->lastname : old('lastname')) }}" placeholder="Apellido">
     </div>
 </div>
 <div class="form-group">
@@ -22,7 +22,7 @@
 </div>
 <div class="form-group">
     <label for="email">Correo Electrónico</label>
-    <input type="email" class="form-control @error('email')is-invalid @enderror" id="email" name="email" value="{{ (isset($client->email) ? $client->email : old('email')) }}" placeholder="Correo Electrónico">
+    <input type="email" class="form-control @error('email')is-invalid @enderror" id="email" name="email" value="{{ (isset($client->user->email) ? $client->user->email : old('email')) }}" placeholder="Correo Electrónico">
 </div>
 <div class="form-group">
     <label for="cellphone">Celular</label>

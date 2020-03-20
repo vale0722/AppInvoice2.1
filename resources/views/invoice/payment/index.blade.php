@@ -1,7 +1,6 @@
-@extends ('layouts.app')
+@extends('layouts.app')
 @section('content')
-<div class="container">
-    <br>
+<div class="container" style=" padding-right: 0px; padding-left: 150px;">
     @if(session()->has('message'))
     <div class="alert alert-success" id="message">
         {{ session()->get('message') }}

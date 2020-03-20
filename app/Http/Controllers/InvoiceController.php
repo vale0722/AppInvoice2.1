@@ -2,18 +2,22 @@
 
 namespace App\Http\Controllers;
 
+use App\User;
+use App\Client;
+use App\Company;
+use App\Invoice;
+use App\Product;
 use Illuminate\Http\Request;
 use App\Exports\InvoiceExport;
 use App\Imports\InvoiceImport;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\DB;
+use App\Actions\StoreInvoiceAction;
+use App\Actions\UpdateInvoiceAction;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Support\Facades\Cache;
-use App\Invoice;
-use App\Client;
-use App\Product;
-use App\Company;
 use App\Http\Requests\Invoices\InvoiceStoreRequest;
+use App\Http\Requests\Invoices\InvoiceUpdateRequest;
 
 class InvoiceController extends Controller
 {
@@ -29,6 +33,7 @@ class InvoiceController extends Controller
      */
     public function index(Request $request)
     {
+        $this->authorize('viewAny', new Invoice());
         $typeDate = $request->get('typeDate');
         $firstCreationDate = $request->get('firstCreationDate');
         $finalCreationDate = $request->get('finalCreationDate');
@@ -39,10 +44,11 @@ class InvoiceController extends Controller
             ->search($search, $type)
             ->filtrate($typeDate, $firstCreationDate, $finalCreationDate)
             ->filtrateState($state)
-            ->paginate(4);
+            ->creatorScp()
+            ->paginate(10);
+        $this->updateInvoices();
         return view('invoice.index', [
             'clients' => Client::all(),
-            'companies' => Company::all()
         ], compact('invoices', 'typeDate', 'firstCreationDate', 'type', 'finalCreationDate', 'state', 'search'));
     }
 
@@ -53,10 +59,10 @@ class InvoiceController extends Controller
      */
     public function create(Invoice $invoice)
     {
+        $this->authorize('create', new Invoice());
         return response()->view('invoice.create', [
             'invoice' => $invoice,
-            'clients' => Client::all(),
-            'companies' => Company::all()
+            'clients' => Client::all()
         ]);
     }
 
@@ -66,16 +72,12 @@ class InvoiceController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(InvoiceStoreRequest $request)
+    public function store(InvoiceStoreRequest $request, StoreInvoiceAction $action)
     {
+        $this->authorize('create', new Invoice());
         $invoice = new Invoice();
-        $invoice->title = $request->input('title');
-        $invoice->code = $request->input('code');
-        $invoice->client_id = $request->input('client');
-        $invoice->company_id = $request->input('company');
-        $invoice->duedate = date("Y-m-d H:i:s", strtotime($invoice->created_at . "+ 30 days"));
-        $invoice->save();
-        return redirect()->route('invoices.edit', $invoice->id);
+        $invoice = $action->storeModel($invoice, $request);
+        return redirect()->route('invoices.edit', $invoice);
     }
 
 
@@ -87,6 +89,7 @@ class InvoiceController extends Controller
      */
     public function show(Invoice $invoice)
     {
+        $this->authorize('show', $invoice);
         return view('invoice.show', [
             'invoice' => $invoice
         ]);
@@ -101,11 +104,11 @@ class InvoiceController extends Controller
     public function edit($id)
     {
         $invoice = Invoice::find($id);
+        $this->authorize('update', $invoice);
         if ($invoice->state != 'APPROVED' && $invoice->state != 'PENDING') {
             return view('invoice.edit', [
                 'invoice' => $invoice,
                 'clients' => Client::all(),
-                'companies' => Company::all()
             ]);
         }
         return redirect()->route('invoices.index')->with('errorEdit', 'LA FACTURA NO SE PUEDE EDITAR');
@@ -118,38 +121,15 @@ class InvoiceController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(InvoiceUpdateRequest $request, Invoice $invoice, UpdateInvoiceAction $action)
     {
-        $invoice = Invoice::find($id);
+        $this->authorize('update', $invoice);
         if ($invoice->state != 'APPROVED' && $invoice->state != 'PENDING') {
-            $validData = $request->validate([
-                'title' => 'required',
-
-                'code' => [
-                    'required',
-                    Rule::unique('invoices')->ignore($id)
-                ],
-                'client' => 'required|numeric|exists:clients,id',
-                'company' => 'required|numeric|exists:companies,id',
-                'stateReceipt' => 'required',
-            ]);
-
-            $invoice->title = $validData['title'];
-            $invoice->code = $validData['code'];
-            $invoice->client_id = $validData['client'];
-            $invoice->company_id = $validData['company'];
-            $invoice->duedate = date("Y-m-d H:i:s", strtotime($invoice->created_at . "+ 30 days"));
-            if ($validData['stateReceipt'] == '1') {
-                $now = new \DateTime();
-                $invoice->receipt_date = $now->format('Y-m-d H:i:s');
-            } else {
-                $invoice->receipt_date = null;
-            }
-            $this->updateOrder($invoice);
-            $invoice->save();
+            $invoice = $action->updateModel($invoice, $request);
             return redirect()->route('invoices.index');
+        } else {
+            return redirect()->route('invoices.index')->with('errorEdit', 'LA FACTURA NO SE PUEDE EDITAR');
         }
-        return redirect()->route('invoices.index')->with('errorEdit', 'LA FACTURA NO SE PUEDE EDITAR');
     }
 
     /**
@@ -161,44 +141,48 @@ class InvoiceController extends Controller
     public function destroy($id)
     {
         $invoice = Invoice::find($id);
+        $this->authorize('update', $invoice);
         $invoice->delete();
-
         return redirect()->route('invoices.index');
     }
 
     public function createInvoiceProduct($id)
     {
         $invoice = Invoice::find($id);
+        $this->authorize('update', $invoice);
         return response()->view('invoiceProduct.create', compact('invoice'));
     }
 
     public function invoiceProductStore(Request $request, $id)
     {
         $invoice = Invoice::find($id);
+        $this->authorize('update', $invoice);
         $validData = $request->validate([
-            'product' => 'required',
+            'product_id' => 'required',
             'quantity' => 'required',
             'unit_value' => 'required',
         ]);
-        $product = Product::find($validData['product']);
+        $product = Product::find($validData['product_id']);
         $validData['unit_value'] = $product->price;
-        $invoice->products()->attach($validData['product'], [
+        $invoice->products()->attach($validData['product_id'], [
             'quantity' => $validData['quantity'],
             'unit_value' => $validData['unit_value'],
             'total_value' => $validData['quantity'] * $validData['unit_value']
         ]);
         $this->updateOrder($invoice);
         $invoice->save();
-        return redirect()->route('invoices.edit', $invoice->id)->with('message', 'Registro de compra completado');
+        return redirect()->route('invoices.edit', $invoice)->with('message', 'Registro de compra completado');
     }
 
     public function indexImport()
     {
+        $this->authorize('import', new Invoice());
         return view('invoice.importInvoice');
     }
 
     public function importExcel(Request $request)
     {
+        $this->authorize('import', new Invoice());
         if ($request->file('file')) {
             $file = $request->file('file')->getRealPath();
             $import = new InvoiceImport;
@@ -208,11 +192,6 @@ class InvoiceController extends Controller
         } else {
             return back()->withErrors("Ingresa el archivo");
         }
-    }
-
-    public function exportExcel()
-    {
-        return Excel::download(new InvoiceExport, "invoice-list.xlsx");
     }
 
     public function updateOrder(Invoice $invoice)
@@ -227,5 +206,13 @@ class InvoiceController extends Controller
             $this->updateOrder($invoice);
         }
         return back();
+    }
+
+    public function confirmDelete(Invoice $invoice)
+    {
+        $this->authorize('delete', $invoice);
+        return view('invoice.confirmDelete', [
+            'invoice' => $invoice
+        ]);
     }
 }

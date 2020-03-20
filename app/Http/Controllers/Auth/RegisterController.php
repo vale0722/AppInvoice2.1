@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\Http\Controllers\Controller;
 use App\User;
-use Illuminate\Foundation\Auth\RegistersUsers;
+use Illuminate\Validation\Rule;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Symfony\Component\HttpFoundation\Request;
+use Illuminate\Foundation\Auth\RegistersUsers;
 
 class RegisterController extends Controller
 {
@@ -24,20 +26,13 @@ class RegisterController extends Controller
     use RegistersUsers;
 
     /**
-     * Where to redirect users after registration.
-     *
-     * @var string
-     */
-    protected $redirectTo = '/home';
-
-    /**
      * Create a new controller instance.
      *
      * @return void
      */
     public function __construct()
     {
-        $this->middleware('guest');
+        $this->middleware('auth');
     }
 
     /**
@@ -48,11 +43,30 @@ class RegisterController extends Controller
      */
     protected function validator(array $data)
     {
-        return Validator::make($data, [
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'password' => ['required', 'string', 'min:8', 'confirmed'],
-        ]);
+        return Validator::make(
+            $data,
+            [
+                'name' => ['required', 'string', 'max:255'],
+                'lastname' => ['required', 'string', 'max:255'],
+                'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+                'password' => ['required', 'string', 'min:8', 'confirmed'],
+                'role' => ['required'],
+            ],
+            [
+                'required' => "El :attribute del usuario es un campo obligatorio",
+                'unique' => 'El :attribute ya está registrado',
+                'confirmed' => 'La confirmación de la :attribute no coincide',
+                'min' => 'El :attribute de tener mínimo :min caracteres',
+                'max' => 'El :attribute de tener máximo :max caracteres'
+            ],
+            [
+                'name' => 'Nombre',
+                'lastname' => 'Apellido',
+                'email' => 'Correo Electrónico',
+                'password' => 'Contraseña',
+                'role' => 'role'
+            ]
+        );
     }
 
     /**
@@ -61,12 +75,72 @@ class RegisterController extends Controller
      * @param  array  $data
      * @return \App\User
      */
-    protected function create(array $data)
+    protected function create(array $data, User $user)
     {
-        return User::create([
+        $this->authorize('create', $user);
+        $user = User::create([
             'name' => $data['name'],
+            'lastname' => $data['lastname'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
+        ]);
+        $user->assignRole($data['role']);
+        return $user;
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  User $user
+     * @return \Illuminate\Http\Response
+     */
+    public function edit(User $user)
+    {
+        $this->authorize('update', $user);
+        return view('user.edit', [
+            'user' => $user
+        ]);
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Request $request, User $user)
+    {
+        $this->authorize('update', $user);
+        $data = $request->validate(
+            [
+                'name' => ['required', 'string', 'max:255'],
+                'lastname' => ['required', 'string', 'max:255'],
+                'email' => ['required', 'string', 'email', 'max:255',  Rule::unique('users')->ignore($user->id)],
+            ],
+            [
+                'required' => "El :attribute del usuario es un campo obligatorio",
+                'unique' => 'El :attribute ya está registrado',
+                'min' => 'El :attribute de tener mínimo :min caracteres',
+                'max' => 'El :attribute de tener máximo :max caracteres'
+            ],
+            [
+                'name' => 'Nombre',
+                'lastname' => 'Apellido',
+                'email' => 'Correo Electrónico'
+            ]
+        );
+        $user->name = $data['name'];
+        $user->lastname = $data['lastname'];
+        $user->email = $data['email'];
+        $user->password = $user->password;
+        if ($request->input('role') != null) {
+            $user->removeRole($user->roles()->first());
+            $user->assignRole($request->input('role'));
+        }
+        $user->update();
+        return redirect()->route('users.show', [
+            'user' => $user,
         ]);
     }
 }

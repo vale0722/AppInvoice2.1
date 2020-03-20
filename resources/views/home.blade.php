@@ -1,24 +1,133 @@
 @extends('layouts.app')
 @section('content')
+@if (session('status'))
+<div class="alert alert-success" role="alert">
+    {{ session('status') }}
+</div>
+@endif
 <div class="container">
-    <br>
-    <br>
-    <br>
-    @if (session('status'))
-    <div class="alert alert-success" role="alert">
-        {{ session('status') }}
+    <div class="card o-hidden border-0 shadow my-3 border-left-primary py-2">
+        <div class="card-body p-0">
+            <div class="text-center">
+                <p class="h1"> <i class="far fa-file-alt"></i><br>BIENVENID@</p>
+            </div>
+        </div>
     </div>
-    @endif
-    <div class="row justify-content-center">
-        <div class="col-xl-10 col-lg-12 col-md-9">
-            <div class="card o-hidden border-0 shadow my-3 border-left-primary py-2">
-                <div class="card-body p-0">
-                    <div class="row">
-                        <div class="col-lg">
-                            <div class="p-5">
-                                <div class="text-center">
-                                    <p class="h3"> <i class="far fa-file-alt"></i><br>FACTURAS</p>
-                                    <p>Aquí podrás crear, ver, actualizar y eliminar facturas.</p>
+    <div class="row">´
+        <div class="col col-lg-1">
+        </div>
+        @can('view all clients')
+        <div class="col col-lg-3">
+            <div class="card-container">
+                <div class="card">
+                    <div class="front">
+                        <div class="cover">
+                        </div>
+                        <div class="user">
+                        </div>
+                        <div class="content">
+                            <div class="main">
+                                <h2 class="name">Clientes</h2>
+                                <h2 class="name"><i class="fas fa-users"></i></h2>
+                            </div>
+                            <div class="footer">
+                                <div class="rating">
+                                    <i class="fa fa-mail-forward"></i> Rotar
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="back">
+                        <div class="content">
+                            <div class="main center">
+                                <h4 class="text-center">Clientes</h4>
+                                <p class="text-center">Aquí podrás crear, ver, actualizar y eliminar clientes.</p>
+                            </div>
+                        </div>
+                        <div class="footer">
+                            <div class="social-links text-center">
+                                <a class="btn btn-primary" href="{{ route('clients.index') }}"> ENTRAR </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        @endcan
+        @can('view all products')
+        <div class="col col-lg-3">
+            <div class="card-container">
+                <div class="card">
+                    <div class="front">
+                        <div class="cover">
+                        </div>
+                        <div class="user">
+                        </div>
+                        <div class="content">
+                            <div class="main">
+                                <h3 class="name">Productos</h3>
+                                <h3 class="name"><i class="fas fa-puzzle-piece"></i></h3>
+                            </div>
+                            <div class="footer">
+                                <div class="rating">
+                                    <i class="fa fa-mail-forward"></i> Rotar
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="back">
+                        <div class="content">
+                            <div class="main">
+                                <h4 class="text-center">Productos</h4>
+                                <p class="text-center">Aquí podrás crear, ver, actualizar y eliminar productos.</p>
+                            </div>
+                        </div>
+                        <div class="footer">
+                            <div class="social-links text-center">
+                                <a class="btn btn-primary" href="{{ route('products.index') }}"> ENTRAR </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        @endcan
+        @can('viewAny', App\Invoice::Class)
+        @hasrole('client')
+        <div class="col col-lg-3">
+        </div>
+        <div class="col col-lg-4">
+            @else
+            <div class="col col-lg-3">
+                @endhasrole
+                <div class="card-container">
+                    <div class="card">
+                        <div class="front">
+                            <div class="cover">
+                            </div>
+                            <div class="user">
+                            </div>
+                            <div class="content">
+                                <div class="main">
+                                    <h3 class="name">Facturas</h3>
+                                    <h3 class="name"><i class="fas fa-users"></i></h3>
+                                </div>
+                                <div class="footer">
+                                    <div class="rating">
+                                        <i class="fa fa-mail-forward"></i> Rotar
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="back">
+                            <div class="content">
+                                <div class="main">
+                                    <h4 class="text-center">Facturas</h4>
+                                    <p class="text-center">Aquí podrás crear, ver, actualizar y eliminar facturas.</p>
+                                </div>
+                            </div>
+                            <div class="footer">
+                                <div class="social-links text-center">
                                     <a class="btn btn-primary" href="{{ route('invoices.index') }}"> ENTRAR </a>
                                 </div>
                             </div>
@@ -26,60 +135,8 @@
                     </div>
                 </div>
             </div>
-            <div class="row">
-                <div class="col col-lg-4">
-                    <div class="card o-hidden border-0 shadow my-3">
-                        <div class="card-body p-0">
-                            <div class="row">
-                                <div class="col-lg">
-                                    <div class="p-5">
-                                        <div class="text-center">
-                                            <p class="h3"> <i class="fas fa-users"></i><br>CLIENTES</p>
-                                            <p>Aquí podrás crear, ver, actualizar y eliminar clientes.</p>
-                                            <a class="btn btn-primary" href="{{ route('clients.index') }}"> ENTRAR </a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col col-lg-4">
-                    <div class="card o-hidden border-0 shadow my-3">
-                        <div class="card-body p-0">
-                            <div class="row">
-                                <div class="col-lg">
-                                    <div class="p-5">
-                                        <div class="text-center">
-                                            <p class="h3"> <i class="fas fa-puzzle-piece"></i><br> PRODUCTOS</p>
-                                            <p>Aquí podrás crear, ver, actualizar y eliminar productos.</p>
-                                            <a class="btn btn-primary" href="{{ route('products.index') }}"> ENTRAR </a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col col-lg-4">
-                    <div class="card border-0 shadow my-3">
-                        <div class="card-body p-0">
-                            <div class="row">
-                                <div class="col-lg">
-                                    <div class="p-5">
-                                        <div class="text-center">
-                                            <p class="h3"> <i class="far fa-building"></i> VENDEDORES</p>
-                                            <p>Aquí podrás crear, ver, actualizar y eliminar vendedores.</p>
-                                            <a class="btn btn-primary" href="{{ route('companies.index') }}"> ENTRAR </a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+            @endcan
+            <div class="col col-lg-2">
             </div>
         </div>
-    </div>
-</div>
-@endsection
+        @endsection

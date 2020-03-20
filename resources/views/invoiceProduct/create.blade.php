@@ -34,8 +34,8 @@
                                         <input type="number" class="form-control" id="quantity" name="quantity" placeholder="0" value="{{ old('quantity') }}">
                                     </div>
                                     <div class="form-group col-6">
-                                        <label for="product">Producto: </label>
-                                        <select name="product" id="product" class="form-control @error('product') is-invalid @enderror">
+                                        <label for="product_id">Producto: </label>
+                                        <select name="product_id" id="product_id" class="form-control @error('product') is-invalid @enderror">
                                             @foreach($products as $product)
                                             <option value='{{ $product->id }}'> {{ $product->code . ': ' . $product->name }} </option>
                                             @endforeach

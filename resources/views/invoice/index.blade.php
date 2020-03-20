@@ -4,85 +4,38 @@
 $now = new \DateTime();
 $now = $now->format('Y-m-d H:i:s');
 ?>
-@include('invoice.filtration')
-@if(session()->has('success'))
-<div class="alert alert-success" id="success">
-    {{ session()->get('success') }}
-</div>
-@endif
-<div class="container">
+<div class="container" style="max-width: 1200px">
+    @include('invoice.filtration')
+    @if(session()->has('success'))
+    <div class="alert alert-success" id="success">
+        {{ session()->get('success') }}
+    </div>
+    @endif
+    @if(session()->has('errorEdit'))
+    <div class="alert alert-success" id="errorEdit">
+    </div>
+    @endif
     <div class="card shadow mb-4 my-5">
         <div class="card-header py-3 ">
             <div class="text-center"><i class="fas fa-users"></i><b> FACTURAS </b></div>
             <div>
                 <div>
+                    @can('create invoice')
                     <a class="btn btn-primary btn-circle btn-lg" href="/invoices/create"><i class="fas fa-plus"></i></a>
+                    @endcan
+                    @can('import invoices')
                     <a class="btn btn-success btn-circle btn-lg" href="{{ route('invoices.import.view') }}"><i class="fas fa-file-import"></i></a>
-                    <a class="btn btn-warning btn-circle btn-lg" href="{{ route('invoices.export') }}"><i class="fas fa-file-export"></i></a>
-                    <a class="btn btn-danger btn-circle btn-lg" href="{{ route('invoices.updates') }}"><i class="far fa-hand-point-up"></i></a>
+                    @endcan
+                    @can('export invoices')
+                    <a class="btn btn-warning btn-circle btn-lg" data-toggle="modal" data-target="#exportForm"><i class="fas fa-file-export"></i></a>
+                    @endcan
                 </div>
             </div>
         </div>
         <div class="card-body">
-            <div class="table-responsive">
-                <table class="table col-md-12 table-hover table-striped">
-                    <thead>
-                        <tr>
-                            <th scope="col">CÓDIGO</th>
-                            <th scope="col">Creación</th>
-                            <th scope="col">Título</th>
-                            <th scope="col">Cliente</th>
-                            <th scope="col">Vendedor</th>
-                            <th scope="col">Estado</th>
-                            <th scope="col">Total</th>
-                            <th scope="col">Acciones</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @forelse($invoices as $invoice)
-                        <tr>
-                            <td>{{ $invoice->code }}</td>
-                            <td nowrap>{{ $invoice->created_at }}</td>
-                            <td>{{ $invoice->title }}</td>
-                            <td> {{$invoice->client->name . ' ' .$invoice->client->last_name }}</td>
-                            <td> {{ $invoice->company->name }}</td>
-                            <td>
-                                @if($invoice->state == 'APPROVED')
-                                <button type="button" class="btn btn-success btn-sm"> Pago </button>
-                                @elseif($invoice->duedate <= $now) <button type="button" class="btn btn-danger btn-sm"> Vencido </button>
-                                    @else
-                                    <button type="button" class="btn btn-warning btn-sm"> Sin pagar </button>
-                                    @endif
-                            </td>
-                            <td>{{ '$'. number_format($invoice->total, 2) }}</td>
-                            <td>
-                                <div class="btn-group" role="group">
-                                    <a class="btn btn-warning" href="{{ route('invoices.edit', $invoice->id) }}"><i class="far fa-edit"></i> Editar </a>
-                                    <a href="#" class="btn btn-danger" data-toggle="modal" data-target="#delete">
-                                        <i class="far fa-trash-alt"></i> Eliminar
-                                    </a>
-                                    @include('invoice.confirmDelete')
-                                    <a class="btn btn-success" href="{{ route('invoices.show', $invoice->id) }}"><i class="far fa-eye"></i> Ver detalles </a>
-                                </div>
-                            </td>
-                        </tr>
-                        @empty
-                        <tr>
-                            <td> NO SE ENCUENTRAN FACTURAS </td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                        @endforelse
-                    </tbody>
-                </table>
-                {{ $invoices->appends($_GET)->links() }}
-            </div>
+            @include('invoice.tableInvoice')
         </div>
     </div>
 </div>
+@include('invoice.exportForm')
 @endsection

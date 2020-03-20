@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\User;
 use App\Client;
 use App\Invoice;
 use Illuminate\Http\Request;
+use App\Http\Requests\Clients\ClientStoreRequest;
 use App\Exports\ClientExport;
 use App\Imports\ClientImport;
 use Illuminate\Validation\Rule;
@@ -16,6 +18,7 @@ class ClientsController extends Controller
     {
         $this->middleware('auth');
     }
+
     /**
      * Display a listing of the resource.
      *
@@ -23,12 +26,9 @@ class ClientsController extends Controller
      */
     public function index(Request $request)
     {
-        $search = $request->get('search');
-        $type = $request->get('type');
-        $clients = Client::orderBy('id', 'DESC')
-            ->search($search, $type)
-            ->paginate(4);
-        return view('client.index', compact('clients', 'search'));
+        $this->authorize('viewAny', new Client);
+        $clients = Client::orderBy('id', 'DESC')->paginate(4);
+        return view('client.index', compact('clients'));
     }
 
     /**
@@ -38,6 +38,7 @@ class ClientsController extends Controller
      */
     public function create()
     {
+        $this->authorize('create', new Client());
         return view('client.create');
     }
 
@@ -47,51 +48,25 @@ class ClientsController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(ClientStoreRequest $request, Client $client)
     {
-        $validData = $request->validate(
-            [
-                'name' => 'required|min:3|max:100',
-                'last_name' => 'required|min:3|max:100',
-                'id_type' => 'required',
-                'id_card' => 'required|unique:clients|min:8|max:10',
-                'email' => 'required|unique:clients|email',
-                'cellphone' => 'required|min:10',
-                'country' => 'required',
-                'department' => 'required',
-                'city' => 'required',
-                'address' => 'required'
-            ],
-            [
-                'required' => "El :attribute del Cliente es un campo obligatorio",
-                'unique' => 'El :attribute ya está registrado',
-                'min' => 'El :attribute de tener mínimo :min letras',
-                'max' => 'El :attribute de tener máximo :max letras'
-            ],
-            [
-                'name' => 'Nombre',
-                'last_name' => 'Apellído',
-                'id_type' => 'Tipo de identificación',
-                'id_card' => 'Número de identificación',
-                'email' => 'Correo Electrónico',
-                'cellphone' => 'Número de Celular',
-                'country' => 'País',
-                'department' => 'Departamento',
-                'city' => 'Ciudad',
-                'address' => 'Dirección'
-            ]
-        );
-        $client = new Client();
-        $client->name = $validData['name'];
-        $client->last_name = $validData['last_name'];
-        $client->id_type = $validData['id_type'];
-        $client->id_card = $validData['id_card'];
-        $client->email = $validData['email'];
-        $client->cellphone = intval($validData['cellphone']);
-        $client->country = $validData['country'];
-        $client->department = $validData['department'];
-        $client->city = $validData['city'];
-        $client->address = $validData['address'];
+        $this->authorize('create', $client);
+        $user = new User();
+        $user->name = $request->input('name');
+        $user->lastname = $request->input('lastname');
+        $user->email = $request->input('email');
+        $user->password = bcrypt($request->input('id_card'));
+        $user->assignRole('client');
+        $user->save();
+        $client->id_type = $request->input('id_type');
+        $client->id_card = $request->input('id_card');
+        $client->cellphone = intval($request->input('cellphone'));
+        $client->country = $request->input('country');
+        $client->department = $request->input('department');
+        $client->city = $request->input('city');
+        $client->address = $request->input('address');
+        $client->user_id = $user->id;
+        $client->creator_id = auth()->user()->id;
         $client->save();
         return redirect()->route('clients.index');
     }
@@ -104,6 +79,7 @@ class ClientsController extends Controller
      */
     public function show(Client $client)
     {
+        $this->authorize('show', $client);
         return view('client.show', [
             'invoice' => Invoice::all(),
             'client' => $client
@@ -119,6 +95,7 @@ class ClientsController extends Controller
     public function edit($id)
     {
         $client = Client::findOrFail($id);
+        $this->authorize('update', $client);
         return view('client.edit', [
             'client' => $client
         ]);
@@ -134,10 +111,12 @@ class ClientsController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $client = Client::findOrFail($id);
+        $this->authorize('update', $client);
         $validData = $request->validate(
             [
                 'name' => 'required|min:3|max:100',
-                'last_name' => 'required|min:3|max:100',
+                'lastname' => 'required|min:3|max:100',
                 'id_type' => 'required',
                 'id_card' => [
                     'required',
@@ -147,7 +126,7 @@ class ClientsController extends Controller
                 ],
                 'email' => [
                     'required',
-                    Rule::unique('clients')->ignore($id),
+                    Rule::unique('users')->ignore($client->user->id),
                     'email'
                 ],
                 'cellphone' => 'required|min:10|max:10',
@@ -158,12 +137,12 @@ class ClientsController extends Controller
             ],
             [
                 'required' => "El :attribute del Cliente es requerido",
-                'unique' => 'El :atribute ya está registrado',
+                'unique' => 'El :attribute ya está registrado',
                 'min' => 'El :attribute de tener minimo :min letras'
             ],
             [
                 'name' => 'Nombre',
-                'last_name' => 'Apellído',
+                'lastname' => 'Apellído',
                 'id_type' => 'Tipo de identificación',
                 'id_card' => 'Número de identificación',
                 'email' => 'Correo Electrónico',
@@ -174,18 +153,26 @@ class ClientsController extends Controller
                 'address' => 'Dirección'
             ]
         );
-        $client = Client::findOrFail($id);
-        $client->name = $validData['name'];
-        $client->last_name = $validData['last_name'];
+        //update user
+        $client->user->name = $validData['name'];
+        $client->user->lastname = $validData['lastname'];
+        $client->user->email = $validData['email'];
+        //update client
         $client->id_type = $validData['id_type'];
         $client->id_card = $validData['id_card'];
-        $client->email = $validData['email'];
         $client->cellphone = intval($validData['cellphone']);
         $client->country = $validData['country'];
         $client->department = $validData['department'];
         $client->city = $validData['city'];
         $client->address = $validData['address'];
+        $client->user_id = $client->user->id;
+        $client->user->save();
         $client->save();
+        if ($client->user_id == auth()->user()->id) {
+            return redirect()->route('users.show', [
+                'user' => $client->user
+            ]);
+        }
         return redirect()->route('clients.index');
     }
 
@@ -198,6 +185,8 @@ class ClientsController extends Controller
     public function destroy($id)
     {
         $client = Client::findOrFail($id);
+        $this->authorize('delete', $client);
+        $client->user->delete();
         $client->delete();
         return redirect()->route('clients.index');
     }
@@ -205,6 +194,7 @@ class ClientsController extends Controller
     public function confirmDelete($id)
     {
         $client = Client::findOrFail($id);
+        $this->authorize('delete', $client);
         return view('client.confirmDelete', [
             'client' => $client
         ]);
@@ -212,11 +202,13 @@ class ClientsController extends Controller
 
     public function indexImport()
     {
-        return view('client.importCLient');
+        $this->authorize('import', new Client);
+        return view('client.importClient');
     }
 
     public function importExcel(Request $request)
     {
+        $this->authorize('import', new Client);
         if ($request->file('file')) {
             $path = $request->file('file')->getRealPath();
             Excel::import(new ClientImport, $path);
@@ -228,6 +220,7 @@ class ClientsController extends Controller
 
     public function exportExcel()
     {
+        $this->authorize('export', new Client);
         return Excel::download(new ClientExport, "client-list.xlsx");
     }
 }

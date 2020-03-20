@@ -1,5 +1,6 @@
 @extends('layouts.app')
-@section('link')  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous"> @endsection
+@section('link')
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous"> @endsection
 @section('content')
 <div class="container">
     <div class="row justify-content-center">
@@ -38,10 +39,6 @@
                                     </button>
 
                                 </form>
-                                <hr>
-                                <div class="text-center">
-                                    <a class="small" href="{{ route('register') }}"> {{ __('Regístrate') }}!</a>
-                                </div>
                             </div>
                         </div>
                     </div>

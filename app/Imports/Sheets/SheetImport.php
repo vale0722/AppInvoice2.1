@@ -27,7 +27,8 @@ class SheetImport implements ToModel, WithHeadingRow, WithValidation, WithBatchI
             'title'     => $row['title'],
             'code'    => $row['code'],
             'client_id' => $row['client_id'],
-            'company_id' => $row['company_id'],
+            'creator_id' => auth()->user()->id,
+            'state' => 'DEFAULT',
         ]);
         $invoice->duedate = date("Y-m-d H:i:s", strtotime($invoice->created_at . "+ 30 days"));
         Cache::put('rows', $this->rows, 10);
@@ -48,7 +49,6 @@ class SheetImport implements ToModel, WithHeadingRow, WithValidation, WithBatchI
             'title' => 'required|min:3|max:100',
             'code' => 'required|unique:invoices',
             'client_id' => 'required|numeric|exists:clients,id',
-            'company_id' => 'required|numeric|exists:companies,id',
         ];
     }
 
@@ -62,8 +62,7 @@ class SheetImport implements ToModel, WithHeadingRow, WithValidation, WithBatchI
         return [
             'required' => "El :attribute de la factura es requerido",
             'code.unique' => 'El código de factura ya exíste',
-            'client_id.exists' => 'El id del cliente no exíste',
-            'company_id.exists' => 'El id de la compañia no exíste'
+            'client_id.exists' => 'El id del cliente no exíste'
         ];
     }
 
@@ -78,7 +77,6 @@ class SheetImport implements ToModel, WithHeadingRow, WithValidation, WithBatchI
             'title' => 'Título',
             'code' => 'Código',
             'client_id' => 'Id del Cliente',
-            'company_id' => 'Id del Vendedor',
         ];
     }
 }

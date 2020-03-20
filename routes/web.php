@@ -22,6 +22,7 @@ Route::get('/invoices/create', 'InvoiceController@create');
 Route::get('/update', 'InvoiceController@updateInvoices')->name('invoices.updates');
 Route::get('/invoices/{id}/invoice_product/create', 'InvoiceController@createInvoiceProduct');
 Route::post('/invoices/{id}/invoice_product', 'InvoiceController@invoiceProductStore')->name('invoices.product.store');
+Route::get('/invoices/{invoice}/confirmDelete', 'InvoiceController@confirmDelete')->name('invoices.confirm.delete');
 Route::get('/invoices/import/view', 'InvoiceController@indexImport')->name('invoices.import.view');
 Route::post('/invoices/import', 'InvoiceController@importExcel')->name('invoices.import');
 Route::get('/exportInvoices', 'InvoiceController@exportExcel')->name('invoices.export');
@@ -36,11 +37,14 @@ Route::get('/exportClient', 'ClientsController@exportExcel')->name('clients.expo
 Route::resource('/products', 'ProductController');
 Route::get('/products/{id}/confirmDelete', 'ProductController@confirmDelete')->name('products.confirm.delete');
 
+Route::get('/payment/{invoice}', 'PaymentController@index')->name('payments.index');
+Route::get('/payment/create/{invoice}', 'PaymentController@create')->name('payments.create');
+Route::post('/payment/create/{invoice}', 'PaymentController@store')->name('payments.store');
+Route::get('/payment/show/{payment}/', 'PaymentController@show')->name('payments.show');
 
-Route::resource('/companies', 'CompanyController');
-Route::get('/companies/{id}/confirmDelete', 'CompanyController@confirmDelete')->name('companies.confirm.delete');
+Route::get('/report', 'ReportController@index')->name('report.index');
+Route::get('/users/{user}/edit', 'Auth\RegisterController@edit')->name('users.edit');
+Route::put('/users/{user}/update', 'Auth\RegisterController@update')->name('users.update');
+Route::get('/report/export/{firstCreationDate}/{finalCreationDate}/{format}/{state}', 'ReportController@export')->name('report.export');
 
-Route::get('/payment/{invoice}', 'paymentController@index')->name('payments.index');
-Route::get('/payment/create/{invoice}', 'paymentController@create')->name('payments.create');
-Route::post('/payment/create/{invoice}', 'paymentController@store')->name('payments.store');
-Route::get('/payment/show/{payment}/', 'paymentController@show')->name('payments.show');
+Route::resource('/users', 'UserController')->except(['edit', 'update']);

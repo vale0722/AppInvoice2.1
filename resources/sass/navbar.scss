@@ -1,0 +1,54 @@
+.navbar-vertical.navbar-expand-xs {
+    position: fixed; 
+    top: 0; 
+    bottom: 0; 
+    display: block; 
+    overflow-y: auto; 
+    width: 100%; 
+    max-width: 250px; 
+    padding-right: 0; 
+    padding-left: 0; 
+}
+.navbar-vertical.navbar-expand-xs .navbar-nav .nav-link {
+    padding: .675rem 1.5rem;
+    margin-top: 20%;
+}
+.navbar-vertical.navbar-expand-xs.fixed-left+.main-content {
+  margin-left: 300px;
+}
+.navbar-vertical.navbar-expand-xs .navbar-nav>.nav-item {
+    margin-top: 2px;
+}
+.navbar-vertical {
+    padding-top: 0; 
+    border-width: 0 0 1px 0; 
+    border-style: solid; 
+    box-shadow: 0 0 2rem 0 rgba(136,152,170,.15); 
+}
+.sidenav .navbarbrand, .sidenav .navbar-heading {
+  position: relative;
+  padding: 1.5rem;
+}
+.navbarbrand {
+  color: rgba(0, 0, 0, 0.9);
+  margin-right: 1rem;
+  font-size: 0.99rem;
+  display: inline-block;
+  line-height: inherit;
+  white-space: normal;
+  text-align: center;
+}
+
+.fixed-top {
+    position: initial;
+    top: 0;
+    right: 0;
+    left: 0;
+    z-index: 1030;
+}
+.active-pro {
+    background-color: #cecbcbdb;
+    position: absolute;
+    width: 100%;
+    bottom: 10px;
+}

@@ -2,12 +2,11 @@
 
 namespace App\Providers;
 
-use App\Http\View\Composers\CachedClientsList;
-use App\Http\View\Composers\CachedCompaniesList;
-use App\Http\View\Composers\CachedProductsList;
-use App\Http\View\Composers\CachedTypesDocumentsList;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
+use App\Http\View\Composers\CachedRolesList;
+use App\Http\View\Composers\CachedProductsList;
+use App\Http\View\Composers\CachedTypesDocumentsList;
 
 class ViewComposerProvider extends ServiceProvider
 {
@@ -35,6 +34,14 @@ class ViewComposerProvider extends ServiceProvider
         View::composer(
             'client.__form',
             CachedTypesDocumentsList::class
+        );
+        View::composer(
+            'auth.register',
+            CachedRolesList::class,
+        );
+        View::composer(
+            'user.edit',
+            CachedRolesList::class,
         );
     }
 }
