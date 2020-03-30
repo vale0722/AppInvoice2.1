@@ -20,13 +20,13 @@ $now = $now->format('Y-m-d H:i:s');
             <div class="text-center"><i class="fas fa-users"></i><b> FACTURAS </b></div>
             <div>
                 <div>
-                    @can('create invoice')
+                    @can('invoices.create')
                     <a class="btn btn-primary btn-circle btn-lg" href="/invoices/create"><i class="fas fa-plus"></i></a>
                     @endcan
-                    @can('import invoices')
+                    @can('invoices.import')
                     <a class="btn btn-success btn-circle btn-lg" href="{{ route('invoices.import.view') }}"><i class="fas fa-file-import"></i></a>
                     @endcan
-                    @can('export invoices')
+                    @can('invoices.export')
                     <a class="btn btn-warning btn-circle btn-lg" data-toggle="modal" data-target="#exportForm"><i class="fas fa-file-export"></i></a>
                     @endcan
                 </div>

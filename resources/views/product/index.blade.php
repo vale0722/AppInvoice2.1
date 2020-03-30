@@ -5,7 +5,7 @@
     <div class="card shadow mb-4 my-5">
         <div class="card-header py-3">
             <div class="text-center"><i class="fas fa-users"></i><b> PRODUCTOS</b></div>
-            @can('create product')
+            @can('products.create')
             <div><a class="btn btn-primary btn-circle btn-lg" href="{{ route('products.create') }}"><i class="fas fa-plus"></i></a></div>
             @endcan
             <div class="justify-content-end">
@@ -42,7 +42,7 @@
                             <th scope="col">Código</th>
                             <th scope="col">Nombre</th>
                             <th scope="col">Precio ($)</th>
-                            @if(auth()->user()->can('edit product') || auth()->user()->can('delete product'))
+                            @if(auth()->user()->can('edit product') || auth()->user()->can('products.delete'))
                             <th scope="col">Acciones</th>
                             @endif
                         </tr>
@@ -53,7 +53,7 @@
                             <td>{{ $product->code }}</td>
                             <td>{{ $product->name }}</td>
                             <td>{{ '$'. number_format($product->price) }}</td>
-                            @if(auth()->user()->can('edit product') || auth()->user()->can('delete product'))
+                            @if(auth()->user()->can('edit product') || auth()->user()->can('products.delete'))
                             <td>
                                 <div class="btn-group" role="group">
                                     @can('update', $product)

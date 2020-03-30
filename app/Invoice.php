@@ -96,8 +96,7 @@ class Invoice extends Model
                 return $query->where("duedate", "<=", "$now");
             } elseif ($state == "pending") {
                 return $query->where("state", "PENDING");
-            }
-            {
+            } {
                 return $query->where("state", "!=", "APPROVED")->where("state", "!=", "PENDING");
             }
         }
@@ -111,10 +110,10 @@ class Invoice extends Model
 
     public function scopeCreatorScp($query)
     {
-        if (auth()->user()->hasPermissionTo('view all invoices')) {
+        if (auth()->user()->hasPermissionTo('invoices.view')) {
             return $query;
         }
-        if (auth()->user()->hasPermissionTo('view associated invoices')) {
+        if (auth()->user()->hasPermissionTo('invoices.view.associated')) {
             if (auth()->user()->hasRole('company')) {
                 return $query->where('creator_id', auth()->user()->id);
             }

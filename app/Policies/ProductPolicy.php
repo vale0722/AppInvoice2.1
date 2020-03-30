@@ -18,7 +18,7 @@ class ProductPolicy
      */
     public function viewAny(User $user, Product $product = null)
     {
-        return ($user->hasPermissionTo('view all products'));
+        return ($user->hasPermissionTo('products.view'));
     }
 
     /**
@@ -29,7 +29,7 @@ class ProductPolicy
      */
     public function create(User $user, Product $product)
     {
-        return ($user->hasPermissionTo('create product'));
+        return ($user->hasPermissionTo('products.create'));
     }
 
     /**
@@ -41,7 +41,7 @@ class ProductPolicy
      */
     public function update(User $user, Product $product)
     {
-        return ($user->hasPermissionTo('update product'));
+        return ($user->hasPermissionTo('products.update'));
     }
 
     /**
@@ -53,6 +53,6 @@ class ProductPolicy
      */
     public function delete(User $user, Product $product)
     {
-        return ($user->hasPermissionTo('delete product'));
+        return ($user->hasPermissionTo('products.delete'));
     }
 }

@@ -133,7 +133,7 @@ $now = $now->format('Y-m-d H:i:s');
                     @can('paymentView', $invoice)
                     <a class="btn btn-primary btn-block" href="{{ route('payments.index', $invoice->id) }}"><i class="far fa-eye"></i> Ver intentos de pago </a>
                     @endcan
-                    @can('pay invoice')
+                    @can('invoices.pay')
                     @if($invoice->state != 'APPROVED')
                     <a href="#" class="btn btn-success btn-block" data-toggle="modal" data-target="#create">
                         Realiza el pago de la factura

@@ -19,7 +19,7 @@ class InvoicePolicy
      */
     public function viewAny(User $user, Invoice $invoice = null)
     {
-        if ($user->hasPermissionTo('view all invoices') || $user->hasPermissionTo('view associated invoices')) {
+        if ($user->hasPermissionTo('invoices.view') || $user->hasPermissionTo('invoices.view.associated')) {
             return true;
         }
         return false;
@@ -35,7 +35,7 @@ class InvoicePolicy
      */
     public function show(User $user, Invoice $invoice)
     {
-        if ($user->hasPermissionTo('show invoice')) {
+        if ($user->hasPermissionTo('invoices.show')) {
             if ($user->hasRole('company')) {
                 return  $invoice->creator_id == $user->id;
             }
@@ -54,7 +54,7 @@ class InvoicePolicy
      */
     public function create(User $user)
     {
-        return ($user->hasPermissionTo('create invoice'));
+        return ($user->hasPermissionTo('invoices.create'));
     }
 
     /**
@@ -66,10 +66,10 @@ class InvoicePolicy
      */
     public function update(User $user, Invoice $invoice)
     {
-        if ($user->hasPermissionTo('update invoice')) {
+        if ($user->hasPermissionTo('invoices.update')) {
             return true;
         }
-        if ($user->hasPermissionTo('update associated invoice')) {
+        if ($user->hasPermissionTo('invoices.update.associated')) {
             return  $invoice->creator_id == $user->id;
         }
         return false;
@@ -84,7 +84,7 @@ class InvoicePolicy
      */
     public function delete(User $user, Invoice $invoice)
     {
-        return ($user->hasPermissionTo('delete invoice'));
+        return ($user->hasPermissionTo('invoices.delete'));
     }
 
     /**
@@ -96,7 +96,7 @@ class InvoicePolicy
      */
     public function payment(User $user, Invoice $invoice)
     {
-        if ($user->hasPermissionTo('pay invoice')) {
+        if ($user->hasPermissionTo('invoices.pay')) {
             return  $invoice->client->user->id == $user->id;
         }
         return false;
@@ -111,7 +111,7 @@ class InvoicePolicy
      */
     public function paymentView(User $user, Invoice $invoice)
     {
-        if ($user->hasPermissionTo('view payment attempts')) {
+        if ($user->hasPermissionTo('invoices.view.payment.attempts')) {
             if ($user->hasRole('company')) {
                 return  $invoice->creator_id == $user->id;
             }
@@ -132,7 +132,7 @@ class InvoicePolicy
      */
     public function import(User $user, Invoice $invoice)
     {
-        return ($user->hasPermissionTo('import invoices'));
+        return ($user->hasPermissionTo('invoices.import'));
     }
 
     /**
@@ -144,6 +144,6 @@ class InvoicePolicy
      */
     public function export(User $user, Invoice $invoice)
     {
-        return ($user->hasPermissionTo('export invoices'));
+        return ($user->hasPermissionTo('invoices.export'));
     }
 }

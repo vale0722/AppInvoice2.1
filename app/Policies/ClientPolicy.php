@@ -18,7 +18,7 @@ class ClientPolicy
      */
     public function viewAny(User $user, Client $client = null)
     {
-        if ($user->hasPermissionTo('view all clients')) {
+        if ($user->hasPermissionTo('clients.view')) {
             return true;
         }
         return false;
@@ -33,7 +33,7 @@ class ClientPolicy
      */
     public function show(User $user, Client $client)
     {
-        return ($user->hasPermissionTo('show client'));
+        return ($user->hasPermissionTo('clients.show'));
     }
 
     /**
@@ -44,7 +44,7 @@ class ClientPolicy
      */
     public function create(User $user, Client $client)
     {
-        return ($user->hasPermissionTo('create client'));
+        return ($user->hasPermissionTo('clients.create'));
     }
 
     /**
@@ -56,10 +56,10 @@ class ClientPolicy
      */
     public function update(User $user, Client $client)
     {
-        if ($user->hasPermissionTo('update client')) {
+        if ($user->hasPermissionTo('clients.update')) {
             return true;
         }
-        if ($user->hasPermissionTo('update associated client')) {
+        if ($user->hasPermissionTo('clients.update.associated')) {
             if ($user->hasRole('client')) {
                 return  $client->user->id == $user->id;
             }
@@ -77,10 +77,10 @@ class ClientPolicy
      */
     public function delete(User $user, Client $client)
     {
-        if ($user->hasPermissionTo('delete client')) {
+        if ($user->hasPermissionTo('clients.deleted')) {
             return true;
         }
-        if ($user->hasPermissionTo('delete associated client')) {
+        if ($user->hasPermissionTo('clients.delete.associated')) {
             return  $client->creator_id == $user->id;
         }
         return false;
@@ -95,7 +95,7 @@ class ClientPolicy
      */
     public function import(User $user, Client $client)
     {
-        return ($user->hasPermissionTo('import clients'));
+        return ($user->hasPermissionTo('clients.import'));
     }
 
     /**
@@ -107,6 +107,6 @@ class ClientPolicy
      */
     public function export(User $user, Client $client)
     {
-        return ($user->hasPermissionTo('export clients'));
+        return ($user->hasPermissionTo('clients.export'));
     }
 }

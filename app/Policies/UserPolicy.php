@@ -17,7 +17,7 @@ class UserPolicy
      */
     public function viewAny(User $user)
     {
-        return ($user->hasPermissionTo('view all users'));
+        return ($user->hasPermissionTo('users.view'));
     }
 
     /**
@@ -29,10 +29,10 @@ class UserPolicy
      */
     public function view(User $user, User $model)
     {
-        if ($user->hasPermissionTo('show user')) {
+        if ($user->hasPermissionTo('users.show')) {
             return true;
         }
-        if ($user->hasPermissionTo('show your user')) {
+        if ($user->hasPermissionTo('users.your.show')) {
             return ($user->id == $model->id);
         }
         return false;
@@ -46,7 +46,7 @@ class UserPolicy
      */
     public function create(User $user, User $model = null)
     {
-        return ($user->hasPermissionTo('create user'));
+        return ($user->hasPermissionTo('users.create'));
     }
 
     /**
@@ -58,7 +58,7 @@ class UserPolicy
      */
     public function update(User $user, User $model)
     {
-        if ($user->hasPermissionTo('update user')) {
+        if ($user->hasPermissionTo('users.update')) {
             if ($user->hasRole('client') || $user->hasRole('company')) {
                 return ($user->id == $model->id);
             }
@@ -76,6 +76,6 @@ class UserPolicy
      */
     public function delete(User $user, User $model)
     {
-        return ($user->hasPermissionTo('delete user'));
+        return ($user->hasPermissionTo('users.delete'));
     }
 }

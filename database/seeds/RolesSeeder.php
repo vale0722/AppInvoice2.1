@@ -15,74 +15,74 @@ class RolesSeeder extends Seeder
         $role = Role::create(['name' => 'admin', 'description' => 'Administrador']);
 
         //assinging invoice permissions to the admin
-        $role->givePermissionTo('view all invoices');
-        $role->givePermissionTo('create invoice');
-        $role->givePermissionTo('update invoice');
-        $role->givePermissionTo('delete invoice');
-        $role->givePermissionTo('show invoice');
-        $role->givePermissionTo('import invoices');
-        $role->givePermissionTo('export invoices');
-        $role->givePermissionTo('view payment attempts');
+        $role->givePermissionTo('invoices.view');
+        $role->givePermissionTo('invoices.create');
+        $role->givePermissionTo('invoices.update');
+        $role->givePermissionTo('invoices.delete');
+        $role->givePermissionTo('invoices.show');
+        $role->givePermissionTo('invoices.import');
+        $role->givePermissionTo('invoices.export');
+        $role->givePermissionTo('invoices.view.payment.attempts');
 
         //assinging client permissions to the admin
-        $role->givePermissionTo('view all clients');
-        $role->givePermissionTo('create client');
-        $role->givePermissionTo('update client');
-        $role->givePermissionTo('delete client');
-        $role->givePermissionTo('show client');
-        $role->givePermissionTo('import clients');
-        $role->givePermissionTo('export clients');
+        $role->givePermissionTo('clients.view');
+        $role->givePermissionTo('clients.create');
+        $role->givePermissionTo('clients.update');
+        $role->givePermissionTo('clients.deleted');
+        $role->givePermissionTo('clients.show');
+        $role->givePermissionTo('clients.import');
+        $role->givePermissionTo('clients.export');
 
         //asignig product permissions to the admin
-        $role->givePermissionTo('view all products');
-        $role->givePermissionTo('create product');
-        $role->givePermissionTo('update product');
-        $role->givePermissionTo('delete product');
+        $role->givePermissionTo('products.view');
+        $role->givePermissionTo('products.create');
+        $role->givePermissionTo('products.update');
+        $role->givePermissionTo('products.delete');
 
         //asignig user permissions to the admin
-        $role->givePermissionTo('view all users');
-        $role->givePermissionTo('create user');
-        $role->givePermissionTo('show user');
-        $role->givePermissionTo('update user');
-        $role->givePermissionTo('delete user');
-        $role->givePermissionTo('show your user');
+        $role->givePermissionTo('users.view');
+        $role->givePermissionTo('users.create');
+        $role->givePermissionTo('users.show');
+        $role->givePermissionTo('users.update');
+        $role->givePermissionTo('users.delete');
+        $role->givePermissionTo('users.your.show');
 
         $role = Role::create(['name' => 'company', 'description' => 'Vendedor']);
 
         //assinging invoice permissions to the company
-        $role->givePermissionTo('view associated invoices');
-        $role->givePermissionTo('create invoice');
-        $role->givePermissionTo('show invoice');
-        $role->givePermissionTo('update associated invoice');
-        $role->givePermissionTo('import invoices');
-        $role->givePermissionTo('view payment attempts');
+        $role->givePermissionTo('invoices.view.associated');
+        $role->givePermissionTo('invoices.create');
+        $role->givePermissionTo('invoices.show');
+        $role->givePermissionTo('invoices.update.associated');
+        $role->givePermissionTo('invoices.import');
+        $role->givePermissionTo('invoices.view.payment.attempts');
 
         //assinging client permissions to the company
-        $role->givePermissionTo('view all clients');
-        $role->givePermissionTo('create client');
-        $role->givePermissionTo('update associated client');
-        $role->givePermissionTo('delete associated client');
-        $role->givePermissionTo('show client');
-        $role->givePermissionTo('import clients');
-        $role->givePermissionTo('export clients');
+        $role->givePermissionTo('clients.view');
+        $role->givePermissionTo('clients.create');
+        $role->givePermissionTo('clients.update.associated');
+        $role->givePermissionTo('clients.delete.associated');
+        $role->givePermissionTo('clients.show');
+        $role->givePermissionTo('clients.import');
+        $role->givePermissionTo('clients.export');
 
         //asignig product permissions to the company
-        $role->givePermissionTo('view all products');
+        $role->givePermissionTo('products.view');
 
         //asignig user permissions to the company
-        $role->givePermissionTo('update user');
-        $role->givePermissionTo('show your user');
+        $role->givePermissionTo('users.update');
+        $role->givePermissionTo('users.your.show');
 
         $role = Role::create(['name' => 'client', 'description' => 'Cliente']);
 
         //assinging invoice permissions to the client
-        $role->givePermissionTo('view associated invoices');
-        $role->givePermissionTo('show invoice');
-        $role->givePermissionTo('pay invoice');
-        $role->givePermissionTo('view payment attempts');
+        $role->givePermissionTo('invoices.view.associated');
+        $role->givePermissionTo('invoices.show');
+        $role->givePermissionTo('invoices.pay');
+        $role->givePermissionTo('invoices.view.payment.attempts');
 
         //asignig user permissions to the client
-        $role->givePermissionTo('update associated client');
-        $role->givePermissionTo('show your user');
+        $role->givePermissionTo('clients.update.associated');
+        $role->givePermissionTo('users.your.show');
     }
 }

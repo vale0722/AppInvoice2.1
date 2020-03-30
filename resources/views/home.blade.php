@@ -16,7 +16,7 @@
     <div class="row">´
         <div class="col col-lg-1">
         </div>
-        @can('view all clients')
+        @can('clients.view')
         <div class="col col-lg-3">
             <div class="card-container">
                 <div class="card">
@@ -54,7 +54,7 @@
             </div>
         </div>
         @endcan
-        @can('view all products')
+        @can('products.view')
         <div class="col col-lg-3">
             <div class="card-container">
                 <div class="card">

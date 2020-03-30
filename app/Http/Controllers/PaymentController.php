@@ -17,7 +17,7 @@ class PaymentController extends Controller
      */
     public function index(Invoice $invoice)
     {
-        $this->authorize('view payment attempts', $invoice);
+        $this->authorize('invoices.view.payment.attempts', $invoice);
         return view("invoice.payment.index", compact('invoice'));
     }
 
@@ -110,7 +110,7 @@ class PaymentController extends Controller
         $payment->status = $response->status()->status();
         $payment->update();
         $invoice = Invoice::where('id', $payment->invoice_id)->first();
-        $this->authorize('view payment attempts', $invoice);
+        $this->authorize('invoices.view.payment.attempts', $invoice);
         if ($response->isSuccessful()) {
             $invoice->state = $response->status()->status();
             if ($response->status()->isApproved()) {

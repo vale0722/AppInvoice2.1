@@ -13,41 +13,41 @@ class PermissionSeeder extends Seeder
     public function run()
     {
         // invoice permissions
-        $permission = Permission::create(['name' => 'view all invoices']);
-        $permission = Permission::create(['name' => 'view associated invoices']);
-        $permission = Permission::create(['name' => 'create invoice']);
-        $permission = Permission::create(['name' => 'update invoice']);
-        $permission = Permission::create(['name' => 'update associated invoice']);
-        $permission = Permission::create(['name' => 'delete invoice']);
-        $permission = Permission::create(['name' => 'show invoice']);
-        $permission = Permission::create(['name' => 'import invoices']);
-        $permission = Permission::create(['name' => 'export invoices']);
-        $permission = Permission::create(['name' => 'pay invoice']);
-        $permission = Permission::create(['name' => 'view payment attempts']);
+        $permission = Permission::create(['name' => 'invoices.view']);
+        $permission = Permission::create(['name' => 'invoices.view.associated']);
+        $permission = Permission::create(['name' => 'invoices.create']);
+        $permission = Permission::create(['name' => 'invoices.update']);
+        $permission = Permission::create(['name' => 'invoices.update.associated']);
+        $permission = Permission::create(['name' => 'invoices.delete']);
+        $permission = Permission::create(['name' => 'invoices.show']);
+        $permission = Permission::create(['name' => 'invoices.import']);
+        $permission = Permission::create(['name' => 'invoices.export']);
+        $permission = Permission::create(['name' => 'invoices.pay']);
+        $permission = Permission::create(['name' => 'invoices.view.payment.attempts']);
 
         // client permissions
-        $permission = Permission::create(['name' => 'view all clients']);
-        $permission = Permission::create(['name' => 'create client']);
-        $permission = Permission::create(['name' => 'update client']);
-        $permission = Permission::create(['name' => 'update associated client']);
-        $permission = Permission::create(['name' => 'delete client']);
-        $permission = Permission::create(['name' => 'delete associated client']);
-        $permission = Permission::create(['name' => 'show client']);
-        $permission = Permission::create(['name' => 'import clients']);
-        $permission = Permission::create(['name' => 'export clients']);
+        $permission = Permission::create(['name' => 'clients.view']);
+        $permission = Permission::create(['name' => 'clients.create']);
+        $permission = Permission::create(['name' => 'clients.update']);
+        $permission = Permission::create(['name' => 'clients.update.associated']);
+        $permission = Permission::create(['name' => 'clients.deleted']);
+        $permission = Permission::create(['name' => 'clients.delete.associated']);
+        $permission = Permission::create(['name' => 'clients.show']);
+        $permission = Permission::create(['name' => 'clients.import']);
+        $permission = Permission::create(['name' => 'clients.export']);
 
         // product permissions
-        $permission = Permission::create(['name' => 'view all products']);
-        $permission = Permission::create(['name' => 'create product']);
-        $permission = Permission::create(['name' => 'update product']);
-        $permission = Permission::create(['name' => 'delete product']);
+        $permission = Permission::create(['name' => 'products.view']);
+        $permission = Permission::create(['name' => 'products.create']);
+        $permission = Permission::create(['name' => 'products.update']);
+        $permission = Permission::create(['name' => 'products.delete']);
 
         //user permissions
-        $permission = Permission::create(['name' => 'view all users']);
-        $permission = Permission::create(['name' => 'create user']);
-        $permission = Permission::create(['name' => 'show user']);
-        $permission = Permission::create(['name' => 'update user']);
-        $permission = Permission::create(['name' => 'delete user']);
-        $permission = Permission::create(['name' => 'show your user']);
+        $permission = Permission::create(['name' => 'users.view']);
+        $permission = Permission::create(['name' => 'users.create']);
+        $permission = Permission::create(['name' => 'users.show']);
+        $permission = Permission::create(['name' => 'users.update']);
+        $permission = Permission::create(['name' => 'users.delete']);
+        $permission = Permission::create(['name' => 'users.your.show']);
     }
 }
