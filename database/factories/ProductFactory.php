@@ -9,6 +9,6 @@ $factory->define(Product::class, function (Faker $faker) {
     return [
         'code' => $faker->unique()->numerify('P###'),
         'price' => $faker->numberBetween($min = 100, $max = 1000000),
-        'name' =>$faker->jobTitle
+        'name' => $faker->jobTitle
     ];
 });

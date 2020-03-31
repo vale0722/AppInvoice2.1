@@ -7,10 +7,7 @@ use Illuminate\Support\Facades\Artisan;
 
 class Product extends Model
 {
-    public function __construct()
-    {
-        Artisan::call('cache:clear');
-    }
+    protected $fillable = ['name', 'code', 'price'];
 
     public function invoices()
     {
