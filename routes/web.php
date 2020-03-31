@@ -46,5 +46,7 @@ Route::get('/report', 'ReportController@index')->name('report.index');
 Route::get('/users/{user}/edit', 'Auth\RegisterController@edit')->name('users.edit');
 Route::put('/users/{user}/update', 'Auth\RegisterController@update')->name('users.update');
 Route::get('/report/export/{firstCreationDate}/{finalCreationDate}/{format}/{state}', 'ReportController@export')->name('report.export');
+Route::get('/reports', 'ReportController@show')->name('report.show');
+Route::get('/reports/{id}', 'ReportController@delete')->name('report.delete');
 
 Route::resource('/users', 'UserController')->except(['edit', 'update']);

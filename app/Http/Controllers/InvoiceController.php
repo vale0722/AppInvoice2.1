@@ -171,7 +171,7 @@ class InvoiceController extends Controller
         ]);
         $this->updateOrder($invoice);
         $invoice->save();
-        return redirect()->route('invoices.edit', $invoice)->with('message', 'Registro de compra completado');
+        return redirect()->route('invoices.edit', $invoice);
     }
 
     public function indexImport()

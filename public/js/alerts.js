@@ -121,6 +121,15 @@ if (document.getElementById('errorEdit')) {
 
 ;
 
+if (document.getElementById('exportInProccess')) {
+  swal({
+    title: 'El reporte se está generando',
+    text: 'Cuando haya finalizado el proceso podrás descargarlo en REPORTES GENERADOS'
+  });
+}
+
+;
+
 /***/ }),
 
 /***/ 2:
