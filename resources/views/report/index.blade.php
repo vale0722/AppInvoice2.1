@@ -4,6 +4,10 @@
 $now = new \DateTime();
 $now = $now->format('Y-m-d H:i:s');
 ?>
+@if(session()->has('exportInProccess'))
+<div id="exportInProccess">
+</div>
+@endif
 <div class="container" style="margin-top: 50px">
     <div class="row">
         <div class="col-sm-8"></div>
@@ -72,4 +76,5 @@ $now = $now->format('Y-m-d H:i:s');
         </div>
     </div>
 </div>
+
 @endsection

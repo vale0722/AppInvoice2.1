@@ -1,5 +1,7 @@
 <?php
 
+use Illuminate\Support\Facades\Auth;
+
 /**
  * Invoice control system that incorporates all the requirements contained in the trade code (Art 774)
  *
@@ -7,6 +9,7 @@
  * @copyright 2019 Valeria Granada Rodas
  * @version 2019-11-25
  */
+
 ?>
 
 <!doctype html>
@@ -100,6 +103,22 @@
                             <i class="fas fa-user"></i>
                             <span class="nav-link-text">Mi perfil</span>
                         </a>
+
+                    </li>
+                    <li>
+                        @role('admin')
+                        <?php
+                        $notificationLength = 0;
+                        foreach (Auth::user()->notifications as $notification) {
+                            $notificationLength += 1;
+                        }
+                        ?>
+                        <a class="dropdown-item" href=" {{ route('report.show') }}">
+                            <i class="fas fa-file-export"></i>
+                            <span class="nav-link-text">Reportes Generados</span>
+                            <span class="badge badge-success">{{ $notificationLength }}</span>
+                        </a>
+                        @endrole
                     </li>
                     <li class="nav-item">
                         <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();
