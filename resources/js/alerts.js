@@ -17,3 +17,9 @@ if (document.getElementById('errorEdit')) {
         icon: 'error',
     });
 };
+if (document.getElementById('exportInProccess')) {
+    swal({
+        title: 'El reporte se está generando',
+        text: 'Cuando haya finalizado el proceso podrás descargarlo en REPORTES GENERADOS'
+    });
+};

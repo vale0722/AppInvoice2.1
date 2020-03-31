@@ -22,33 +22,8 @@ class InvoiceReportExport implements FromQuery, ShouldQueue
 
     public function query()
     {
-        if ($this->state == "all") {
-            return Invoice::query()
-                ->whereDate("created_at", ">=", "$this->firstCreationDate")
-                ->whereDate("created_at", '<=', "$this->finalCreationDate");
-        } elseif ($this->state == "paid") {
-            return Invoice::query()
-                ->whereDate("created_at", ">=", "$this->firstCreationDate")
-                ->whereDate("created_at", '<=', "$this->finalCreationDate")
-                ->where("state", "APPROVED");
-        } elseif ($this->state == "overdue") {
-            $now = new \DateTime();
-            $now = $now->format('Y-m-d H:i:s');
-            return Invoice::query()
-                ->whereDate("created_at", ">=", "$this->firstCreationDate")
-                ->whereDate("created_at", '<=', "$this->finalCreationDate")
-                ->where("duedate", "<=", "$now");
-        } elseif ($this->state == "pending") {
-            return Invoice::query()
-                ->whereDate("created_at", ">=", "$this->firstCreationDate")
-                ->whereDate("created_at", '<=', "$this->finalCreationDate")
-                ->where("state", "PENDING");
-        } else {
-            return Invoice::query()
-                ->whereDate("created_at", ">=", "$this->firstCreationDate")
-                ->whereDate("created_at", '<=', "$this->finalCreationDate")
-                ->where("state", "!=", "APPROVED")
-                ->where("state", "!=", "PENDING");
-        }
+        $invoices = Invoice::filtrate('created_at', $this->firstCreationDate, $this->finalCreationDate)
+            ->filtrateState($this->state);
+        return $invoices;
     }
 }
