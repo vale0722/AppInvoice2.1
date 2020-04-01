@@ -105,7 +105,7 @@ class InvoiceController extends Controller
     {
         $invoice = Invoice::find($id);
         $this->authorize('update', $invoice);
-        if ($invoice->state != 'APPROVED' && $invoice->state != 'PENDING') {
+        if (!$invoice->isApproved() && !$invoice->isPending()) {
             return view('invoice.edit', [
                 'invoice' => $invoice,
                 'clients' => Client::all(),
@@ -124,7 +124,7 @@ class InvoiceController extends Controller
     public function update(InvoiceUpdateRequest $request, Invoice $invoice, UpdateInvoiceAction $action)
     {
         $this->authorize('update', $invoice);
-        if ($invoice->state != 'APPROVED' && $invoice->state != 'PENDING') {
+        if (!$invoice->isApproved() && !$invoice->isApproved()) {
             $invoice = $action->updateModel($invoice, $request);
             return redirect()->route('invoices.index');
         } else {

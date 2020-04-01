@@ -48,10 +48,10 @@ $now = $now->format('Y-m-d H:i:s');
                             <td> {{ $invoice->client->user->name . ' ' .$invoice->client->user->lastname }}</td>
                             <td> {{ $invoice->creator->name . ' ' .$invoice->creator->lastname }}</td>
                             <td>
-                                @if($invoice->state == 'APPROVED')
+                                @if($invoice->isApproved())
                                 <button type="button" class="btn btn-success btn-sm"> Pago </button>
                                 @elseif($invoice->duedate <= $now) <button type="button" class="btn btn-danger btn-sm"> Vencido </button>
-                                    @elseif($invoice->state == 'PENDING') <button type="button" class="btn btn-primary btn-sm"> Pendiente </button>
+                                    @elseif($invoice->isPending()) <button type="button" class="btn btn-primary btn-sm"> Pendiente </button>
                                     @else
                                     <button type="button" class="btn btn-warning btn-sm">Sin Pagar </button>
                                     @endif

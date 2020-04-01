@@ -3,6 +3,7 @@
 namespace App\Imports\Sheets;
 
 use App\Invoice;
+use App\Actions\StatusAction;
 use Illuminate\Support\Facades\Cache;
 use Maatwebsite\Excel\Concerns\ToModel;
 use Maatwebsite\Excel\Concerns\Importable;
@@ -28,7 +29,7 @@ class SheetImport implements ToModel, WithHeadingRow, WithValidation, WithBatchI
             'code'    => $row['code'],
             'client_id' => $row['client_id'],
             'creator_id' => auth()->user()->id,
-            'state' => 'DEFAULT',
+            'state' => StatusAction::BDEFAULT(),
         ]);
         $invoice->duedate = date("Y-m-d H:i:s", strtotime($invoice->created_at . "+ 30 days"));
         Cache::put('rows', $this->rows, 10);

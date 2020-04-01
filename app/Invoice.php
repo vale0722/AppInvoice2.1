@@ -2,9 +2,10 @@
 
 namespace App;
 
-use Illuminate\Database\Eloquent\Model;
 use App\Client;
 use PHP_Token_ELSEIF;
+use App\Actions\StatusAction;
+use Illuminate\Database\Eloquent\Model;
 
 class Invoice extends Model
 {
@@ -91,13 +92,13 @@ class Invoice extends Model
             if ($state == "all") {
                 return $query;
             } elseif ($state == "paid") {
-                return $query->where("state", "APPROVED");
+                return $query->where("state", StatusAction::APPROVED());
             } elseif ($state == "overdue") {
                 return $query->where("duedate", "<=", "$now");
             } elseif ($state == "pending") {
-                return $query->where("state", "PENDING");
+                return $query->where("state", StatusAction::PENDING());
             } {
-                return $query->where("state", "!=", "APPROVED")->where("state", "!=", "PENDING");
+                return $query->where("state", "!=", StatusAction::APPROVED())->where("state", "!=", StatusAction::PENDING());
             }
         }
     }
@@ -122,5 +123,20 @@ class Invoice extends Model
             }
         }
         return;
+    }
+
+    public function isApproved()
+    {
+        return ($this->state == StatusAction::APPROVED());
+    }
+
+    public function isNoProducts()
+    {
+        return ($this->state == StatusAction::NO_PRODUCTS());
+    }
+
+    public function isPending()
+    {
+        return ($this->state == StatusAction::PENDING());
     }
 }

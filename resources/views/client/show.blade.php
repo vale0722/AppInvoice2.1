@@ -63,10 +63,10 @@ $now = $now->format('Y-m-d H:i:s');
                                     <td> {{$invoice->client->user->name . ' ' .$invoice->client->user->lastname }}</td>
                                     <td> {{ $invoice->creator->name }}</td>
                                     <td>
-                                        @if($invoice->state == 'APPROVED')
+                                        @if($invoice->isApproved())
                                         <span class="badge badge-success">Pago</span>
                                         @elseif($invoice->duedate <= $now) <span class="badge badge-danger">Vencido</span>
-                                            @elseif($invoice->state == 'PENDING')
+                                            @elseif($invoice->isPending())
                                             <span class="badge badge-primary">Pendiente</span>
                                             @else
                                             <span class="badge badge-warning">Sin Pagar </span>
@@ -76,7 +76,7 @@ $now = $now->format('Y-m-d H:i:s');
                                     <td>
                                         <div class="btn-group" role="group">
                                             @can('update', $invoice)
-                                            @if ($invoice->state != 'APPROVED' && $invoice->state != 'PENDING' )
+                                            @if (!$invoice->isApproved() && !$invoice->isPending() )
                                             <a class="btn btn-warning" href="{{ route('invoices.edit', $invoice) }}"><i class="far fa-edit"></i> Editar </a>
                                             @endif
                                             @endcan
