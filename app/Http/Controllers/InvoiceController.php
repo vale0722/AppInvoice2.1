@@ -2,19 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\User;
 use App\Client;
-use App\Company;
 use App\Invoice;
 use App\Product;
 use Illuminate\Http\Request;
-use App\Exports\InvoiceExport;
 use App\Imports\InvoiceImport;
-use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\DB;
 use App\Actions\StoreInvoiceAction;
 use App\Actions\UpdateInvoiceAction;
-use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Support\Facades\Cache;
 use App\Http\Requests\Invoices\InvoiceStoreRequest;
 use App\Http\Requests\Invoices\InvoiceUpdateRequest;
@@ -105,7 +100,7 @@ class InvoiceController extends Controller
     {
         $invoice = Invoice::find($id);
         $this->authorize('update', $invoice);
-        if (!$invoice->isApproved() && !$invoice->isPending()) {
+        if (!$invoice->isApproved() && !$invoice->isPending() && !$invoice->isAnnuled()) {
             return view('invoice.edit', [
                 'invoice' => $invoice,
                 'clients' => Client::all(),
@@ -124,7 +119,7 @@ class InvoiceController extends Controller
     public function update(InvoiceUpdateRequest $request, Invoice $invoice, UpdateInvoiceAction $action)
     {
         $this->authorize('update', $invoice);
-        if (!$invoice->isApproved() && !$invoice->isApproved()) {
+        if (!$invoice->isApproved() && !$invoice->isApproved() && !$invoice->isAnnuled()) {
             $invoice = $action->updateModel($invoice, $request);
             return redirect()->route('invoices.index');
         } else {
@@ -144,6 +139,53 @@ class InvoiceController extends Controller
         $this->authorize('update', $invoice);
         $invoice->delete();
         return redirect()->route('invoices.index');
+    }
+
+    public function confirmAnnuled(Invoice $invoice)
+    {
+        $this->authorize('annuled', $invoice);
+        if (!$invoice->isApproved() && !$invoice->isApproved()) {
+            return view('invoice.confirmAnnuled', [
+                'invoice' => $invoice
+            ]);
+        } else {
+            return redirect()->route('invoices.index')->with('errorEdit', 'LA FACTURA NO SE PUEDE ANULAR');
+        }
+    }
+
+    /**
+     * Cancel the specified resource from storage.
+     *
+     * @param  Invoice  $invoice
+     * @return \Illuminate\Http\Response
+     */
+    public function annuled(Invoice $invoice)
+    {
+        $this->authorize('annuled', $invoice);
+        if (!$invoice->isApproved() && !$invoice->isApproved()) {
+            $now = new \DateTime();
+            $now = $now->format('Y-m-d H:i:s');
+            $invoice->annuled = $now;
+            $invoice->state = 'anulada';
+            $invoice->update();
+            return redirect()->route('invoices.index')->with('proccess', 'proceso exitoso');
+        } else {
+            return redirect()->route('invoices.index')->with('errorEdit', 'LA FACTURA NO SE PUEDE ANULAR');
+        }
+    }
+
+    /**
+     * Remove Cancel the specified resource from storage.
+     *
+     * @param  Invoice  $invoice
+     * @return \Illuminate\Http\Response
+     */
+    public function removeAnnuled(Invoice $invoice)
+    {
+        $this->authorize('annuled', $invoice);
+        $invoice->annuled = null;
+        $invoice->update();
+        return redirect()->route('invoices.index')->with('proccess', 'proceso exitoso');
     }
 
     public function createInvoiceProduct($id)

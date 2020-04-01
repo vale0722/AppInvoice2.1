@@ -24,6 +24,17 @@ class UserSeeder extends Seeder
         ]);
         $user->assignRole('admin');
 
+        //treasurer user creation
+        $user = User::create([
+            'name' => 'Treasurer',
+            'lastname' => 'Tesorero',
+            'email' => 'tesorero@mail.com',
+            'email_verified_at' => now(),
+            'password' => bcrypt('12345678'),
+            'remember_token' => '1',
+        ]);
+        $user->assignRole('treasurer');
+
         //client user creation
         $user = User::create([
             'name' => 'Client',

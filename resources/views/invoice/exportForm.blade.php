@@ -34,6 +34,7 @@
                 <option value="pending">Pendiente</option>
                 <option value="unpaid">No pago</option>
                 <option value="overdue">Vencido</option>
+                <option value="annuled">Anulado</option>
               </select>
             </div>
             <label data-error="wrong" data-success="right" for="state">Estado de Factura</label>

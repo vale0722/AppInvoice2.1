@@ -22,6 +22,7 @@ class RolesSeeder extends Seeder
         $role->givePermissionTo('invoices.show');
         $role->givePermissionTo('invoices.import');
         $role->givePermissionTo('invoices.export');
+        $role->givePermissionTo('invoices.annuled');
         $role->givePermissionTo('invoices.view.payment.attempts');
 
         //assinging client permissions to the admin
@@ -75,7 +76,7 @@ class RolesSeeder extends Seeder
 
         $role = Role::create(['name' => 'client', 'description' => 'Cliente']);
 
-        //assinging invoice permissions to the client
+        //asinging invoice permissions to the client
         $role->givePermissionTo('invoices.view.associated');
         $role->givePermissionTo('invoices.show');
         $role->givePermissionTo('invoices.pay');
@@ -83,6 +84,26 @@ class RolesSeeder extends Seeder
 
         //asignig user permissions to the client
         $role->givePermissionTo('clients.update.associated');
+        $role->givePermissionTo('users.your.show');
+
+        $role = Role::create(['name' => 'treasurer', 'description' => 'Tesorero']);
+
+        //asignig invoice permissions to the treasurer
+        $role->givePermissionTo('invoices.view');
+        $role->givePermissionTo('invoices.show');
+        $role->givePermissionTo('invoices.export');
+        $role->givePermissionTo('invoices.annuled');
+
+        //asignig client permissions to the treasurer
+        $role->givePermissionTo('clients.view');
+        $role->givePermissionTo('clients.show');
+
+        //asignig product permissions to the treasurer
+        $role->givePermissionTo('products.view');
+        $role->givePermissionTo('products.create');
+        $role->givePermissionTo('products.update');
+        $role->givePermissionTo('products.delete');
+
         $role->givePermissionTo('users.your.show');
     }
 }

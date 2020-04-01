@@ -26,6 +26,9 @@ Route::get('/invoices/{invoice}/confirmDelete', 'InvoiceController@confirmDelete
 Route::get('/invoices/import/view', 'InvoiceController@indexImport')->name('invoices.import.view');
 Route::post('/invoices/import', 'InvoiceController@importExcel')->name('invoices.import');
 Route::get('/exportInvoices', 'InvoiceController@exportExcel')->name('invoices.export');
+Route::get('/invoices/{invoice}/annuled', 'InvoiceController@annuled')->name('invoices.annuled');
+Route::get('/invoices/{invoice}/removeAnnuled', 'InvoiceController@removeAnnuled')->name('invoices.remove.annuled');
+Route::get('/invoices/{invoice}/confirmAnnuled', 'InvoiceController@confirmAnnuled')->name('invoices.confirm.annuled');
 
 Route::resource('/clients', 'ClientsController');
 Route::get('/clients/{id}/confirmDelete', 'ClientsController@confirmDelete')->name('clients.confirm.delete');

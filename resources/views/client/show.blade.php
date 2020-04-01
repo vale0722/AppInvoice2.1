@@ -75,17 +75,36 @@ $now = $now->format('Y-m-d H:i:s');
                                     <td>{{ '$'. number_format($invoice->total, 2) }}</td>
                                     <td>
                                         <div class="btn-group" role="group">
+                                            @if(!$invoice->isAnnuled())
                                             @can('update', $invoice)
                                             @if (!$invoice->isApproved() && !$invoice->isPending() )
                                             <a class="btn btn-warning" href="{{ route('invoices.edit', $invoice) }}"><i class="far fa-edit"></i> Editar </a>
                                             @endif
                                             @endcan
                                             @can('delete', $invoice)
-                                            <a class="btn btn-danger" href="/invoices/{{ $invoice->id }}/confirmDelete"><i class="far fa-trash-alt"></i> Eliminar</a>
+                                            <a href="{{ route('invoices.confirm.delete', $invoice) }}" class="btn btn-danger">
+                                                <i class="far fa-trash-alt"></i> Eliminar
+                                            </a>
                                             @endcan
                                             @can('show', $invoice)
-                                            <a class="btn btn-success" href="{{ route('invoices.show', $invoice->id) }}"><i class="far fa-eye"></i> Ver detalles </a>
+                                            <a class="btn btn-success" href="{{ route('invoices.show', $invoice) }}"><i class="far fa-eye"></i> Ver detalles </a>
                                             @endcan
+                                            @can('annuled', $invoice)
+                                            <a class="btn btn-secondary" href="{{ route('invoices.confirm.annuled', $invoice) }}"><i class="fas fa-ban"></i> Anular </a>
+                                            @endcan
+                                            @else
+                                            @can('show', $invoice)
+                                            <a class="btn btn-success" href="{{ route('invoices.show', $invoice) }}"><i class="far fa-eye"></i> Ver detalles </a>
+                                            @endcan
+                                            @can('annuled', $invoice)
+                                            <a class="btn btn-warning" href="{{ route('invoices.remove.annuled', $invoice) }}"><i class="fas fa-reply"></i> Quitar Anulación </a>
+                                            @endcan
+                                            @can('delete', $invoice)
+                                            <a href="{{ route('invoices.confirm.delete', $invoice) }}" class="btn btn-danger">
+                                                <i class="far fa-trash-alt"></i> Eliminar
+                                            </a>
+                                            @endcan
+                                            @endif
                                         </div>
                                     </td>
                                 </tr>
