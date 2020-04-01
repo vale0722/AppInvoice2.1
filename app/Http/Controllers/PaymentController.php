@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Invoice;
 use App\Payment;
 use Illuminate\Http\Request;
+use App\Actions\StatusAction;
 use Dnetix\Redirection\PlacetoPay;
 use Illuminate\Support\Facades\DB;
 
@@ -46,12 +47,12 @@ class PaymentController extends Controller
             'amount' => $invoice->total
         ]);
         if ($invoice->total == 0) {
-            $payment->status = "SIN PRODUCTOS";
-            $invoice->state = "SIN PRODUCTOS";
+            $payment->status = StatusAction::NO_PRODUCTS();
+            $invoice->state = $payment->status;
             $invoice->update();
             $payment->update();
             return redirect()->route('invoices.show', $invoice)->withErrors("No hay productos en la factura, vuelva a intentarlo");
-        } elseif ($invoice->state == "APPROVED") {
+        } elseif ($invoice->isApproved()) {
             return redirect()->route('invoices.show', $invoice)->withErrors("La factura ya está pagada");
         }
 
@@ -84,10 +85,12 @@ class PaymentController extends Controller
         if ($response->isSuccessful()) {
             // STORE THE $response->requestId() and $response->processUrl() on your DB associated with the payment order
             $payment = Payment::where('id', $payment->id)->first();
-            $payment->status = $response->status()->status();
+            $payment->setStatus($response->status()->status());
+            $invoice->state = $payment->status;
             $payment->request_id = $response->requestId();
             $payment->processUrl = $response->processUrl();
             $payment->update();
+            $invoice->update();
             // Redirect the client to the processUrl or display it on the JS extension
             return redirect($response->processUrl());
         } else {
@@ -107,12 +110,12 @@ class PaymentController extends Controller
     {
         $payment = Payment::where('id', $payment->id)->first();
         $response = $placetopay->query($payment->request_id);
-        $payment->status = $response->status()->status();
+        $payment->setStatus($response->status()->status());
         $payment->update();
         $invoice = Invoice::where('id', $payment->invoice_id)->first();
         $this->authorize('invoices.view.payment.attempts', $invoice);
         if ($response->isSuccessful()) {
-            $invoice->state = $response->status()->status();
+            $invoice->state = $payment->status;
             if ($response->status()->isApproved()) {
                 $date = date("Y-m-d H:i:s", strtotime($response->status()->date()));
                 if ($invoice->receipt_date == null) {
@@ -124,7 +127,7 @@ class PaymentController extends Controller
             }
             $invoice->update();
         } else {
-            $invoice->state = $response->status()->status();
+            $invoice->state = $payment->status;
             $invoice->receipt_date = null;
             $invoice->update();
         }

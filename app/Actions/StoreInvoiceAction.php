@@ -14,7 +14,7 @@ class StoreInvoiceAction extends Action
         $invoice->code = $request->input('code');
         $invoice->client_id = $request->input('client');
         $invoice->creator_id = auth()->user()->id;
-        $invoice->state = "DEFAULT";
+        $invoice->state = StatusAction::BDEFAULT();
         $invoice->duedate = date("Y-m-d H:i:s", strtotime($invoice->created_at . "+ 30 days"));
         $invoice->save();
 

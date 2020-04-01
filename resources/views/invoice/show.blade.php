@@ -25,10 +25,10 @@ $now = $now->format('Y-m-d H:i:s');
                         <h2><b> FACTURA </b></h2>
                         <h3><small>Factura {{ $invoice->code }}</small></h3>
                         <h5>
-                            @if($invoice->state == 'APPROVED')
+                            @if($invoice->isApproved())
                             <span class="badge badge-success">Pago</span>
                             @elseif($invoice->duedate <= $now) <span class="badge badge-danger">Vencido</span>
-                                @elseif($invoice->state == 'PENDING')
+                                @elseif($invoice->isPending())
                                 <span class="badge badge-primary">Pendiente</span>
                                 @else
                                 <span class="badge badge-warning">Sin Pagar </span>
@@ -74,7 +74,7 @@ $now = $now->format('Y-m-d H:i:s');
                             <h5><b>Vendedor: </b>{{ $invoice->creator->name .' '. $invoice->creator->lastname }} </h5>
                             <h5><b>Fecha de creación: </b>{{ $invoice->created_at }} </h5>
                             <h5><b>Fecha de expiración:</b> {{ $invoice->duedate }} </h5>
-                            @if ($invoice->state == 'APPROVED')
+                            @if ($invoice->isApproved())
                             <h5><b>Fecha de pago:</b> {{ $invoice->payment_date}} </h5>
                             @endif
                             @if (isset($invoice->receipt_date))
@@ -134,7 +134,7 @@ $now = $now->format('Y-m-d H:i:s');
                     <a class="btn btn-primary btn-block" href="{{ route('payments.index', $invoice->id) }}"><i class="far fa-eye"></i> Ver intentos de pago </a>
                     @endcan
                     @can('invoices.pay')
-                    @if($invoice->state != 'APPROVED')
+                    @if(!$invoice->isApproved())
                     <a href="#" class="btn btn-success btn-block" data-toggle="modal" data-target="#create">
                         Realiza el pago de la factura
                     </a>

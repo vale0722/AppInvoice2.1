@@ -9,7 +9,7 @@
             </div>
             <div class="modal-body">
                 <div class="col-lg-12">
-                    @if($invoice->state == 'PENDING')
+                    @if($invoice->isPending())
                     <div class="alert alert-danger"> TIENES UN PAGO PENDIENTE DE APROBACIÓN </div>
                     @else
                     <div class='row'>

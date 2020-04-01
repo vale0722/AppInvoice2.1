@@ -5,6 +5,7 @@
 use App\User;
 use App\Client;
 use App\Invoice;
+use App\Actions\StatusAction;
 use Faker\Generator as Faker;
 
 $factory->define(Invoice::class, function (Faker $faker) {
@@ -20,6 +21,6 @@ $factory->define(Invoice::class, function (Faker $faker) {
         'code' => $faker->bothify('?###'),
         'client_id' => $client->id,
         'creator_id' => $creator->id,
-        'state' => 'DEFAULT'
+        'state' => StatusAction::BDEFAULT()
     ];
 });
