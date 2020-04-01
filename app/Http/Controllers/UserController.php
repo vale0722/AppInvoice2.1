@@ -25,7 +25,7 @@ class UserController extends Controller
     {
         $this->authorize('viewAny', new User());
         $users = User::orderBy('id', 'DESC')->whereHas("roles", function ($query) {
-            $query->where("name", "admin")->orWhere("name", "company");
+            $query->where("name", "admin")->orWhere("name", "company")->orWhere("name", "treasurer");
         })->paginate(10);
         return view('user.index', compact('users'));
     }

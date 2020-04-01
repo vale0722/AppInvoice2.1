@@ -21,6 +21,7 @@ class CreateColumnTitleInInvoice extends Migration
             $table->double('total')->nullable();
             $table->string('state')->nullable();
             $table->timestamp('payment_date')->nullable();
+            $table->timestamp('annuled')->nullable();
         });
     }
 
@@ -39,6 +40,7 @@ class CreateColumnTitleInInvoice extends Migration
             $table->dropColumn('total');
             $table->dropColumn('state');
             $table->dropColumn('payment_date');
+            $table->dropColumn('annuled');
         });
     }
 }

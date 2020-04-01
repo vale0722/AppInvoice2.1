@@ -49,11 +49,14 @@ $now = $now->format('Y-m-d H:i:s');
                             <td> {{ $invoice->creator->name . ' ' .$invoice->creator->lastname }}</td>
                             <td>
                                 @if($invoice->isApproved())
-                                <button type="button" class="btn btn-success btn-sm"> Pago </button>
-                                @elseif($invoice->duedate <= $now) <button type="button" class="btn btn-danger btn-sm"> Vencido </button>
-                                    @elseif($invoice->isPending()) <button type="button" class="btn btn-primary btn-sm"> Pendiente </button>
+                                <span class="badge badge-success">Pago</span>
+                                @elseif($invoice->isAnnuled())
+                                <a class="badge badge-danger text-white"> ANULADA</a>
+                                @elseif($invoice->duedate <= $now) <span class="badge badge-danger">Vencido</span>
+                                    @elseif($invoice->isPending())
+                                    <span class="badge badge-primary">Pendiente</span>
                                     @else
-                                    <button type="button" class="btn btn-warning btn-sm">Sin Pagar </button>
+                                    <span class="badge badge-warning">Sin Pagar </span>
                                     @endif
                             </td>
                             <td>{{ '$'. number_format($invoice->total, 2) }}</td>

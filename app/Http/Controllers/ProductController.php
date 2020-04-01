@@ -20,7 +20,7 @@ class ProductController extends Controller
      */
     public function index(Request $request)
     {
-        $this->authorize('viewAny', new Invoice());
+        $this->authorize('viewAny', new Product());
         $search = $request->get('search');
         $type = $request->get('type');
         $products = Product::orderBy('id', 'DESC')
@@ -36,7 +36,7 @@ class ProductController extends Controller
      */
     public function create()
     {
-        $this->authorize('create', new Invoice());
+        $this->authorize('create', new Product());
         return view('product.create');
     }
 

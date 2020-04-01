@@ -126,18 +126,28 @@
                             <option value="paid" selected>Pago</option>
                             <option value="unpaid">No pago</option>
                             <option value="overdue">Vencido</option>
+                            <option value="annuled">Anulado</option>
                         </select>
                         @elseif($state == 'unpaid')
                         <select name="state" class="form-control mr-sm-2" id="state">
                             <option value="paid">Pago</option>
                             <option value="unpaid" selected>No pago</option>
                             <option value="overdue">Vencido</option>
+                            <option value="annuled">Anulado</option>
                         </select>
                         @elseif($state == 'overdue')
                         <select name="state" class="form-control mr-sm-2" id="state">
                             <option value="paid">Pago</option>
                             <option value="unpaid">No pago</option>
                             <option value="overdue" selected>Vencido</option>
+                            <option value="annuled">Anulado</option>
+                        </select>
+                        @elseif($state == 'annuled')
+                        <select name="state" class="form-control mr-sm-2" id="state">
+                            <option value="paid">Pago</option>
+                            <option value="unpaid">No pago</option>
+                            <option value="overdue">Vencido</option>
+                            <option value="annuled" selected>Anulado</option>
                         </select>
                         @endif
                     </div>
@@ -153,6 +163,7 @@
                             <option value="paid">Pago</option>
                             <option value="unpaid">No pago</option>
                             <option value="overdue">Vencido</option>
+                            <option value="annuled">Anulado</option>
                         </select>
                     </div>
                 </div>

@@ -23,7 +23,7 @@ class PermissionSeeder extends Seeder
         $permission = Permission::create(['name' => 'invoices.import']);
         $permission = Permission::create(['name' => 'invoices.export']);
         $permission = Permission::create(['name' => 'invoices.pay']);
-        $permission = Permission::create(['name' => 'invoices.anuled']);
+        $permission = Permission::create(['name' => 'invoices.annuled']);
         $permission = Permission::create(['name' => 'invoices.view.payment.attempts']);
 
         // client permissions

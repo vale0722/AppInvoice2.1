@@ -22,6 +22,7 @@ class RolesSeeder extends Seeder
         $role->givePermissionTo('invoices.show');
         $role->givePermissionTo('invoices.import');
         $role->givePermissionTo('invoices.export');
+        $role->givePermissionTo('invoices.annuled');
         $role->givePermissionTo('invoices.view.payment.attempts');
 
         //assinging client permissions to the admin
@@ -91,10 +92,18 @@ class RolesSeeder extends Seeder
         $role->givePermissionTo('invoices.view');
         $role->givePermissionTo('invoices.show');
         $role->givePermissionTo('invoices.export');
-        $role->givePermissionTo('invoices.anuled');
+        $role->givePermissionTo('invoices.annuled');
 
         //asignig client permissions to the treasurer
         $role->givePermissionTo('clients.view');
         $role->givePermissionTo('clients.show');
+
+        //asignig product permissions to the treasurer
+        $role->givePermissionTo('products.view');
+        $role->givePermissionTo('products.create');
+        $role->givePermissionTo('products.update');
+        $role->givePermissionTo('products.delete');
+
+        $role->givePermissionTo('users.your.show');
     }
 }

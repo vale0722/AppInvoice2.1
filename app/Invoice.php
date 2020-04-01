@@ -6,10 +6,11 @@ use App\Client;
 use PHP_Token_ELSEIF;
 use App\Actions\StatusAction;
 use Illuminate\Database\Eloquent\Model;
+use phpDocumentor\Reflection\Types\Null_;
 
 class Invoice extends Model
 {
-    protected $fillable = ['title', 'code', 'client_id', 'creator_id', 'duedate', 'state'];
+    protected $fillable = ['title', 'code', 'client_id', 'creator_id', 'duedate', 'state', 'annuled'];
 
 
     public function products()
@@ -84,6 +85,7 @@ class Invoice extends Model
             }
         }
     }
+
     public function scopeFiltrateState($query, $state)
     {
         $now = new \DateTime();
@@ -93,11 +95,13 @@ class Invoice extends Model
                 return $query;
             } elseif ($state == "paid") {
                 return $query->where("state", StatusAction::APPROVED());
+            } elseif ($state == "annuled") {
+                return $query->where("state", 'anulada');
             } elseif ($state == "overdue") {
                 return $query->where("duedate", "<=", "$now");
             } elseif ($state == "pending") {
                 return $query->where("state", StatusAction::PENDING());
-            } {
+            } else {
                 return $query->where("state", "!=", StatusAction::APPROVED())->where("state", "!=", StatusAction::PENDING());
             }
         }
@@ -138,5 +142,10 @@ class Invoice extends Model
     public function isPending()
     {
         return ($this->state == StatusAction::PENDING());
+    }
+
+    public function isAnnuled()
+    {
+        return ($this->annuled != NULL);
     }
 }

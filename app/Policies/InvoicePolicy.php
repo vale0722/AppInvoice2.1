@@ -146,4 +146,16 @@ class InvoicePolicy
     {
         return ($user->hasPermissionTo('invoices.export'));
     }
+
+    /**
+     * Determine whether the user can cancel invoices.
+     *
+     * @param  \App\User  $user
+     * @param  \App\Invoice  $invoice
+     * @return mixed
+     */
+    public function annuled(User $user, Invoice $invoice)
+    {
+        return ($user->hasPermissionTo('invoices.annuled'));
+    }
 }
