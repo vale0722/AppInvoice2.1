@@ -14,7 +14,12 @@ use Illuminate\Foundation\Bus\Dispatchable;
 class NotifyUserOfCompletedExport implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
-    public $user, $file, $type, $firstCreationDate, $finalCreationDate, $state;
+    public $user;
+    public $file;
+    public $type;
+    public $firstCreationDate;
+    public $finalCreationDate;
+    public $state;
 
     /**
      * Create a new job instance.

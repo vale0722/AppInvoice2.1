@@ -60,7 +60,7 @@ class IndexInvoiceTest extends InvoiceTest
      */
     public function AuthenticatedClientHasAccessInvoiceList()
     {
-        // Authenticated user 
+        // Authenticated user
         $this->seed("TypeDocumentSeeder");
         $user = factory(User::class)->create();
         $user->assignRole('admin');

@@ -14,7 +14,6 @@ class ReportController extends Controller
 {
     public function index(Request $request)
     {
-
         $this->authorize('export', new Invoice());
         $firstCreationDate = $request->get('firstCreationDate');
         $finalCreationDate = $request->get('finalCreationDate');
@@ -29,7 +28,6 @@ class ReportController extends Controller
 
     public function show()
     {
-
         $this->authorize('export', new Invoice());
         $reports = Auth::user()->notifications;
         return view('report.show', compact('reports'));

@@ -25,19 +25,19 @@ class Payment extends Model
     {
         if ($status == 'FAILED') {
             $this->status = StatusAction::FAILED();
-        } else if ($status == 'OK') {
+        } elseif ($status == 'OK') {
             $this->status = StatusAction::OK();
-        } else if ($status == 'APPROVED') {
+        } elseif ($status == 'APPROVED') {
             $this->status = StatusAction::APPROVED();
-        } else if ($status == 'APPROVED_PARTIAL') {
+        } elseif ($status == 'APPROVED_PARTIAL') {
             $this->status = StatusAction::APPROVED_PARTIAL();
-        } else if ($status == 'PARTIAL_EXPIRED') {
+        } elseif ($status == 'PARTIAL_EXPIRED') {
             $this->status = StatusAction::PARTIAL_EXPIRED();
-        } else if ($status == 'REJECTED') {
+        } elseif ($status == 'REJECTED') {
             $this->status = StatusAction::REJECTED();
-        } else if ($status == 'PENDING') {
+        } elseif ($status == 'PENDING') {
             $this->status = StatusAction::PENDING();
-        } else if ($status == 'PENDING_VALIDATION') {
+        } elseif ($status == 'PENDING_VALIDATION') {
             $this->status = StatusAction::PENDING_VALIDATION();
         } else {
             $this->status = StatusAction::BDEFAULT();

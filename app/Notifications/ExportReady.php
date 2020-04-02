@@ -7,7 +7,11 @@ use Illuminate\Notifications\Notification;
 
 class ExportReady extends Notification
 {
-    public $file, $type,  $firstCreationDate, $finalCreationDate, $state;
+    public $file;
+    public $type;
+    public $firstCreationDate;
+    public $finalCreationDate;
+    public $state;
 
     /**
      * Create a new notification instance.

@@ -146,6 +146,6 @@ class Invoice extends Model
 
     public function isAnnuled()
     {
-        return ($this->annuled != NULL);
+        return ($this->annuled != null);
     }
 }
