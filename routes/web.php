@@ -18,8 +18,9 @@ Route::get('/dashboard', 'DashboardController@index');
 Auth::routes();
 
 Route::resource('/invoices', 'InvoiceController');
-Route::get('/invoices/create', 'InvoiceController@create');
+Route::get('/invoices/create', 'InvoiceController@create')->name('invoices.create');
 Route::get('/update', 'InvoiceController@updateInvoices')->name('invoices.updates');
+Route::get('/invoices/{invoice}/edit', 'InvoiceController@edit')->name('invoices.edit');
 Route::get('/invoices/{id}/invoice_product/create', 'InvoiceController@createInvoiceProduct');
 Route::post('/invoices/{id}/invoice_product', 'InvoiceController@invoiceProductStore')->name('invoices.product.store');
 Route::get('/invoices/{invoice}/confirmDelete', 'InvoiceController@confirmDelete')->name('invoices.confirm.delete');
