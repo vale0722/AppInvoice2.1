@@ -1,13 +1,13 @@
 <?php
 
-namespace Tests\Feature\Invoices;
+namespace Tests\Feature;
 
 use RolesSeeder;
 use Tests\TestCase;
 use PermissionSeeder;
 use Illuminate\Support\Facades\Artisan;
 
-class InvoiceTest extends TestCase
+class RoleTest extends TestCase
 {
     public function setUp(): void
     {
@@ -16,5 +16,17 @@ class InvoiceTest extends TestCase
         Artisan::call('migrate:fresh');
         $this->seed(PermissionSeeder::class);
         $this->seed(RolesSeeder::class);
+    }
+
+    /**
+     * A basic test example.
+     *
+     * @return void
+     */
+    public function testBasicTest()
+    {
+        $response = $this->get('/login');
+
+        $response->assertStatus(200);
     }
 }

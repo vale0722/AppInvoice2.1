@@ -6,9 +6,9 @@ use App\User;
 use App\Client;
 use App\Invoice;
 use App\Product;
-use Tests\Feature\Invoices\InvoiceTest;
+use Tests\Feature\RoleTest;
 
-class StoreInvoiceTest extends InvoiceTest
+class StoreInvoiceTest extends RoleTest
 {
     /**
      * @test

@@ -1,65 +1,63 @@
 <?php
 
-namespace Tests\Feature\Invoices;
+namespace Tests\Feature\CLients;
 
 use App\User;
 use App\Client;
-use App\Invoice;
 use Tests\Feature\RoleTest;
 
-class IndexInvoiceTest extends RoleTest
+class IndexClientTest extends RoleTest
 {
-
     /**
      * @test
      */
-    public function UnauthenticatedUserCannotAccessTheIndexView()
+    public function UnauthenticatedUserCannotAccessTheIndexClientView()
     {
         // Unauthenticated user
-        $response = $this->get(route('invoices.index'));
+        $response = $this->get(route('clients.index'));
         $response->assertRedirect(route('login'));
     }
 
     /**
      * @test
      */
-    public function AuthenticatedAdminHasAccessInvoiceList()
+    public function AuthenticatedAdminHasAccessClientList()
     {
         // Authenticated user
         $user = factory(User::class)->create();
         $user->assignRole('admin');
-        $this->actingAs($user)->get(route('invoices.index'));
+        $this->actingAs($user)->get(route('clients.index'));
         $this->assertAuthenticatedAs($user);
     }
 
     /**
      * @test
      */
-    public function AuthenticatedCompanyHasAccessInvoiceList()
+    public function AuthenticatedCompanyHasAccessClientList()
     {
         // Authenticated user
         $user = factory(User::class)->create();
         $user->assignRole('company');
-        $this->actingAs($user)->get(route('invoices.index'))->assertSuccessful();
+        $this->actingAs($user)->get(route('clients.index'))->assertSuccessful();
         $this->assertAuthenticatedAs($user);
     }
 
     /**
      * @test
      */
-    public function AuthenticatedTreasurerHasAccessInvoiceList()
+    public function AuthenticatedTreasurerHasAccessClientList()
     {
         // Authenticated user
         $user = factory(User::class)->create();
         $user->assignRole('treasurer');
-        $this->actingAs($user)->get(route('invoices.index'))->assertSuccessful();
+        $this->actingAs($user)->get(route('clients.index'))->assertSuccessful();
         $this->assertAuthenticatedAs($user);
     }
 
     /**
      * @test
      */
-    public function AuthenticatedClientHasAccessInvoiceList()
+    public function AuthenticatedClientHasAccessClientList()
     {
         // Authenticated user 
         $this->seed("TypeDocumentSeeder");
@@ -67,22 +65,21 @@ class IndexInvoiceTest extends RoleTest
         $user->assignRole('admin');
         $client = factory(Client::class)->create();
         $client->user->assignRole('client');
-        $this->actingAs($client->user)->get(route('invoices.index'))->assertSuccessful();
+        $this->actingAs($client->user)->get(route('clients.index'))->assertStatus(403);
         $this->assertAuthenticatedAs($client->user);
     }
 
     /**
      * @test
      */
-    public function AuthenticatedAdminCanSeeTheInvoiceList()
+    public function AuthenticatedAdminCanSeeTheClientList()
     {
         $this->seed("TypeDocumentSeeder");
         $user = factory(User::class)->create();
         $user->assignRole('admin');
         factory(Client::class, 5)->create();
-        factory(Invoice::class, 5)->create();
-        $response = $this->actingAs($user)->get(route('invoices.index'));
-        $response->assertViewHas('invoices');
+        $response = $this->actingAs($user)->get(route('clients.index'));
+        $response->assertViewHas('clients');
     }
 
     /**
@@ -96,9 +93,8 @@ class IndexInvoiceTest extends RoleTest
         $user = factory(User::class)->create();
         $user->assignRole('admin');
         factory(Client::class, 5)->create();
-        factory(Invoice::class, 5)->create();
-        $response = $this->actingAs($user)->get(route('invoices.index'));
-        $response->assertViewHas('invoices');
+        $response = $this->actingAs($user)->get(route('clients.index'));
+        $response->assertViewHas('clients');
     }
 
     /**
@@ -110,28 +106,7 @@ class IndexInvoiceTest extends RoleTest
         $user = factory(User::class)->create();
         $user->assignRole('company');
         factory(Client::class, 5)->create();
-        factory(Invoice::class, 5)->create();
-        $response = $this->actingAs($user)->get(route('invoices.index'));
-        $response->assertViewHas('invoices');
-    }
-
-    /**
-     * @test
-     */
-    public function AuthenticatedClientCanSeeTheInvoiceList()
-    {
-        $this->seed("TypeDocumentSeeder");
-        $user = factory(User::class)->create();
-        $user->assignRole('admin');
-        $client = factory(Client::class)->create();
-        $client->user->assignRole('client');
-        Invoice::create([
-            'title' => 'TestTitle',
-            'code' => 'TestCode',
-            'client_id' => $client->id,
-            'creator_id' => $user->id,
-        ]);
-        $response = $this->actingAs($client->user)->get(route('invoices.index'));
-        $response->assertViewHas('invoices');
+        $response = $this->actingAs($user)->get(route('clients.index'));
+        $response->assertViewHas('clients');
     }
 }

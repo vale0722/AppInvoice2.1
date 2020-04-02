@@ -4,9 +4,9 @@ namespace Tests\Feature\Invoices;
 
 use App\User;
 use App\Client;
-use App\Invoice;
+use Tests\Feature\RoleTest;
 
-class ImportInvoiceTest extends InvoiceTest
+class ImportInvoiceTest extends RoleTest
 {
     /**
      * @test

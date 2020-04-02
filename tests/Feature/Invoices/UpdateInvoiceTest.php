@@ -5,8 +5,9 @@ namespace Tests\Feature\Invoices;
 use App\User;
 use App\Client;
 use App\Invoice;
+use Tests\Feature\RoleTest;
 
-class UpdateInvoiceTest extends InvoiceTest
+class UpdateInvoiceTest extends RoleTest
 {
     /**
      * @test

@@ -5,9 +5,9 @@ namespace Tests\Feature\Invoices;
 use App\User;
 use App\Client;
 use App\Invoice;
-use Tests\Feature\Invoices\InvoiceTest;
+use Tests\Feature\RoleTest;
 
-class DeleteInvoiceTest extends InvoiceTest
+class DeleteInvoiceTest extends RoleTest
 {
     /**
      * @test
